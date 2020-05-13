@@ -6,7 +6,7 @@ namespace Megarender.Domain
     {
         public string Title {get;set;}
         public Organization Organization {get;set;}
-        public List<AccessGroupPrivilege> AccessGroupPrivileges {get;set;}
+        public ICollection<AccessGroupPrivilege> AccessGroupPrivileges {get;set;} = new HashSet<AccessGroupPrivilege>();
         public virtual ICollection<AccessGroupUser> AccessGroupUsers {get;set;}
     }
 }

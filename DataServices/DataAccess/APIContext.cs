@@ -6,7 +6,7 @@ using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Megarender.DataAccess {
-    public class APIContext : DbContext,IAPIContext {
+    public class APIContext : DbContext, IAPIContext {
         private string SchemaName { get; set; } = "public";
 
         public DbSet<User> Users {get;set;}
@@ -16,8 +16,6 @@ namespace Megarender.DataAccess {
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
             modelBuilder.HasDefaultSchema (schema: SchemaName);
-
-            //modelBuilder.HasPostgresEnum<PrivilegeId>();
 
             modelBuilder.Entity<EntityStatus> (entity => {
                 entity.HasData (
@@ -49,6 +47,8 @@ namespace Megarender.DataAccess {
             modelBuilder.Entity<Organization> (entity => {
                 entity.Property (e => e.Status)
                     .HasConversion<int> ();
+                entity.HasIndex(c=>c.UniqueIdentifier)
+                    .IsUnique();
             });
 
             modelBuilder.Entity<AccessGroup> (entity => {

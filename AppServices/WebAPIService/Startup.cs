@@ -56,6 +56,7 @@ namespace Megarender.WebAPIService
                 .AddNewtonsoftJson (options => {
                     options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
                     options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.Converters.Add(new StringEnumConverter());
                 });
             services.AddCors (options => {

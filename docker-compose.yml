@@ -24,8 +24,8 @@ services:
           SeqURL: "http://seq:5341"
         depends_on:    
           -  identity_service  
-          -  rabbitmq  
-          -  seq
+          # -  rabbitmq  
+          # -  seq
           
           
     identity_service:
@@ -53,7 +53,7 @@ services:
           - pg_data:/var/lib/postgresql/data        
         ports: 
           - 5432:5432
-        container_name: pg
+        container_name: db
         restart: unless-stopped
         environment:
             PGDATA: "/var/lib/postgresql/data/pgdata"
@@ -61,99 +61,99 @@ services:
             POSTGRES_USER: "postgres"
 
     
-    rabbitmq:
-        build:
-          context: ./ThirdPartyImages
-          dockerfile: RabbitMQ
-        container_name: rabbitmq
-        restart: unless-stopped
-        environment: 
-          RABBITMQ_DEFAULT_USER: "rabbitmq"
-          RABBITMQ_DEFAULT_PASS: "IlJU7f71Vh7rM1yv"
-        healthcheck:
-          test: ["CMD", "curl", "-f", "http://localhost:15672"]
-          interval: 30s
-          timeout: 10s
-          retries: 5
-        volumes:
-            - rmq_etc:/etc/rabbitmq/
-            - rmq_data:/var/lib/rabbitmq/
-            - rmq_logs:/var/log/rabbitmq/
-        expose:
-          - 4369
-          - 5671
-          - 5672
-          - 25672
-          - 15671
-        ports:            
-            - 15672:15672
+    # rabbitmq:
+    #     build:
+    #       context: ./ThirdPartyImages
+    #       dockerfile: RabbitMQ
+    #     container_name: rabbitmq
+    #     restart: unless-stopped
+    #     environment: 
+    #       RABBITMQ_DEFAULT_USER: "rabbitmq"
+    #       RABBITMQ_DEFAULT_PASS: "IlJU7f71Vh7rM1yv"
+    #     healthcheck:
+    #       test: ["CMD", "curl", "-f", "http://localhost:15672"]
+    #       interval: 30s
+    #       timeout: 10s
+    #       retries: 5
+    #     volumes:
+    #         - rmq_etc:/etc/rabbitmq/
+    #         - rmq_data:/var/lib/rabbitmq/
+    #         - rmq_logs:/var/log/rabbitmq/
+    #     expose:
+    #       - 4369
+    #       - 5671
+    #       - 5672
+    #       - 25672
+    #       - 15671
+    #     ports:            
+    #         - 15672:15672
 
 
-    notification_worker:
-        build:
-          context: .
-          dockerfile: ./AppServices/WorkerServices/NotificationWorkerService/Dockerfile        
-        container_name: notification_worker
-        restart: unless-stopped
-        environment: 
-          RMQ_USER: "rabbitmq"
-          RMQ_PASSWORD: "IlJU7f71Vh7rM1yv"
-          RMQ_HOST: "rabbitmq"
-          RMQ_PORT: "5672"
-          DOTNET_ENVIRONMENT: "Development"
-        depends_on:    
-          -  rabbitmq  
+    # notification_worker:
+    #     build:
+    #       context: .
+    #       dockerfile: ./AppServices/WorkerServices/NotificationWorkerService/Dockerfile        
+    #     container_name: notification_worker
+    #     restart: unless-stopped
+    #     environment: 
+    #       RMQ_USER: "rabbitmq"
+    #       RMQ_PASSWORD: "IlJU7f71Vh7rM1yv"
+    #       RMQ_HOST: "rabbitmq"
+    #       RMQ_PORT: "5672"
+    #       DOTNET_ENVIRONMENT: "Development"
+    #     depends_on:    
+    #       -  rabbitmq  
           
 
-    seq:
-     image: datalust/seq
-     container_name: seq
-     restart: unless-stopped
-     expose: 
-      - 5341
-     ports:
-      - 5340:80
-     environment: 
-      ACCEPT_EULA: Y
-     volumes: 
-      - seq_data:/data
+    # seq:
+    #  image: datalust/seq
+    #  container_name: seq
+    #  restart: unless-stopped
+    #  expose: 
+    #   - 5341
+    #  ports:
+    #   - 5340:80
+    #  environment: 
+    #   ACCEPT_EULA: Y
+    #  volumes: 
+    #   - seq_data:/data
 
 
-    prometheus:
-      image: prom/prometheus
-      container_name: prometheus
-      restart: unless-stopped
-      ports:
-        - 9090:9090
-      volumes:
-        - ./ThirdPartyImages/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    # prometheus:
+    #   image: prom/prometheus
+    #   container_name: prometheus
+    #   restart: unless-stopped
+    #   ports:
+    #     - 9090:9090
+    #   volumes:
+    #     - ./ThirdPartyImages/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
 
-    grafana: 
-      image: grafana/grafana      
-      environment:
-        GF_SECURITY_ADMIN_PASSWORD: "IlJU7f71Vh7rM1yv"
-      container_name: grafana
-      restart: unless-stopped
-      ports:
-        - 3000:3000
-      volumes: 
-        - grafana-storage:/var/lib/grafana grafana/grafana
+    # grafana: 
+    #   image: grafana/grafana      
+    #   environment:
+    #     GF_SECURITY_ADMIN_PASSWORD: "IlJU7f71Vh7rM1yv"
+    #   container_name: grafana
+    #   restart: unless-stopped
+    #   ports:
+    #     - 3000:3000
+    #   volumes: 
+    #     - grafana-storage:/var/lib/grafana grafana/grafana
 
-    angular:
-      build:
-        context: .
-        dockerfile: ./ClientApplications/Angular/Dockerfile        
-      container_name: angular
-      restart: unless-stopped
-      ports:
-        - 8888:80
-      environment: 
-        API_URI: "webapi_nginx:8989/api"
-        IS_URI:  "identity_nginx:8989"
-      depends_on:        
-        - identity_nginx
-        - webapi_nginx   
+    # angular:
+    #   build:
+    #     context: .
+    #     dockerfile: ./ClientApplications/Angular/Dockerfile        
+    #   container_name: angular
+    #   restart: unless-stopped
+    #   ports:
+    #     - 8888:80
+    #   environment: 
+    #     API_URI: "webapi_nginx:8989/api"
+    #     IS_URI:  "identity_nginx:8989"
+    #   depends_on:        
+    #     - identity_nginx
+    #     - webapi_nginx   
 
 
     webapi_nginx:
@@ -182,9 +182,9 @@ services:
   
 volumes: 
   pg_data:
-  rmq_etc:
-  rmq_data:
-  rmq_logs:
-  seq_data:
-  grafana-storage:
+  # rmq_etc:
+  # rmq_data:
+  # rmq_logs:
+  # seq_data:
+  # grafana-storage:
 

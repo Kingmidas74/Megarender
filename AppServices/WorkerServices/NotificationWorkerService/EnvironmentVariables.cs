@@ -1,4 +1,4 @@
-namespace NotificationWorkerService 
+namespace Megarender.NotificationWorkerService 
 {
     public enum EnvironmentVariables 
     {

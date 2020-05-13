@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-namespace NotificationWorkerService
+namespace Megarender.NotificationWorkerService
 {
     public class Worker : BackgroundService {
         private MessageService MessageService;

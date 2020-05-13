@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Prometheus;
 
-namespace WebAPIService.Middleware
+namespace Megarender.WebAPIService.Middleware
 {
     public class CountRequestMiddleware
     {

@@ -1,10 +1,10 @@
 using System.Text;
-using MessageBusServices.Enums;
+using Megarender.MessageBusServices.Enums;
 using RabbitMQ.Client;
-using Domain.Extensions;
+using Megarender.Domain.Extensions;
 using System;
 
-namespace MessageBusServices {
+namespace Megarender.MessageBusServices {
     public class MessageProducerService {
         IModel Channel { get; }
         public MessageProducerService (IModel rabbitMQChannel) {

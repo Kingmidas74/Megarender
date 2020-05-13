@@ -4,7 +4,7 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.Logging;
 
-namespace BusinessServices.PipelineBehaviors
+namespace Megarender.BusinessServices.PipelineBehaviors
 {
     public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
     {

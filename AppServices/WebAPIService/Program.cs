@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace WebAPIService {
+namespace Megarender.WebAPIService {
     public class Program {
         public static async Task<int> Main (string[] args) {
             try {

@@ -2,7 +2,7 @@
 using System;
 using RabbitMQ.Client;
 
-namespace MessageBusServices
+namespace Megarender.MessageBusServices
 {
     public static class DependencyInjection
     {

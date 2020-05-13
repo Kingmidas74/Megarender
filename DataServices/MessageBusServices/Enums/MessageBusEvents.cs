@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace MessageBusServices
+namespace Megarender.MessageBusServices
 {
     public enum MessageBusEvents {
         [Description ("user.notification.event")]

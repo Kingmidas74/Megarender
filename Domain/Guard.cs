@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Domain.Exceptions;
-using Domain.Extensions;
+using Megarender.Domain.Exceptions;
+using Megarender.Domain.Extensions;
 
-namespace Domain {
+namespace Megarender.Domain {
     public static class Guard {
         public static void NotNull (object value) {
             if (value != null) return;

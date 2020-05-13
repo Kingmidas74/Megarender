@@ -1,5 +1,5 @@
 using System;
-namespace Domain.Exceptions
+namespace Megarender.Domain.Exceptions
 {
     public class FutureDateException:GuardException
     {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace WebAPIService
+namespace Megarender.WebAPIService
 {
     public static class IServiceCollectionExtensions {
         
@@ -18,7 +18,7 @@ namespace WebAPIService
                     options.Authority = identityServerURI;
                     options.RequireHttpsMetadata = false;
 
-                    options.Audience = "phrygiawebapi offline_access";
+                    options.Audience = "megarender_api offline_access";
                 });
             return services;
         }

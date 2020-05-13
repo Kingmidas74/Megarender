@@ -1,8 +1,8 @@
 using System;
 using System.Linq.Expressions;
-using Domain;
+using Megarender.Domain;
 
-namespace BusinessServices.Specifications
+namespace Megarender.BusinessServices.Specifications
 {
     public class FindByIdSpecification<T>:LinqSpecification<T>
         where T:IEntity

@@ -1,4 +1,4 @@
-namespace DataAccess
+namespace Megarender.DataAccess
 {
     public enum EnvironmentVariables
     {

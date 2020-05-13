@@ -3,7 +3,7 @@ using System;
 using FluentValidation;
 using System.Linq;
 
-namespace WebAPIService.Exceptions
+namespace Megarender.WebAPIService.Exceptions
 {
     public class ClientValidationException:Exception
     {

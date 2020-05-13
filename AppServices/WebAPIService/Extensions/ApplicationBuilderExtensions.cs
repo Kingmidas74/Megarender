@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using WebAPIService.Exceptions;
+using Megarender.WebAPIService.Exceptions;
 
-namespace WebAPIService
+namespace Megarender.WebAPIService
 {
     public static class ApplicationBuilderExtensions
     {

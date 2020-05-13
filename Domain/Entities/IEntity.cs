@@ -1,6 +1,6 @@
 using System;
 
-namespace Domain 
+namespace Megarender.Domain 
 {
     public interface IEntity 
     {

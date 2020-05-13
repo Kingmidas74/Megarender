@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using Prometheus;
 
-namespace WebAPIService
+namespace Megarender.WebAPIService
 {
     public class MetricReporter
     {

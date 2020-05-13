@@ -4,9 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using BusinessServices.Exceptions;
+using Megarender.BusinessServices.Exceptions;
 
-namespace BusinessServices.PipelineBehaviors
+namespace Megarender.BusinessServices.PipelineBehaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

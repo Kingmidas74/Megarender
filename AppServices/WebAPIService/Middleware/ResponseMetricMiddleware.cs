@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace WebAPIService.Middleware
+namespace Megarender.WebAPIService.Middleware
 {
     public class ResponseMetricMiddleware
     {

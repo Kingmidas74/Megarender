@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace Domain.Exceptions
+namespace Megarender.Domain.Exceptions
 {
     public class NotEmptyException:GuardException
     {

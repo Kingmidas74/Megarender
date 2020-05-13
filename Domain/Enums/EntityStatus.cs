@@ -1,4 +1,4 @@
-namespace Domain
+namespace Megarender.Domain
 {
     public enum EntityStatusId : int {
         Active = 1,

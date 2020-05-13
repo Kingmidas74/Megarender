@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DataAccess;
-using Domain;
+using Megarender.DataAccess;
+using Megarender.Domain;
 
-namespace BusinessServices.Services {
+namespace Megarender.BusinessServices.Services {
     public abstract class BaseEntityService<TEntity> : IBusinessEntityService<TEntity>
         where TEntity : IEntity, new () {
 

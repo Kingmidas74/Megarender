@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace MessageBusServices.Enums
+namespace Megarender.MessageBusServices.Enums
 {
     public enum AMQPExchanges
     {

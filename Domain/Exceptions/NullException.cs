@@ -1,4 +1,4 @@
-namespace Domain.Exceptions
+namespace Megarender.Domain.Exceptions
 {
     public class NullException:GuardException
     {

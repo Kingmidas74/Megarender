@@ -1,4 +1,4 @@
-namespace WebAPIService.Models {
+namespace Megarender.WebAPIService.Models {
     public enum EnvironmentVariables {        
         PIS_HOST,
         PIS_PORT,

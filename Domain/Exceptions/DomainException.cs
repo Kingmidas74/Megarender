@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace Domain.Exceptions {
+namespace Megarender.Domain.Exceptions {
     public class DomainException : Exception {
 
         public Dictionary<string,object> Properties = new Dictionary<string, object>();        

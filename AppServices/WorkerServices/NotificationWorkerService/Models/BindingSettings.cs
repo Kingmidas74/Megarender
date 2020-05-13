@@ -1,4 +1,4 @@
-namespace NotificationWorkerService.Models {
+namespace Megarender.NotificationWorkerService.Models {
     public partial class BindingSettings {
         public string QueueName { get; set; }
         public string ExchangeName { get; set; }

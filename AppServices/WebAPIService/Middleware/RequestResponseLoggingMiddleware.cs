@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace WebAPIService.Middleware {
+namespace Megarender.WebAPIService.Middleware {
 
     public class RequestResponseLoggingMiddleware {
         private readonly RequestDelegate _next;

@@ -1,7 +1,7 @@
 using System;
-using BusinessServices;
-using DataAccess;
-using DataAccess.Extensions;
+using Megarender.BusinessServices;
+using Megarender.DataAccess;
+using Megarender.DataAccess.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,14 +9,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using WebAPIService.Middleware;
-using WebAPIService.Models;
-using MessageBusServices;
+using Megarender.WebAPIService.Middleware;
+using Megarender.WebAPIService.Models;
+using Megarender.MessageBusServices;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Prometheus;
 using Masking.Serilog;
 
-namespace WebAPIService
+namespace Megarender.WebAPIService
 {   
     public class Startup {
         private readonly string CorsPolicy = nameof (CorsPolicy);

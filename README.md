@@ -38,7 +38,7 @@ If you believe that this project has infringed any copyrights in any way or just
 
 1) Just clone repository ...
 ```bash
-git clone https://github.com/Kingmidas74/WebAPILight.git
+git clone https://github.com/Kingmidas74/Megarender.git
 ```
 2) check settings in docker-compose.yml
 

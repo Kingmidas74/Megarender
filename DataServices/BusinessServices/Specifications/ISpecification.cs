@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace BusinessServices.Specifications
+namespace Megarender.BusinessServices.Specifications
 {
     public interface ISpecification<T>
     {

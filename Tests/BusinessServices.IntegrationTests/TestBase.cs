@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace BusinessServices.IntegrationTests
+namespace Megarender.BusinessServices.IntegrationTests
 {    
     using static Testing;
 

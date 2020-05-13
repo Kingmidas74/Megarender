@@ -1,7 +1,7 @@
 using System.Linq;
 using FluentValidation;
 
-namespace BusinessServices.Exceptions
+namespace Megarender.BusinessServices.Exceptions
 {
     public class BusinessValidationException:BusinessException
     {

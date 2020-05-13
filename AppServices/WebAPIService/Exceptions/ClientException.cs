@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System;
-namespace WebAPIService.Exceptions
+namespace Megarender.WebAPIService.Exceptions
 {
     public class ClientException:Exception
     {

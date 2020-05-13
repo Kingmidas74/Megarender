@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NotificationWorkerService.Models;
+using Megarender.NotificationWorkerService.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace NotificationWorkerService {
+namespace Megarender.NotificationWorkerService {
     public class MessageService {
         IModel Channel;
         RabbitMQSettings RabbitMQSettings;

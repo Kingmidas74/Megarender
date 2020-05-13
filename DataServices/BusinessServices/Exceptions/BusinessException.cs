@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace BusinessServices.Exceptions {
+namespace Megarender.BusinessServices.Exceptions {
     public class BusinessException : Exception {
 
         public Dictionary<string,object> Properties = new Dictionary<string, object>();        

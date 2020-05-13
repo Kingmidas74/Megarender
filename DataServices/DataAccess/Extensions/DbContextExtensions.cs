@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataAccess.Extensions
+namespace Megarender.DataAccess.Extensions
 {
     public static class DbContextExtensions
     {

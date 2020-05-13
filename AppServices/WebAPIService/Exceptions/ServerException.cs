@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WebAPIService.Exceptions
+namespace Megarender.WebAPIService.Exceptions
 {
     public class ServerException:Exception
     {

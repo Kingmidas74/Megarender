@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NotificationWorkerService.Models;
+using Megarender.NotificationWorkerService.Models;
 using RabbitMQ.Client;
 using Serilog;
 using Serilog.Core;
 
-namespace NotificationWorkerService {
+namespace Megarender.NotificationWorkerService {
     public class Program {
         public static int Main (string[] args) {
             try {

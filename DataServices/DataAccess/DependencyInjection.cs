@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess
+namespace Megarender.DataAccess
 {
     public static class DependencyInjection
     {

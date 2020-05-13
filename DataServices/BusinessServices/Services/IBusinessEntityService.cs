@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Domain;
+using Megarender.Domain;
 
-namespace BusinessServices.Services {
+namespace Megarender.BusinessServices.Services {
     public interface IBusinessEntityService<TBusinessEntity>
         where TBusinessEntity : IEntity, new () {
             IEnumerable<TBusinessEntity> FindAll();

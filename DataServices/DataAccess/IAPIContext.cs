@@ -1,15 +1,11 @@
-
-using System.Threading;
 using System.Threading.Tasks;
-using Domain;
+using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess {
+namespace Megarender.DataAccess
+{
     public interface IAPIContext 
     {
-        DbSet<Parent> Parents { get; }
-        DbSet<Child> Children { get; }
-
         int SaveChanges();
         Task<int> SaveChangesAsync();
 

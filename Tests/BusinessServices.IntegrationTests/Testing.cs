@@ -1,4 +1,4 @@
-using DataAccess;
+using Megarender.DataAccess;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using Respawn;
 using Respawn.Postgres;
 using System.IO;
 using System.Threading.Tasks;
-using WebAPIService;
+using Megarender.WebAPIService;
 
 [SetUpFixture]
 public class Testing

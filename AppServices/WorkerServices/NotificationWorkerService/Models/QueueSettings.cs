@@ -1,4 +1,4 @@
-namespace NotificationWorkerService.Models {
+namespace Megarender.NotificationWorkerService.Models {
     public partial class QueueSettings {
         public bool Durable { get; set; }
         public string QueueName { get; set; }

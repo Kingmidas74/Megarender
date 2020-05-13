@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace Domain.Exceptions
+namespace Megarender.Domain.Exceptions
 {
     public class ValidateByExpressionException:GuardException
     {

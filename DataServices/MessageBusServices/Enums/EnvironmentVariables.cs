@@ -1,4 +1,4 @@
-namespace MessageBusServices 
+namespace Megarender.MessageBusServices 
 {
     public enum EnvironmentVariables 
     {

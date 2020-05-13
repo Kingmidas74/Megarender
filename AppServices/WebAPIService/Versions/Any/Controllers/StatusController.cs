@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAPIService.Extensions;
-using MessageBusServices;
-using Domain.Extensions;
+using Megarender.WebAPIService.Extensions;
 
-namespace WebAPIService.Versions.ANY.Controllers {
+namespace Megarender.WebAPIService.Versions.ANY.Controllers {
 
     [Route ("api/[controller]")]
     [ApiController]
     [ApiVersionNeutral]
-    public class StatusController : ControllerBase {
-        private MessageProducerService MessageService;
-        public StatusController (MessageProducerService messageService) {
-            this.MessageService = messageService;
+    public class StatusController : ControllerBase {        
+        public StatusController () {
         }
 
         /// <summary>
@@ -21,7 +17,6 @@ namespace WebAPIService.Versions.ANY.Controllers {
         /// <returns></returns>
         [HttpGet (nameof (GetFreeStatus))]
         public IActionResult GetFreeStatus () {
-            //MessageService.Enqueue (nameof (GetFreeStatus), MessageBusEvents.UserNotificationEvent.GetDescription ());
             return Ok (new {
                 result=1
             });
@@ -35,7 +30,6 @@ namespace WebAPIService.Versions.ANY.Controllers {
         [Authorize]
         public IActionResult GetPrivateStatus () {
             var userId = User.ExtractIdentifier ();
-            //MessageService.Enqueue ($"{nameof(GetFreeStatus)} by user {userId}", MessageBusEvents.UserNotificationEvent.GetDescription () + ".test");
             return Ok (userId);
         }
     }

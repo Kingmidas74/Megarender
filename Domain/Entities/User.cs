@@ -11,5 +11,6 @@ namespace Megarender.Domain
         public DateTime Birthdate {get;set;}
         public virtual ICollection<UserOrganization> UserOrganizations {get;set;} = new HashSet<UserOrganization>();
         public virtual ICollection<AccessGroupUser> UserAcessGroups {get;set;} = new HashSet<AccessGroupUser>();
+        public virtual ICollection<UserProject> UserProjects {get;set;} = new HashSet<UserProject>();
     }
 }

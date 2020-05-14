@@ -11,7 +11,10 @@ namespace Megarender.DataAccess {
 
         public DbSet<User> Users {get;set;}
         public DbSet<Organization> Organizations {get;set;}
-        public DbSet<AccessGroup> AccessGroups {get;set;}        
+        public DbSet<AccessGroup> AccessGroups {get;set;} 
+        public DbSet<Project> Projects {get;set;}       
+        public DbSet<Scene> Scenes {get;set;}
+        public DbSet<Render> Renders {get;set;}
         public APIContext (DbContextOptions<APIContext> options) : base (options) { }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
@@ -51,6 +54,23 @@ namespace Megarender.DataAccess {
                     .IsUnique();
             });
 
+            modelBuilder.Entity<Project> (entity => {
+                entity.Property(e=>e.Title).IsRequired();                
+            });
+
+            modelBuilder.Entity<Scene> (entity => {
+                entity.Property(e=>e.Title).IsRequired();
+                entity.HasOne<Project>(c => c.Project)
+                    .WithMany (c=>c.Scenes)
+                    .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}");
+            });
+
+            modelBuilder.Entity<Render> (entity => {                
+                entity.Property(e=>e.Title).IsRequired();
+                entity.HasOne<Scene>(c => c.Scene)
+                    .WithMany (c=>c.Renders)
+                    .HasForeignKey ($"{nameof(Scene)}{nameof(Scene.Id)}");
+            });
             modelBuilder.Entity<AccessGroup> (entity => {
                 entity.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");
                 entity.Property (e => e.Status)
@@ -99,6 +119,32 @@ namespace Megarender.DataAccess {
                     .HasForeignKey ($"{nameof(User)}{nameof(User.Id)}");                
             });
 
+            modelBuilder.Entity<UserProject> (entity => {
+                entity.Property ($"{nameof(Project)}{nameof(Project.Id)}");
+                entity.Property ($"{nameof(User)}{nameof(User.Id)}");
+                entity.HasKey($"{nameof(Project)}{nameof(Project.Id)}", $"{nameof(User)}{nameof(User.Id)}");
+                
+                entity.HasOne<Project>(c=>c.Project)
+                    .WithMany(c=>c.ProjectUsers)
+                    .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}");
+                entity.HasOne<User>(c=>c.User)
+                    .WithMany(c=>c.UserProjects)
+                    .HasForeignKey ($"{nameof(User)}{nameof(User.Id)}");                
+            });
+
+            modelBuilder.Entity<OrganizationProject> (entity => {
+                entity.Property ($"{nameof(Project)}{nameof(Project.Id)}");
+                entity.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");
+                entity.HasKey($"{nameof(Project)}{nameof(Project.Id)}", $"{nameof(Organization)}{nameof(Organization.Id)}");
+                
+                entity.HasOne<Project>(c=>c.Project)
+                    .WithMany(c=>c.ProjectOrganizations)
+                    .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}");
+                entity.HasOne<Organization>(c=>c.Organization)
+                    .WithMany(c=>c.OrganizationProjects)
+                    .HasForeignKey ($"{nameof(Organization)}{nameof(Organization.Id)}");                
+            });
+            
             base.OnModelCreating (modelBuilder);
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Megarender.Domain;
+using Megarender.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Megarender.DataAccess {
@@ -19,6 +20,14 @@ namespace Megarender.DataAccess {
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
             modelBuilder.HasDefaultSchema (schema: SchemaName);
+
+
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new OrganizationConfiguration());
+            modelBuilder.ApplyConfiguration(new AccessGroupConfiguration());
+            modelBuilder.ApplyConfiguration(new ProjectConfiguration());
+            modelBuilder.ApplyConfiguration(new SceneConfiguration());
+            modelBuilder.ApplyConfiguration(new RenderConfiguration());
 
             modelBuilder.Entity<EntityStatus> (entity => {
                 entity.HasData (
@@ -41,45 +50,7 @@ namespace Megarender.DataAccess {
                     })
                 );
             });
-
-            modelBuilder.Entity<User> (entity => {
-                entity.Property (e => e.Status)
-                    .HasConversion<int> ();
-            });
-
-            modelBuilder.Entity<Organization> (entity => {
-                entity.Property (e => e.Status)
-                    .HasConversion<int> ();
-                entity.HasIndex(c=>c.UniqueIdentifier)
-                    .IsUnique();
-            });
-
-            modelBuilder.Entity<Project> (entity => {
-                entity.Property(e=>e.Title).IsRequired();                
-            });
-
-            modelBuilder.Entity<Scene> (entity => {
-                entity.Property(e=>e.Title).IsRequired();
-                entity.HasOne<Project>(c => c.Project)
-                    .WithMany (c=>c.Scenes)
-                    .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}");
-            });
-
-            modelBuilder.Entity<Render> (entity => {                
-                entity.Property(e=>e.Title).IsRequired();
-                entity.HasOne<Scene>(c => c.Scene)
-                    .WithMany (c=>c.Renders)
-                    .HasForeignKey ($"{nameof(Scene)}{nameof(Scene.Id)}");
-            });
-            modelBuilder.Entity<AccessGroup> (entity => {
-                entity.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");
-                entity.Property (e => e.Status)
-                    .HasConversion<int> ();
-                entity.HasOne<Organization>(c => c.Organization)
-                    .WithMany (c => c.AccessGroups)
-                    .HasForeignKey ($"{nameof(Organization)}{nameof(Organization.Id)}");
-            });
-
+           
             modelBuilder.Entity<AccessGroupPrivilege> (entity => {
                 entity.Property ($"{nameof(AccessGroup)}{nameof(AccessGroup.Id)}");
                 entity.Property ($"{nameof(PrivilegeId)}");
@@ -93,6 +64,7 @@ namespace Megarender.DataAccess {
                     .HasForeignKey ($"{nameof(PrivilegeId)}");  
             });
 
+           
             modelBuilder.Entity<UserOrganization> (entity => {
                 entity.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");
                 entity.Property ($"{nameof(User)}{nameof(User.Id)}");

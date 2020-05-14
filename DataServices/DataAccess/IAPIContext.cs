@@ -8,7 +8,10 @@ namespace Megarender.DataAccess
     {
         DbSet<User> Users {get;set;}
         DbSet<Organization> Organizations {get;set;}
-        DbSet<AccessGroup> AccessGroups {get;set;}        
+        DbSet<AccessGroup> AccessGroups {get;set;}
+        DbSet<Project> Projects {get;set;}       
+        DbSet<Scene> Scenes {get;set;}
+        DbSet<Render> Renders {get;set;}        
         int SaveChanges();
         Task<int> SaveChangesAsync();
 

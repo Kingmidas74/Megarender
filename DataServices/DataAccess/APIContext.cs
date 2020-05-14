@@ -16,6 +16,8 @@ namespace Megarender.DataAccess {
         public DbSet<Project> Projects {get;set;}       
         public DbSet<Scene> Scenes {get;set;}
         public DbSet<Render> Renders {get;set;}
+        public DbSet<SharedMoneyTransaction> SharedMoneyTransactions {get;set;}
+        public DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}
         public APIContext (DbContextOptions<APIContext> options) : base (options) { }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {

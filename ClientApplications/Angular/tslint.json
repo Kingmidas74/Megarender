@@ -19,12 +19,21 @@
     "directive-selector": [
       true,
       "attribute",
+      [
+        "fuse",
+        ""
+      ],
       "app",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
+      "attribute",
+      [
+          "fuse",
+          ""
+      ],
       "app",
       "kebab-case"
     ],

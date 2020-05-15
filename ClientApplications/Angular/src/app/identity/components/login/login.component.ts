@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-login',

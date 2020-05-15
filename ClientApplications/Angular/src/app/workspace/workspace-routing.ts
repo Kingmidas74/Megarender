@@ -5,7 +5,11 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 
 
 export const WorkspaceRoutes: Routes = [
-    { path: '',      component: DashboardComponent },
+    { 
+        path: '',
+        redirectTo:'workspace/dashboard',
+        pathMatch: 'prefix'
+    },
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'statistics',     component: StatisticsComponent}
 ];

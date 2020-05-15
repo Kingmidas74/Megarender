@@ -12,6 +12,12 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { IdentityModule } from './identity/identity.module';
 import { WorkspaceModule } from './workspace/workspace.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { fuseConfig } from './fuse-config/index';
+import { FuseProgressBarModule } from '../@fuse/components/progress-bar/progress-bar.module';
+import { FuseSharedModule } from '@fuse/shared.module';
+import { FuseModule } from '@fuse/fuse.module';
+import { FuseSidebarModule } from '@fuse/components';
 
 @NgModule({
   declarations: [
@@ -26,7 +32,12 @@ import { WorkspaceModule } from './workspace/workspace.module';
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),    
     IdentityModule,
-    WorkspaceModule
+    WorkspaceModule,
+    TranslateModule.forRoot(),
+    FuseModule.forRoot(fuseConfig),
+    FuseProgressBarModule,
+    FuseSharedModule,
+    FuseSidebarModule,
   ],
   providers: [ 
       /*IdentityInterceptor, ApiInterceptor,

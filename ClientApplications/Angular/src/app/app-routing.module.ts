@@ -3,19 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 import { IdentityComponent } from './identity/identity/identity.component';
-import { WorkspaceLayoutComponent } from './workspace/components/workspace-layout/workspace-layout.component';
+import { WorkspaceLayoutComponent } from './workspace/workspace-layout.component';
 import { CanLoadWorkspace } from './workspace/can-load-workspace';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { CanLoadIdentity } from './identity/can-load-identity';
 
 
 
-export const routes: Routes = [  
-  {
-    path: '',
-    redirectTo: 'workspace',
-    pathMatch: 'full',
-  },
+export const routes: Routes = [    
   {
     path: 'identity',
     component: IdentityComponent,    

@@ -37,7 +37,7 @@
         </div>
 
         <div class="button registration">
-          <button type="submit" mat-button color="primary" [disabled]="!form.valid">Sign Up</button>
+          <button type="submit" mat-button color="primary" [disabled]="!form.valid">Request code</button>
         </div>
       </div>
     </form>
@@ -57,8 +57,49 @@
         </div>
 
         <div class="button registration">
-          <button type="submit" mat-button color="primary" [disabled]="!codeform.valid">Sign Up</button>
+          <button type="submit" mat-button color="primary" [disabled]="!codeform.valid">Complete</button>
         </div>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-content *ngIf="step==3">
+    <form [formGroup]="userform" (ngSubmit)="createUser()" #formDir="ngForm" novalidate>
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="First name" formControlName="firstName" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="firstName.hasError('required')">You must type your first name</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Second name" formControlName="secondName" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="secondName.hasError('required')">You must type your second name</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Surname" formControlName="surName" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="surName.hasError('required')">You must type surname</mat-error>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input matInput [matDatepicker]="dpicker" formControlName="userBirthdate">
+          <mat-datepicker-toggle matSuffix [for]="dpicker"></mat-datepicker-toggle>
+          <mat-datepicker #dpicker></mat-datepicker>
+          <mat-error *ngIf="userBirthdate.hasError('required')">You must select your birthdate</mat-error>
+        </mat-form-field>
+      </p>
+
+      <div class="action-buttons">
+
+        <div class="button registration">
+          <button type="submit" mat-button color="primary" [disabled]="!userform.valid">Sign Up</button>
+        </div>
+
       </div>
     </form>
   </mat-card-content>

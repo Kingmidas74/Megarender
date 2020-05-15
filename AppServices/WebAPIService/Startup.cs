@@ -64,6 +64,7 @@ namespace Megarender.WebAPIService
                     builder => builder.AllowAnyOrigin ()
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
+                    //.AllowCredentials()
                     .Build ());
             });
         }

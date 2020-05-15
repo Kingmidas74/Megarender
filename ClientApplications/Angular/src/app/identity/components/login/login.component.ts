@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
-import { JWTToken } from '../../models/JWTToken';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -62,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     )
     .subscribe(
       (data)=> {        
-        console.log(data);
+        this.router.navigate(['/workspace/']);
       },
       (error) => {
         this.snackBar.open(error,'',{

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, throwError, interval, Subject, timer, Subscription } from 'rxjs';
-import { catchError, map, tap, switchMap, takeUntil, timeout } from 'rxjs/operators';
-import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, interval, Subscription } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { environment } from '../../../environments/environment';
 
-import { JWTToken } from '../models/JWTToken';
+import { JWTToken } from '../../api/models/JWTToken';
 import { UserRegistrationData } from '../models/userRegistrationData';
 
 import * as uuid from 'uuid';
+import { IdentityHttpService } from '../identity-interceptor';
+import { ApiHttpService } from '../../api/api-interceptor';
 
 
 @Injectable({
@@ -16,18 +18,23 @@ import * as uuid from 'uuid';
 })
 export class AuthenticationService {
 
-
   subscriptions:Array<Subscription> = new Array<Subscription>();
   
-  constructor(private httpClient:HttpClient, private storage: StorageMap) {
+  constructor(private identityHttpClient:IdentityHttpService, 
+              private storage: StorageMap, 
+              private apiHttpClient:ApiHttpService) {
     
   };
+
+  calculateRefreshTime(token:JWTToken):number {
+    return token.expires_in-token.expires_in/10
+  }
 
   public IsAuthenticatedUser():Observable<boolean> {
     return this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey)
     .pipe(      
       map(response => !!response),
-      catchError(err => {
+      catchError(() => {
         return Observable.throw(false)
       })   
     );
@@ -37,7 +44,7 @@ export class AuthenticationService {
     this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey).toPromise()
     .then(token=> {
       this.subscriptions.push(
-        interval((token as JWTToken).expires_in/3/*-(response as JWTToken).expires_in/10*/)
+        interval(this.calculateRefreshTime(token as JWTToken))
         .subscribe(()=>(this.refreshToken()))
       )
     })
@@ -55,14 +62,14 @@ export class AuthenticationService {
     .set('client_secret', environment.identityService.user.secret)
     .set('phone', userPhone)
     .set('password', userPassword);
-  return this.httpClient.post<JWTToken>('/connect/token',body).pipe(
+  return this.identityHttpClient.post<JWTToken>('/connect/token',body).pipe(
       catchError((error)=>this.handleError(error)),
       tap(response => {
           this.storage.set(environment.constants.JWTTokenStorageKey,response).subscribe();
       }),
       tap(response=> {
           this.subscriptions.push(
-            interval((response as JWTToken).expires_in/3/*-(response as JWTToken).expires_in/10*/)
+            interval(this.calculateRefreshTime(response as JWTToken))
             .subscribe(()=>(this.refreshToken()))
           )
       })
@@ -77,19 +84,32 @@ export class AuthenticationService {
     body.Phone=phone;
     body.Id=uuid.v4();
     
-    return this.httpClient.post('/identity/createIdentity',body).pipe(
+    return this.identityHttpClient.post('/identity/createIdentity',body).pipe(
       catchError((error)=>this.handleError(error)),
       map(_=>body)
     );
   }
 
-  public confirmIdentity(id:string, phone:string, password:string, code:string):Observable<any> {
+  public confirmIdentity(id:string, code:string):Observable<any> {
     const body = {
       Id:id,
-      Code:code,
-      Redirect:'http://localhost:4200'
+      Code:code
     };    
-    return this.httpClient.post('/identity/confirmIdentity',body).pipe(
+    return this.identityHttpClient.post('/identity/confirmIdentity',body).pipe(
+      catchError((error)=>this.handleError(error))
+    );
+  }
+
+  createUser(id: string, firstName: string, surname: string, secondName: string, userBirthdate: Date):Observable<any> {
+    const body = {
+      id:id,
+      firstName:firstName,
+      surName:surname,
+      secondName:secondName,
+      birthdate: userBirthdate
+    };
+    return this.apiHttpClient.post('/users',body)
+    .pipe(
       catchError((error)=>this.handleError(error))
     );
   }
@@ -103,7 +123,7 @@ export class AuthenticationService {
         .set('client_id', environment.identityService.user.clientId)
         .set('refresh_token', (token as JWTToken).refresh_token);
         console.log("request new token");
-        return this.httpClient.post<JWTToken>('/connect/token',body).pipe(
+        return this.identityHttpClient.post<JWTToken>('/connect/token',body).pipe(
           catchError((error)=>this.handleError(error))          
         ).toPromise();
       })
@@ -112,6 +132,9 @@ export class AuthenticationService {
       })
       .catch(error=>{
         console.error("Token wasn't found",error);
+        this.subscriptions.forEach(element => {
+          element.unsubscribe();
+        });
       });
   };
 

@@ -2,8 +2,8 @@ import { Component, Input, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
-import { takeUntil, catchError, flatMap } from 'rxjs/operators';
-import { Subject, Observable, forkJoin, Subscription } from 'rxjs';
+import { takeUntil, flatMap } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs';
 import { FormErrorStateMatcher } from '../../../material/form-error-matcher';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../../environments/environment';
@@ -20,6 +20,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   subscriptions:Array<Subscription> = new Array<Subscription>();
   form: FormGroup;
   codeform:FormGroup;
+  userform:FormGroup;
   matcher = new FormErrorStateMatcher();
   mobNumberPattern = "^\\d*\\(?\\d{3}\\)?-? *\\d{3}-? *-?\\d{4}$";
   passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,}$";
@@ -49,6 +50,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       {
         userCode: ['', Validators.required]
       }
+    );
+
+    this.userform = this.formBuilder.group(
+      {
+        firstName: ['', Validators.required],
+        secondName: ['', Validators.required],
+        surName: ['', Validators.required],
+        userBirthdate: [null, Validators.required]
+      }
     )
 
   }
@@ -70,6 +80,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   submit() {
     if (!this.form.valid) {
       console.error(this.form.errors);
+      return;
     }        
     this.athenticationService
         .createIdentity(this.form.value.userPhone,
@@ -95,15 +106,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   submitCode() {
     if (!this.codeform.valid) {
-      console.error(this.form.errors);
+      console.error(this.codeform.errors);
+      return;
     }    
     this.subscriptions.forEach(element => {
       element.unsubscribe();
     });
     this.athenticationService
         .confirmIdentity(this.userRegistrationData.Id,
-                        this.userRegistrationData.Phone,
-                        this.userRegistrationData.Password,
                         this.codeform.value.userCode)                        
         .pipe(
           takeUntil(this.unsubscribe$),
@@ -115,12 +125,41 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           )
         )
         .subscribe(
-          data => this.router.navigate(['/']),
+          () => this.step=3,
           error => this._snackBar.open(error,'',{
             duration: environment.constants.snackBarDuration,
             announcementMessage: error
           })
         );
+  }
+
+  get firstName() { return this.userform.controls.firstName; }
+  get surName() { return this.userform.controls.surName; }
+  get secondName() { return this.userform.controls.secondName; }
+  get userBirthdate() { return this.userform.controls.userBirthdate; }
+
+  createUser() {
+    if (!this.userform.valid) {      
+      console.error(this.userform);
+      return;
+    }    
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    this.athenticationService
+        .createUser(this.userRegistrationData.Id,
+                    this.userform.value.firstName,
+                    this.userform.value.surName,
+                    this.userform.value.secondName,
+                    this.userform.value.userBirthdate)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          ()=>this.router.navigate(['/workspace/']),
+          error=>this._snackBar.open(error,'',{
+            duration: environment.constants.snackBarDuration,
+            announcementMessage: error
+          })
+        )
   }
 
   signin() {

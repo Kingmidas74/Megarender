@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IdentityService.CQRS
 {
-    public class ConfirmIdentityHandler : IRequestHandler<ConfirmIdentityCommand, string>
+    public class ConfirmIdentityHandler : IRequestHandler<ConfirmIdentityCommand, Guid>
     {
         private readonly AppDbContext IdentityDBContext;
         public ConfirmIdentityHandler(AppDbContext identityDBContext)
@@ -13,7 +14,7 @@ namespace IdentityService.CQRS
             this.IdentityDBContext = identityDBContext;
         }
 
-        public async Task<string> Handle(ConfirmIdentityCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ConfirmIdentityCommand request, CancellationToken cancellationToken)
         {
             var identity = await IdentityDBContext.Identities.SingleAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id));
             
@@ -27,7 +28,7 @@ namespace IdentityService.CQRS
 
             IdentityDBContext.Identities.Remove(identity);
             await IdentityDBContext.SaveChangesAsync();
-            return request.Redirect;            
+            return request.Id;            
         }
     }
 }

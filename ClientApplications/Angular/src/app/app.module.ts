@@ -9,8 +9,7 @@ import { environment } from '../environments/environment';
 
 import { IdentityComponent } from './identity/identity/identity.component';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppInterceptor } from './app-interceptor';
+import { HttpClientModule } from '@angular/common/http';
 import { IdentityModule } from './identity/identity.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 
@@ -29,12 +28,16 @@ import { WorkspaceModule } from './workspace/workspace.module';
     IdentityModule,
     WorkspaceModule
   ],
-  providers: [    
-    {
+  providers: [ 
+      /*IdentityInterceptor, ApiInterceptor,
+      {provide: IDENTITY_INTERCEPTOR, useClass: IdentityInterceptor, multi: true},
+      {provide: API_INTERCEPTOR, useClass: ApiInterceptor, multi: true},
+      IdentityHttpService, ApiHttpService,   */
+   /* {
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,
       multi: true,
-    }
+    }*/
   ],
   bootstrap: [AppComponent]
 })

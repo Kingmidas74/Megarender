@@ -4,11 +4,14 @@
 
 export const environment = {
   production: false,
+  API: {
+    URL: 'http://localhost:5002/api/0.1'
+  },
   identityService: {
     URL: 'http://localhost:5000',
     user: {
       grantType: 'custom',
-      scope: 'phrygiawebapi offline_access',
+      scope: 'megarender_api offline_access',
       clientId: 'personal_local',
       secret: 'secret'
     }

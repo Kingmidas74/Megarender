@@ -35,7 +35,7 @@ namespace IdentityService.Controllers
         /// <returns></returns>
         [HttpPost(nameof(ConfirmIdentity))]
         public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand) {
-            return Redirect(await this.Mediator.Send(confirmIdentityCommand));
+            return Ok(await this.Mediator.Send(confirmIdentityCommand));
         }     
     }
 }

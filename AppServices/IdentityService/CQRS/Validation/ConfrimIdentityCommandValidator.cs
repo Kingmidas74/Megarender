@@ -19,8 +19,7 @@ namespace IdentityService.CQRS
             Options = options.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
 
             RuleFor(x=>x.Id).NotEmpty().MustAsync(IdentityExist);
-            RuleFor(x=>x.Code).NotEmpty().Must(IsWithin);
-            RuleFor(x=>x.Redirect).NotEmpty().Must(x=>Uri.TryCreate(x, UriKind.Absolute, out Uri _));            
+            RuleFor(x=>x.Code).NotEmpty().Must(IsWithin);            
         }
 
         public async Task<bool> IdentityExist(Guid Id, CancellationToken cancellationToken)

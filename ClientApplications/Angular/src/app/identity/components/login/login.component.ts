@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       console.error(this.form.errors);
     }    
     this.subscriptions.push(this.athenticationService
-    .sendTokenRequest(this.userPhone,this.userPassword)
+    .login(this.userPhone,this.userPassword)
     .pipe(
       takeUntil(this.unsubscribe$)          
     )

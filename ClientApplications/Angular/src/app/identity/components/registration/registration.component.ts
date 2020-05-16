@@ -4,10 +4,14 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
 import { takeUntil, flatMap } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
-import { FormErrorStateMatcher } from '../../../material/form-error-matcher';
+import { FormErrorStateMatcher } from '@common/material/form-error-matcher';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 import { UserRegistrationData } from '../../models/userRegistrationData';
+import { IdentityService } from '@DAL/identity-service/services/identity.service';
+import { CreateIdentityCommand } from '@DAL/identity-service/models/commands/create-identity-command';
+import * as uuid from 'uuid';
+import { ConfirmIdentityCommand } from '@DAL/identity-service/models/commands/confirm-identity-command';
 
 @Component({
   selector: 'app-registration',
@@ -29,6 +33,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   userRegistrationData:UserRegistrationData;
 
   constructor(private athenticationService:AuthenticationService,
+              private identityService: IdentityService,
               private formBuilder: FormBuilder,
               private router: Router,
               private _snackBar: MatSnackBar) { }
@@ -82,18 +87,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       console.error(this.form.errors);
       return;
     }        
-    this.athenticationService
-        .createIdentity(this.form.value.userPhone,
-                        this.form.value.userEmail,
-                        this.form.value.userPassword,
-                        this.form.value.userConfirmPassword)
+    const command = new CreateIdentityCommand();
+    command.Email = this.form.value.userEmail;
+    command.Phone = this.form.value.userPhone;
+    command.Password = this.form.value.userPassword;
+    command.ConfirmPassword = this.form.value.userConfirmPassword;
+    command.Id = uuid.v4();
+    
+    this.identityService
+        .createIdentity(command)
         .pipe(
           takeUntil(this.unsubscribe$)          
         )
         .subscribe(
-          (data)=> {
+          _ => {
             this.step=2;
-            this.userRegistrationData = data;
+            this.userRegistrationData = command as UserRegistrationData;
           },
           (error) => {
             this._snackBar.open(error,'',{
@@ -112,14 +121,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(element => {
       element.unsubscribe();
     });
-    this.athenticationService
-        .confirmIdentity(this.userRegistrationData.Id,
-                        this.codeform.value.userCode)                        
+    const command = new ConfirmIdentityCommand();
+    command.Id=this.userRegistrationData.Id;
+    command.Code = this.codeform.value.userCode;
+    this.identityService
+        .confirmIdentity(command)                        
         .pipe(
           takeUntil(this.unsubscribe$),
           flatMap(
             data  => {
-              this.subscriptions.push(this.athenticationService.sendTokenRequest(this.userRegistrationData.Phone, this.userRegistrationData.Password).subscribe());
+              this.subscriptions.push(this.athenticationService.login(this.userRegistrationData.Phone, this.userRegistrationData.Password).subscribe());
               return data;
             }
           )

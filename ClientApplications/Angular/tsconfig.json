@@ -21,6 +21,12 @@
     "paths": {
         "@fuse": [
             "@fuse/"
+        ],
+        "@common/*": [
+          "app/common/*"
+        ],
+        "@DAL/*": [
+          "app/DAL/*"
         ]
     }
   },

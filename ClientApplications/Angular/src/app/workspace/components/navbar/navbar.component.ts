@@ -20,25 +20,14 @@ export class NavbarComponent implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
-    // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseNavigationService} _fuseNavigationService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {Router} _router
-     */
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
         private _router: Router,
-        private _elementRef: ElementRef,
-        private _renderer: Renderer2
     )
     {
         // Set the private defaults

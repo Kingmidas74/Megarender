@@ -6,9 +6,9 @@ import { FuseSidebarModule, FuseNavigationModule, FuseSearchBarModule, FuseShort
 
 
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../../environments/environment';
+import { environment } from 'environments/environment';
 
-import { MaterialModule } from '../material/material.module';
+
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { WorkspaceRoutes } from './workspace-routing';
@@ -20,13 +20,15 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { QuickPanelComponent } from './components/quick-panel/quick-panel.component';
 import { ContentComponent } from './components/content/content.component';
 import { WorkspaceLayoutComponent } from './workspace-layout.component';
+import { CanLoadWorkspace } from './can-load-workspace';
+import { MaterialModule } from '@common/material/material.module';
 
 
 
 
 @NgModule({
   declarations: [
-    WorkspaceLayoutComponent,
+    WorkspaceLayoutComponent,    
     NavbarComponent,
     FooterComponent,
     ToolbarComponent,
@@ -38,17 +40,17 @@ import { WorkspaceLayoutComponent } from './workspace-layout.component';
   imports: [
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    RouterModule.forChild(WorkspaceRoutes),    
+    RouterModule,    
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule,
-
+    RouterModule.forChild(WorkspaceRoutes),
     FuseSharedModule,
     FuseSidebarModule,
     FuseNavigationModule,        
     FuseSearchBarModule,
     FuseShortcutsModule,
   ],
+  providers: [CanLoadWorkspace],
   exports: [
     
   ]

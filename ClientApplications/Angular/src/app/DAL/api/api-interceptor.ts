@@ -2,9 +2,9 @@ import { Injectable, InjectionToken, Injector } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpClient, HttpBackend, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { environment } from '../../environments/environment';
-import { HandlerService } from '../shared-utils/handlers';
-import { JWTToken } from './models/JWTToken';
+import { environment } from 'environments/environment';
+import { HandlerService } from '@common/shared-utils/handlers';
+import { JWTToken } from '@DAL/identity-service/models/JWTToken';
 import { mergeMap } from 'rxjs/operators';
 
 

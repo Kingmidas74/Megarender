@@ -1,4 +1,4 @@
-import { CanLoad, Route, UrlSegment, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree} from '@angular/router/router';
+import { CanLoad, Route, UrlSegment, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './services/authentication.service';
 import { Observable } from 'rxjs';
@@ -7,16 +7,27 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class CanLoadIdentity implements CanLoad, CanActivateChild {
   
-  constructor(private authenticationService:AuthenticationService) {}
+  constructor(private authenticationService:AuthenticationService,
+              private router: Router) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean>|Promise<boolean>|boolean {    
-    return this.authenticationService.IsAuthenticatedUser().pipe(map(x=>!x));
+    return this.authenticationService.IsAuthenticatedUser().pipe(
+      map(x=>!x)
+    );
   }
 
   canActivateChild(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {    
-    return this.authenticationService.IsAuthenticatedUser().pipe(map(x=>!x));
+    return this.authenticationService.IsAuthenticatedUser()
+      .pipe(
+        map(result => {        
+          if (result) {
+            return this.router.parseUrl('workspace');
+          };
+          return true;
+        })
+      );
   }
 }

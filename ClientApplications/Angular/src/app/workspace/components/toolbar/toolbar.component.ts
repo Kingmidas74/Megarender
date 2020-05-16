@@ -7,7 +7,9 @@ import * as _ from 'lodash';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { navigation } from 'app/navigation/navigation';
+import { navigation } from 'app/workspace/navigation/navigation';
+import { AuthenticationService } from '../../../identity/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector     : 'toolbar',
@@ -26,20 +28,16 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
 
-    // Private
+    user:any;
+
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {TranslateService} _translateService
-     */
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private router: Router,
+        private authenticationService: AuthenticationService
     )
     {
         // Set the defaults
@@ -78,9 +76,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
                 flag : 'us'
             },
             {
-                id   : 'tr',
-                title: 'Turkish',
-                flag : 'tr'
+                id   : 'ru',
+                title: 'Russian',
+                flag : 'ru'
             }
         ];
 
@@ -88,6 +86,11 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+
+        this.user = {
+            FirstName:'Test',
+            SurName: 'Labdov'
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -159,5 +162,11 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
+    }
+
+    logout() {
+        this.authenticationService.logout().subscribe(
+            _=>this.router.navigate(['identity'])
+        );
     }
 }

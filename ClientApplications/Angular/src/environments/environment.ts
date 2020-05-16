@@ -9,11 +9,12 @@ export const environment = {
   },
   identityService: {
     URL: 'http://localhost:5000',
-    user: {
-      grantType: 'custom',
-      scope: 'megarender_api offline_access',
-      clientId: 'personal_local',
-      secret: 'secret'
+    scope: 'megarender_api offline_access',
+    clientId: 'personal_local',
+    secret: 'secret',
+    grantType: {
+      recieve: 'custom',
+      refresh: 'refresh_token'
     }
   },
   constants: {

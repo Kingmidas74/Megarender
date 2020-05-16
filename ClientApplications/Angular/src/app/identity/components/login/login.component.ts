@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -7,31 +7,36 @@ import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  animations   : fuseAnimations
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
+  loginForm: FormGroup;
   subscriptions:Array<Subscription> = new Array<Subscription>();
   private unsubscribe$: Subject<any> = new Subject<any>();
-  
-  constructor(private athenticationService:AuthenticationService,
-              private formBuilder: FormBuilder,
-              private router: Router,
-              private snackBar: MatSnackBar) {}
 
-  form: FormGroup;
+  constructor(        
+    private athenticationService:AuthenticationService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private snackBar: MatSnackBar
+  )
+  {
+  }
 
-  ngOnInit(): void {
-    this.form = this.formBuilder.group(
-      {
+  ngOnInit(): void
+  {
+      this.loginForm = this.formBuilder.group({
         userPhone: ['', [Validators.required]],
         userPassword: ['', [Validators.required]]
-      }
-    );
+      });
   }
 
   ngOnDestroy() {    
@@ -42,25 +47,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
 
-  
-
-  get userPhone() { return this.form.value.userPhone; }
-  get userPassword() { return this.form.value.userPassword; }
-
-  submit() {
+  signin() {
     this.subscriptions.forEach(element => {
       element.unsubscribe();
     });
-    if (!this.form.valid) {
-      console.error(this.form.errors);
+    if (!this.loginForm.valid) {
+      console.error(this.loginForm.errors);
     }    
     this.subscriptions.push(this.athenticationService
-    .login(this.userPhone,this.userPassword)
+    .login(this.loginForm.value.userPhone,this.loginForm.value.userPassword)
     .pipe(
       takeUntil(this.unsubscribe$)          
     )
     .subscribe(
-      (data)=> {        
+      _ => {        
         this.router.navigate(['/workspace/']);
       },
       (error) => {
@@ -75,6 +75,4 @@ export class LoginComponent implements OnInit, OnDestroy {
   signup() {
     this.router.navigate(['/identity/registration']);
   }
-  
-  @Input() error: string | null;
 }

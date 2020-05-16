@@ -1,31 +1,70 @@
-<mat-card>
-  <mat-card-title>Login</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <p>
-        <mat-form-field>
-          <input type="phone" matInput placeholder="Phone number" formControlName="userPhone">
-        </mat-form-field>
-      </p>
+<div id="login" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
 
-      <p>
-        <mat-form-field>
-          <input type="password" matInput placeholder="Password" formControlName="userPassword">
-        </mat-form-field>
-      </p>
+  <div id="login-intro" fxFlex fxHide fxShow.gt-xs>
 
-      <p *ngIf="error" class="error">
-        {{ error }}
-      </p>
-      <div class="action-buttons">
-        <div class="button registration">
-          <button mat-button type="button" (click)="signup()">Registration</button>
-        </div>
-
-        <div class="button login">
-          <button mat-button color="primary" type="submit">Login</button>
-        </div>
+      <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
+          <img src="assets/images/logos/logo_main.png">
       </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+
+      <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+          Welcome to the Megarender!
+      </div>
+
+      <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+          We take care of the routine - letting you create!
+      </div>
+
+  </div>
+
+  <div id="login-form-wrapper" fusePerfectScrollbar
+       [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+
+      <div id="login-form">
+
+          <div class="logo" fxHide.gt-xs>
+              <img src="assets/images/logos/logo_main.png">
+          </div>
+
+          <div class="title">SIGN IN TO YOUR ACCOUNT</div>
+
+          <form name="loginForm" [formGroup]="loginForm" novalidate (ngSubmit)="signin()">
+
+              <mat-form-field appearance="outline">
+                  <mat-label>Phone</mat-label>
+                  <input matInput formControlName="userPhone">
+                  <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                  <mat-error *ngIf="loginForm.get('userPhone').hasError('required')">
+                      Phone is required
+                  </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput type="password" formControlName="userPassword">
+                  <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+                  <mat-error *ngIf="loginForm.get('userPassword').hasError('required')">
+                      Password is required
+                  </mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="accent" class="submit-button" aria-label="SIGN IN"
+                      type="submit"
+                      [disabled]="loginForm.invalid">
+                  SIGN IN
+              </button>
+
+          </form>
+
+          <div class="separator">
+              <span class="text">OR</span>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="start center">
+
+              <button mat-raised-button color="accent" (click)="signup()">
+                  SIGN UP
+              </button>
+          </div>
+      </div>
+  </div>
+</div>

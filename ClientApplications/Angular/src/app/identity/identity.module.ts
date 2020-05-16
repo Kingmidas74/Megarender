@@ -14,10 +14,12 @@ import { SharedUtilsModule } from '@common/shared-utils/shared-utils.module';
 import { ApiModule } from '@DAL/api/api.module';
 import { CanLoadIdentity } from './can-load-identity';
 import { IdentityServiceModule } from '@DAL/identity-service/identity-service.module';
+import { IdentityLayoutComponent } from './identity-layout.component';
+import { FuseSharedModule } from '@fuse/shared.module';
 
 
 @NgModule({
-  declarations: [LoginComponent, RegistrationComponent],
+  declarations: [IdentityLayoutComponent, LoginComponent, RegistrationComponent],
   imports: [
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
@@ -26,7 +28,8 @@ import { IdentityServiceModule } from '@DAL/identity-service/identity-service.mo
     ReactiveFormsModule,
     SharedUtilsModule,
     ApiModule,
-    IdentityServiceModule
+    IdentityServiceModule,
+    FuseSharedModule
   ],
   providers: [
     CanLoadIdentity

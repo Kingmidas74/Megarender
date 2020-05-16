@@ -3,10 +3,9 @@ import { Observable, throwError, interval, Subscription } from 'rxjs';
 import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StorageMap } from '@ngx-pwa/local-storage';
-import { environment } from '../../../environments/environment';
+import { environment } from 'environments/environment';
 
 import { JWTToken } from '@DAL/identity-service/models/JWTToken';
-import { ApiHttpService } from '@DAL/api/api-interceptor';
 import { IdentityService } from '@DAL/identity-service/services/identity.service';
 import { GetTokenQuery } from '@DAL/identity-service/models/queries/get-token-query';
 
@@ -18,9 +17,8 @@ export class AuthenticationService {
 
   subscriptions:Array<Subscription> = new Array<Subscription>();
   
-  constructor(private identtyService:IdentityService, 
-              private storage: StorageMap, 
-              private apiHttpClient:ApiHttpService) {
+  constructor(private identityService:IdentityService, 
+              private storage: StorageMap) {
     
   };
 
@@ -29,7 +27,7 @@ export class AuthenticationService {
     var query = new GetTokenQuery();
     query.Phone=userPhone;
     query.Password=userPassword;
-    return this.identtyService.getToken(query).pipe(
+    return this.identityService.getToken(query).pipe(
       catchError((error)=>this.handleError(error)),
       tap(response => {
           this.storage.set(environment.constants.JWTTokenStorageKey,response).subscribe();
@@ -62,12 +60,12 @@ export class AuthenticationService {
   }
 
   private calculateRefreshTime(token:JWTToken):number {
-    return token.expires_in-token.expires_in/10
+    return token.expires_in-token.expires_in-token.expires_in-token.expires_in/10
   }
 
   private refreshToken() {   
     this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey).pipe(
-      mergeMap(token => this.identtyService.refreshToken(token as JWTToken)),
+      mergeMap(token => this.identityService.refreshToken(token as JWTToken)),
       mergeMap(token => this.storage.set(environment.constants.JWTTokenStorageKey,token)),
       catchError((error) => () => {
         this.unsubscribeAll();
@@ -83,20 +81,6 @@ export class AuthenticationService {
       catchError(() => {
         return Observable.throw(false)
       })   
-    );
-  }
-
-  public createUser(id: string, firstName: string, surname: string, secondName: string, userBirthdate: Date):Observable<any> {
-    const body = {
-      id:id,
-      firstName:firstName,
-      surName:surname,
-      secondName:secondName,
-      birthdate: userBirthdate
-    };
-    return this.apiHttpClient.post('/users',body)
-    .pipe(
-      catchError((error)=>this.handleError(error))
     );
   }
 

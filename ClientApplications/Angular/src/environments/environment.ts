@@ -19,6 +19,7 @@ export const environment = {
   },
   constants: {
     JWTTokenStorageKey: 'JWTToken',
+    UserStorageKey:'current_user',
     snackBarDuration:5000
   }
 };

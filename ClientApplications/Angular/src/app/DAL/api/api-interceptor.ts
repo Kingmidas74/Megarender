@@ -5,7 +5,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { environment } from 'environments/environment';
 import { HandlerService } from '@common/shared-utils/handlers';
 import { JWTToken } from '@DAL/identity-service/models/JWTToken';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, catchError } from 'rxjs/operators';
 
 
 export const API_INTERCEPTOR = new InjectionToken<HttpInterceptor[]>('API_INTERCEPTOR');
@@ -24,8 +24,7 @@ export class ApiHttpService extends HttpClient {
 export class ApiInterceptor implements HttpInterceptor {
 
   constructor(private storage: StorageMap) {}
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
     return this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey)
       .pipe(
         mergeMap(token => {

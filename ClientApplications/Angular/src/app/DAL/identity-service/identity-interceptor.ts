@@ -16,7 +16,7 @@ export class IdentityHttpService extends HttpClient {
 
 @Injectable()
 export class IdentityInterceptor implements HttpInterceptor {
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
     return next.handle(req.clone({ url: `${environment.identityService.URL}${req.url}` }));
   }
 }

@@ -29,7 +29,8 @@ namespace Megarender.WebAPIService
         private JsonSerializerSettings ConfigureJSON() {
             var result = new JsonSerializerSettings () {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver (),
+//                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver (),
+                ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore                
             };

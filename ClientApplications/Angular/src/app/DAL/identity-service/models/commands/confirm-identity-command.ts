@@ -1,4 +1,4 @@
 export class ConfirmIdentityCommand {
-    Id:string;
-    Code:string;
+    id:string;
+    code:string;
 }

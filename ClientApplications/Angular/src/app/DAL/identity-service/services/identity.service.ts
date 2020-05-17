@@ -27,8 +27,8 @@ export class IdentityService {
         .set('scope', environment.identityService.scope)
         .set('client_id', environment.identityService.clientId)
         .set('client_secret', environment.identityService.secret)
-        .set('phone', getTokenQuery.Phone)
-        .set('password', getTokenQuery.Password)
+        .set('phone', getTokenQuery.phone)
+        .set('password', getTokenQuery.password)
       );
   }
 

@@ -85,11 +85,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       return;
     }        
     const command = new CreateIdentityCommand();
-    command.Email = this.registerForm.value.userEmail;
-    command.Phone = this.registerForm.value.userPhone;
-    command.Password = this.registerForm.value.userPassword;
-    command.ConfirmPassword = this.registerForm.value.userPasswordConfirm;
-    command.Id = uuid.v4();
+    command.email = this.registerForm.value.userEmail;
+    command.phone = this.registerForm.value.userPhone;
+    command.password = this.registerForm.value.userPassword;
+    command.confirmPassword = this.registerForm.value.userPasswordConfirm;
+    command.id = uuid.v4();
     
     this.identityService
         .createIdentity(command)
@@ -99,7 +99,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         .subscribe(
           _ => {
             this.step=2;
-            this.userId = command.Id;
+            this.userId = command.id;
           },
           (error) => {
             this._snackBar.open(error,'',{
@@ -118,15 +118,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       return;
     }    
     const confirmIdentityCommand = new ConfirmIdentityCommand();
-    confirmIdentityCommand.Id=this.userId;
-    confirmIdentityCommand.Code = this.codeForm.value.userCode;
+    confirmIdentityCommand.id=this.userId;
+    confirmIdentityCommand.code = this.codeForm.value.userCode;
 
     const createUserCommand = new CreateUserCommand();
-    createUserCommand.Id=this.userId;
-    createUserCommand.Birthdate=this.registerForm.value.userBirthdate;
-    createUserCommand.FirstName=this.registerForm.value.userFirstName; 
-    createUserCommand.SecondName=this.registerForm.value.userSecondName;
-    createUserCommand.SurName=this.registerForm.value.userLastName;
+    createUserCommand.id=this.userId;
+    createUserCommand.birthdate=this.registerForm.value.userBirthdate;
+    createUserCommand.firstName=this.registerForm.value.userFirstName; 
+    createUserCommand.secondName=this.registerForm.value.userSecondName;
+    createUserCommand.surName=this.registerForm.value.userLastName;
 
     this.identityService.confirmIdentity(confirmIdentityCommand).pipe(
       mergeMap(_=>this.authenticationService.login(this.registerForm.value.userPhone, this.registerForm.value.userPassword)),

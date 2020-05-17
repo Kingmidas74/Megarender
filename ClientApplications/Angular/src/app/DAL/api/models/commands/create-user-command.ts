@@ -1,7 +1,7 @@
 export class CreateUserCommand {
-    Id:string;
-    FirstName:string;
-    SecondName: string;
-    SurName: string;
-    Birthdate: Date;
+    id:string;
+    firstName:string;
+    secondName: string;
+    surName: string;
+    birthdate: Date;
 }

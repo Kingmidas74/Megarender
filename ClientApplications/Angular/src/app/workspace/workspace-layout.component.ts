@@ -1,9 +1,14 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { takeUntil, map, tap } from 'rxjs/operators';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { navigation } from 'app/workspace/navigation/navigation';
+import { User } from '@DAL/api/models/entities/user';
+import { StorageMap } from '@ngx-pwa/local-storage';
+import { environment } from 'environments/environment';
+import { AuthenticationService } from '../identity/services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-workspace-layout',
@@ -16,6 +21,8 @@ export class WorkspaceLayoutComponent implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
 
+    currentUser$:Observable<User>;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -25,7 +32,10 @@ export class WorkspaceLayoutComponent implements OnInit, OnDestroy
      * @param {FuseConfigService} _fuseConfigService
      */
     constructor(
-        private _fuseConfigService: FuseConfigService
+        private _fuseConfigService: FuseConfigService,
+        private storage: StorageMap,
+        private authenticationService: AuthenticationService,
+        private router: Router
     )
     {
         // Set the defaults
@@ -50,6 +60,7 @@ export class WorkspaceLayoutComponent implements OnInit, OnDestroy
             .subscribe((config) => {
                 this.fuseConfig = config;
             });
+        this.currentUser$ = this.storage.get<User>(environment.constants.UserStorageKey).pipe(map(user=>user as User));
     }
 
     /**
@@ -60,5 +71,11 @@ export class WorkspaceLayoutComponent implements OnInit, OnDestroy
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    logout() {
+        this.authenticationService.logout().subscribe(
+            _=>this.router.navigate(['identity'])
+        );
     }
 }

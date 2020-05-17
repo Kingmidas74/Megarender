@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MegarenderApiService {
+export class MegarenderApiService {  
 
   constructor(private apiHttpClient:ApiHttpService) { }
 
   public createUser(createUserCommand:CreateUserCommand):Observable<User>
   {
     return this.apiHttpClient.post<User>('/users',createUserCommand);
+  }
+
+  public getUserById(userId:string): Observable<User> {
+    return this.apiHttpClient.get<User>(`/users/${userId}`);
   }
 }

@@ -3,11 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription, Observable, of } from 'rxjs';
+import { takeUntil, mergeMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
 import { fuseAnimations } from '@fuse/animations';
+import { JWTToken } from '../../../DAL/identity-service/models/JWTToken';
+import { MegarenderApiService } from '../../../DAL/api/services/megarender-api.service';
+import { StorageMap } from '@ngx-pwa/local-storage';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +29,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     private athenticationService:AuthenticationService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private storage: StorageMap,
+    private apiService: MegarenderApiService
   )
   {
   }
@@ -57,10 +62,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.athenticationService
     .login(this.loginForm.value.userPhone,this.loginForm.value.userPassword)
     .pipe(
-      takeUntil(this.unsubscribe$)          
+      takeUntil(this.unsubscribe$),
+      mergeMap(token=>this.athenticationService.getDecodedAccessToken(token as JWTToken)),
+      mergeMap(identityUser => this.apiService.getUserById(identityUser.userId)),
+      mergeMap(user=>this.storage.set(environment.constants.UserStorageKey,user))      
     )
     .subscribe(
-      _ => {        
+      _ => {     
         this.router.navigate(['/workspace/']);
       },
       (error) => {

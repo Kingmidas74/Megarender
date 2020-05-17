@@ -22,6 +22,7 @@ import { ContentComponent } from './components/content/content.component';
 import { WorkspaceLayoutComponent } from './workspace-layout.component';
 import { CanLoadWorkspace } from './can-load-workspace';
 import { MaterialModule } from '@common/material/material.module';
+import { GravatarModule } from 'ngx-gravatar';
 
 
 
@@ -49,6 +50,7 @@ import { MaterialModule } from '@common/material/material.module';
     FuseNavigationModule,        
     FuseSearchBarModule,
     FuseShortcutsModule,
+    GravatarModule
   ],
   providers: [CanLoadWorkspace],
   exports: [

@@ -28,8 +28,11 @@
             <button mat-button [matMenuTriggerFor]="userMenu"
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>{{user.SurName}} {{user.FirstName.charAt()}}</span>
+                    <img class="avatar mr-0 mr-sm-16" 
+                    ngxGravatar
+                    [email]="(currentUser | async)?.id"
+                    size="40">
+                    <span class="username mr-12" fxHide fxShow.gt-sm>{{(currentUser | async)?.surName}} {{(currentUser | async)?.firstName.charAt()}}</span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
             </button>
@@ -46,7 +49,7 @@
                     <span>Inbox</span>
                 </button>
 
-                <button mat-menu-item class="" (click)="logout()">
+                <button mat-menu-item class="" (click)="logout.emit()">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>

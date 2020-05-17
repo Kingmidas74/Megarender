@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, Input, Output, EventEmitter } from '@angular/core';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import * as _ from 'lodash';
@@ -8,8 +8,7 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/workspace/navigation/navigation';
-import { AuthenticationService } from '../../../identity/services/authentication.service';
-import { Router } from '@angular/router';
+import { User } from '@DAL/api/models/entities/user';
 
 @Component({
     selector     : 'toolbar',
@@ -28,16 +27,18 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
 
-    user:any;
+    @Input()
+    currentUser: Observable<User>;
+
+    @Output() 
+    logout = new EventEmitter();
 
     private _unsubscribeAll: Subject<any>;
 
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService,
-        private router: Router,
-        private authenticationService: AuthenticationService
+        private _translateService: TranslateService
     )
     {
         // Set the defaults
@@ -86,11 +87,6 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-
-        this.user = {
-            FirstName:'Test',
-            SurName: 'Labdov'
-        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -162,11 +158,5 @@ export class ToolbarComponent implements OnInit, OnDestroy
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
-    }
-
-    logout() {
-        this.authenticationService.logout().subscribe(
-            _=>this.router.navigate(['identity'])
-        );
     }
 }

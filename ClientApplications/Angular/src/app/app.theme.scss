@@ -80,6 +80,7 @@ $typography: mat-typography-config(
 // Import app and page component themes here to enable theming for them
 @import "src/app/workspace/components/chat-panel/chat-panel.theme";
 @import "src/app/workspace/components/toolbar/toolbar.theme";
+@import "src/app/identity/identity-layout.theme";
 @import "src/app/identity/components/login/login.theme";
 @import "src/app/identity/components/registration/registration.theme";
 
@@ -89,6 +90,7 @@ $typography: mat-typography-config(
     // Layout components
     @include chat-panel-theme($theme);
     @include toolbar-theme($theme);
+    @include identity-layout-theme($theme);
     @include login-theme($theme);
     @include registration-theme($theme);
 }

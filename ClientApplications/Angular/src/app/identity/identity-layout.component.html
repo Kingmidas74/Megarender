@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<div id="identity-layout" class="inner-scroll" fxLayout="row" fxLayoutAlign="start">
+
+    <div id="intro" fxFlex fxHide fxShow.gt-xs>
+  
+        <div class="logo" [@animate]="{value:'*',params:{scale:'0.2'}}">
+            <img src="assets/images/logos/logo_main.png">
+        </div>
+  
+        <div class="title" [@animate]="{value:'*',params:{delay:'50ms',y:'25px'}}">
+            Welcome to the Megarender!
+        </div>
+  
+        <div class="description" [@animate]="{value:'*',params:{delay:'100ms',y:'25px'}}">
+            We take care of the routine - letting you create!
+        </div>
+  
+    </div>
+    <div id="form-wrapper" fusePerfectScrollbar [@animate]="{value:'*',params:{delay:'300ms',x:'100%'}}">
+        <ng-container>
+            <router-outlet></router-outlet>    
+        </ng-container>
+    </div>
+  </div>
+  

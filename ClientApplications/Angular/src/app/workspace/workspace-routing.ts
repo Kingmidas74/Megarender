@@ -1,9 +1,9 @@
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { StatisticsComponent } from './components/statistics/statistics.component';
 import { WorkspaceLayoutComponent } from './workspace-layout.component';
 import { CanLoadWorkspace } from './can-load-workspace';
 import { NgModule } from '@angular/core';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 
 @NgModule({

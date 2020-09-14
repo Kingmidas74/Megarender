@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
+import { Scene } from 'app/models/scene';
 import { SessionStorageService } from 'app/services/session-storage.sevice';
 
 import { locale as english } from './i18n/en';
@@ -26,5 +27,56 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit(): void {
   }
+
+  scenes:Array<Scene> = [
+    {
+      id:'1',
+      title:'1'
+    },
+    {
+      id:'4',
+      title:'3'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    },
+    {
+      id:'2',
+      title:'2'
+    }
+  ]
 
 }

@@ -12,8 +12,6 @@ import { environment } from 'environments/environment';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { WorkspaceRoutingModule } from './workspace-routing';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { StatisticsComponent } from './components/statistics/statistics.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -23,6 +21,8 @@ import { WorkspaceLayoutComponent } from './workspace-layout.component';
 import { CanLoadWorkspace } from './can-load-workspace';
 import { MaterialModule } from '@common/material/material.module';
 import { GravatarModule } from 'ngx-gravatar';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 
 
@@ -34,9 +34,7 @@ import { GravatarModule } from 'ngx-gravatar';
     FooterComponent,
     ToolbarComponent,
     QuickPanelComponent,
-    ContentComponent,
-    DashboardComponent, 
-    StatisticsComponent    
+    ContentComponent 
   ],
   imports: [
     CommonModule,
@@ -50,7 +48,10 @@ import { GravatarModule } from 'ngx-gravatar';
     FuseNavigationModule,        
     FuseSearchBarModule,
     FuseShortcutsModule,
-    GravatarModule
+    GravatarModule,
+
+    DashboardModule,
+    StatisticsModule
   ],
   providers: [CanLoadWorkspace],
   exports: [

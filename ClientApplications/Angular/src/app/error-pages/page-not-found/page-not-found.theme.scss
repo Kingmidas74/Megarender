@@ -1,0 +1,10 @@
+@mixin page-not-found-theme($theme) {
+    
+    $accent: map-get($theme, accent);    
+    
+    .page {
+        .login-button {
+            color:map-get($accent, default)
+        }
+    }
+}

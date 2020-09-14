@@ -11,7 +11,7 @@ import { environment } from 'environments/environment';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { WorkspaceRoutes } from './workspace-routing';
+import { WorkspaceRoutingModule } from './workspace-routing';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -44,7 +44,7 @@ import { GravatarModule } from 'ngx-gravatar';
     RouterModule,    
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule.forChild(WorkspaceRoutes),
+    WorkspaceRoutingModule,
     FuseSharedModule,
     FuseSidebarModule,
     FuseNavigationModule,        

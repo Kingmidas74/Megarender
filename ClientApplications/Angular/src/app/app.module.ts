@@ -17,10 +17,11 @@ import { FuseProgressBarModule } from '@fuse/components/progress-bar/progress-ba
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSidebarModule } from '@fuse/components';
+import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent, PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

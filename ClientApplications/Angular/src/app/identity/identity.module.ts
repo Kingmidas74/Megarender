@@ -9,7 +9,7 @@ import { environment } from 'environments/environment';
 import { MaterialModule } from '@common/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { IdentityRoutes } from './identity-routing';
+import { IdentityRoutingModule } from './identity-routing';
 import { SharedUtilsModule } from '@common/shared-utils/shared-utils.module';
 import { ApiModule } from '@DAL/api/api.module';
 import { CanLoadIdentity } from './can-load-identity';
@@ -23,7 +23,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
   imports: [
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    RouterModule.forChild(IdentityRoutes),    
+    IdentityRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
     SharedUtilsModule,

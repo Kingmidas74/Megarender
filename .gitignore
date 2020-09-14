@@ -170,3 +170,7 @@ $RECYCLE.BIN/
 *.config
 *.xml
 *.wsdl
+.gitsecret/keys/random_seed
+
+secrets/*
+!secrets/*.secret

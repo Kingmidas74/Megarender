@@ -12,13 +12,14 @@ namespace IdentityService {
     public static class ServiceCollectionExtensions {
         public static IServiceCollection AddSQL (this IServiceCollection services, string connectionString) {            
             services.AddDbContextPool<AppDbContext> ((provider, options) => {
-
+                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_USER)))) throw new FileNotFoundException(nameof (EnvironmentVariables.PIS_DB_USER));
+                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_PASSWORD)))) throw new FileNotFoundException(nameof (EnvironmentVariables.PIS_DB_PASSWORD));                
                 options.UseNpgsql (
                     string.Format (connectionString, 
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_HOST)), 
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_PORT)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_USER)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_PASSWORD))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_USER))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_PASSWORD)))), 
                     providerOptions => {
                                 providerOptions.EnableRetryOnFailure (3);                                
                     });

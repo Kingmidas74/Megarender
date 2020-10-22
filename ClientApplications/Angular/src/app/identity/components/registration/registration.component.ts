@@ -12,7 +12,7 @@ import { CreateIdentityCommand } from '@DAL/identity-service/models/commands/cre
 import * as uuid from 'uuid';
 import { ConfirmIdentityCommand } from '@DAL/identity-service/models/commands/confirm-identity-command';
 import { fuseAnimations } from '@fuse/animations';
-import { MegarenderApiService } from '@DAL/api/services/megarender-api.service';
+import { UserService } from '@DAL/api/services/user.service';
 import { CreateUserCommand } from '@DAL/api/models/commands/create-user-command';
 import { StorageMap } from '@ngx-pwa/local-storage';
 
@@ -41,7 +41,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   
   
 
-  constructor(private apiService: MegarenderApiService,
+  constructor(private apiService: UserService,
               private authenticationService: AuthenticationService,
               private identityService: IdentityService,
               private formBuilder: FormBuilder,

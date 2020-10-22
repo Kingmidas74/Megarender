@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FuseTranslationLoaderService } from '@fuse/services/translation-loader.service';
-import { Scene } from 'app/models/scene';
+import { Scene } from '@DAL/api/models/entities/scene';
 import { SessionStorageService } from 'app/services/session-storage.sevice';
 
 import { locale as english } from './i18n/en';
@@ -30,52 +30,64 @@ export class DashboardComponent implements OnInit {
 
   scenes:Array<Scene> = [
     {
-      id:'1',
-      title:'1'
-    },
-    {
-      id:'4',
-      title:'3'
+      id:'2',
+      title:'2',
+      renders: [
+        {
+          id:'a',
+          title:'a',
+          createdDate:new Date(),
+          status:'123'
+        }
+      ]
     },
     {
       id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
-    },
-    {
-      id:'2',
-      title:'2'
+      title:'2',
+      renders: [
+        {
+          id:'a',
+          title:'a',
+          createdDate:new Date(),
+          status:'1'
+        },
+        {
+          id:'b',
+          title:'b',
+          createdDate:new Date(),
+          status:'2'
+        },
+        {
+          id:'c',
+          title:'c',
+          createdDate:new Date(),
+          status:'3'
+        },
+        {
+          id:'c',
+          title:'c',
+          createdDate:new Date(),
+          status:'3'
+        },
+        {
+          id:'c',
+          title:'c',
+          createdDate:new Date(),
+          status:'3'
+        },
+        {
+          id:'c',
+          title:'c',
+          createdDate:new Date(),
+          status:'3'
+        },
+        {
+          id:'d',
+          title:'d',
+          createdDate:new Date(),
+          status:'4'
+        }
+      ]
     }
   ]
 

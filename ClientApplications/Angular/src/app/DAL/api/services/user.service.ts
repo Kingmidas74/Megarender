@@ -3,11 +3,10 @@ import { ApiHttpService } from '../api-interceptor';
 import { CreateUserCommand } from '../models/commands/create-user-command'
 import { User } from '../models/entities/user'
 import { Observable } from 'rxjs';
+import { ApiModule } from '../api.module';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class MegarenderApiService {  
+@Injectable()
+export class UserService {  
 
   constructor(private apiHttpClient:ApiHttpService) { }
 

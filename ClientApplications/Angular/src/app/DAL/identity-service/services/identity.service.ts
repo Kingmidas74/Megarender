@@ -11,9 +11,7 @@ import { GetTokenQuery } from '../models/queries/get-token-query';
 import { CreateIdentityCommand } from '../models/commands/create-identity-command';
 import { ConfirmIdentityCommand } from '../models/commands/confirm-identity-command';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class IdentityService {
 
   constructor(private identityHttpClient:IdentityHttpService) { }

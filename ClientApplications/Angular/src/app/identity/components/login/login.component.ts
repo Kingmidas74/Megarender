@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
 import { Router } from '@angular/router';
-import { Subject, Subscription, Observable, of } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil, mergeMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
 import { fuseAnimations } from '@fuse/animations';
-import { JWTToken } from '../../../DAL/identity-service/models/JWTToken';
-import { MegarenderApiService } from '../../../DAL/api/services/megarender-api.service';
+import { JWTToken } from '@DAL/identity-service/models/JWTToken';
 import { StorageMap } from '@ngx-pwa/local-storage';
+import { UserService } from '@DAL/api/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBar,
     private storage: StorageMap,
-    private apiService: MegarenderApiService
+    private apiService: UserService
   )
   {
   }

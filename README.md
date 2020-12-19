@@ -1,3 +1,5 @@
+![Docker Image CI](https://github.com/Kingmidas74/Megarender/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
+
 # Web API Light
 
 There is a my custom template for .Net Core WebAPI solution. I want to create something that I could use for quick start.

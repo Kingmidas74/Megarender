@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-        - uses: actions/checkout@v1
-        - name: Checkout sources          
-        - run: docker-compose build
-        - name: Build images
+            - name: Checkout sources
+              uses: actions/checkout@v1        
+            - name: Build images
+              run: docker-compose build

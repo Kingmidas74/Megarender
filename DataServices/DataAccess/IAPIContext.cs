@@ -11,7 +11,7 @@ namespace Megarender.DataAccess
         DbSet<AccessGroup> AccessGroups {get;set;}
         DbSet<Project> Projects {get;set;}       
         DbSet<Scene> Scenes {get;set;}
-        DbSet<Render> Renders {get;set;
+        DbSet<Render> Renders {get;set;}
         DbSet<SharedMoneyTransaction> SharedMoneyTransactions {get;set;}
         DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}        
         int SaveChanges();

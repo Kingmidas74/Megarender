@@ -22,6 +22,6 @@ jobs:
             - name: Reveal secrets
               env:
                 SUPER_SECRET: ${{ secrets.SuperSecret }}
-              run: apt install git-secret && git secret reveal -p $SUPER_SECRET 
+              run: sudo apt install git-secret && git secret reveal -p $SUPER_SECRET 
             - name: Build images
               run: docker-compose build

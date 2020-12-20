@@ -17,6 +17,10 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+
+            - name: Checkout sources
+              uses: actions/checkout@v2
+
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
               with:
@@ -24,10 +28,7 @@ jobs:
                 passphrase: ${{ secrets.SECRET_PWD }}
                 git-user-signingkey: true
                 git-commit-gpgsign: true
-
-            - name: Checkout sources
-              uses: actions/checkout@v2
-
+                
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}

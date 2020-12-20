@@ -24,14 +24,22 @@ jobs:
                 passphrase: ${{ secrets.SECRET_PWD }}
 
             - name: Checkout sources
-              uses: actions/checkout@v2
+              uses: actions/checkout@v1
 
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
+                SECRET_PWD2: ${{ toJson(secrets.SECRET_PWD) }}
               run: |
-                sudo apt install git-secret                 
+                sudo apt install git-secret            
+                echo "$SECRET_PWD"
+                echo "separator1"          
+                echo "$SECRET_PWD2"     
+                echo "${{ secrets.SECRET_PWD }}"
+                echo echo "separator2"          
                 git secret tell kingmidas1992@gmail.com
-                git secret reveal -p "$SECRET_PWD" -f
+                echo "separator3"          
+                git secret reveal -p "$SECRET_PWD" -F
+                echo "separator4"          
             - name: Build images
               run: docker-compose build

@@ -10,9 +10,9 @@ namespace IdentityService
 {
     public class PasswordValidator : IExtensionGrantValidator {
 
-        private readonly IMediator mediator;
+        private readonly ISender mediator;
 
-        public PasswordValidator (IMediator mediator) {
+        public PasswordValidator (ISender mediator) {
             this.mediator = mediator;
         }
         public string GrantType => "custom";

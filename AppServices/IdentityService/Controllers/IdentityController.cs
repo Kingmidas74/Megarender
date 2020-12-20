@@ -10,9 +10,9 @@ namespace IdentityService.Controllers
     [ApiVersionNeutral]
     public class IdentityController:ControllerBase
     {
-        private readonly IMediator Mediator;
+        private readonly ISender Mediator;
 
-        public IdentityController(IMediator mediator)
+        public IdentityController(ISender mediator)
         {
             this.Mediator = mediator;
         }   

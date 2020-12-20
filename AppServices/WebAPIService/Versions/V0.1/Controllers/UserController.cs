@@ -15,9 +15,9 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
     [Authorize]
     public class UsersController : ControllerBase {    
 
-        private readonly IMediator mediator;
+        private readonly ISender mediator;
             
-        public UsersController (IMediator mediator) {            
+        public UsersController (ISender mediator) {            
             this.mediator = mediator;
         }
         

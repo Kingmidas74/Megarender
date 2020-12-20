@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
-using Respawn;
 using Respawn.Postgres;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,6 +21,8 @@ public class Testing
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
+        DotNetEnv.Env.TraversePath().Load();
+
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", true, true)
@@ -70,16 +71,18 @@ public class Testing
     {
         using var scope = _scopeFactory.CreateScope();
 
-        var mediator = scope.ServiceProvider.GetService<IMediator>();
+        var mediator = scope.ServiceProvider.GetService<ISender>();
 
         return await mediator.Send(request);
     }
 
 
-    public static async Task ResetState()
-    {
-        await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));        
-    }
+    public static async Task ResetState() =>
+        await _checkpoint.Reset(string.Format (_configuration.GetConnectionString("DefaultConnection"), 
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_HOST)), 
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PORT)), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_USER))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PASSWORD)))));        
 
     public static async Task<TEntity> FindAsync<TEntity>(int id)
         where TEntity : class

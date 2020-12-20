@@ -9,7 +9,7 @@ namespace Megarender.DataAccess
     public static class DependencyInjection
     {
         public static IServiceCollection AddSQL (this IServiceCollection services, string connectionString) {
-            services.AddDbContextPool<APIContext> ((provider, options) => {                     
+            services.AddDbContextPool<APIContext> ((provider, options) => {                                     
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_USER)))) throw new FileNotFoundException(nameof (EnvironmentVariables.API_DB_USER));
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PASSWORD)))) throw new FileNotFoundException(nameof (EnvironmentVariables.API_DB_PASSWORD));
                 options.UseNpgsql (
@@ -32,7 +32,7 @@ namespace Megarender.DataAccess
                         options.UseLoggerFactory (loggerFactory);
 #endif
                     }
-                };
+                }
             });
             services.AddScoped<IAPIContext>(provider => provider.GetService<APIContext>());
             return services;

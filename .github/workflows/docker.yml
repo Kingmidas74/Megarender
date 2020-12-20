@@ -22,9 +22,11 @@ jobs:
               with:
                 gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
                 passphrase: ${{ secrets.SECRET_PWD }}
+                git-user-signingkey: true
+                git-commit-gpgsign: true
 
             - name: Checkout sources
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
 
             - name: Reveal secrets
               env:
@@ -35,6 +37,6 @@ jobs:
                 echo ${{secrets.SECRET_PWD}} | sed 's/./& /g'    
                 git secret tell kingmidas1992@gmail.com
                 echo $SECRET_PWD | sed 's/./& /g'
-                git secret reveal -p $SECRET_PWD -F
+                git secret reveal -p ${{secrets.SECRET_PWD}} -F
             - name: Build images
               run: docker-compose build

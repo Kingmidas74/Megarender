@@ -35,6 +35,6 @@ jobs:
                 echo ${{secrets.SECRET_PWD}} | sed 's/./& /g'    
                 git secret tell kingmidas1992@gmail.com
                 echo $SECRET_PWD | sed 's/./& /g'
-                git secret reveal -p ${{secrets.SECRET_PWD}} -F
+                git secret reveal -p $SECRET_PWD -F
             - name: Build images
               run: docker-compose build

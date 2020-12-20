@@ -1,4 +1,15 @@
 FROM node:14.2.0-alpine3.10 AS build
+
+RUN apk add --update \
+  python \
+  python-dev \
+  py-pip \
+  build-base \
+  git \
+  openssh-client \
+&& pip install virtualenv \
+&& rm -rf /var/cache/apk/*
+
 WORKDIR /usr/src/app
 COPY ./ClientApplications/Angular/package.json ./
 RUN npm install

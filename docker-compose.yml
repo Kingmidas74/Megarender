@@ -159,20 +159,20 @@ services:
     #     secrets:
     #       - grafana_password
 
-    # angular:
-    #   build:
-    #     context: .
-    #     dockerfile: ./ClientApplications/Angular/Dockerfile        
-    #   container_name: angular
-    #   restart: unless-stopped
-    #   ports:
-    #     - 8888:80
-    #   environment: 
-    #     API_URI: "webapi_nginx:8989/api"
-    #     IS_URI:  "identity_nginx:8989"
-    #   depends_on:        
-    #     - identity_nginx
-    #     - webapi_nginx   
+    angular:
+      build:
+        context: .
+        dockerfile: ./ClientApplications/Angular/Dockerfile        
+      container_name: angular
+      restart: unless-stopped
+      ports:
+        - 8888:80
+      environment: 
+        API_URI: "webapi_nginx:8989/api"
+        IS_URI:  "identity_nginx:8989"
+      depends_on:        
+        - identity_nginx
+        - webapi_nginx   
 
 
     webapi_nginx:

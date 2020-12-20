@@ -18,14 +18,14 @@ jobs:
 
         steps:
             - name: Configure GPG Key
-              run: |
-                mkdir -p ~/.gnupg/
-                printf "$GPG_SIGNING_KEY" | base64 --decode > ~/.gnupg/private.key
-                gpg --import ~/.gnupg/private.key
-              env:
-                GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+              uses: crazy-max/ghaction-import-gpg@v3
+              with:
+                gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+                passphrase: ${{ secrets.SECRET_PWD }}
+                
             - name: Checkout sources
-              uses: actions/checkout@v1     
+              uses: actions/checkout@v2
+
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}

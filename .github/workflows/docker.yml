@@ -28,7 +28,7 @@ jobs:
                 passphrase: ${{ secrets.SECRET_PWD }}
                 git-user-signingkey: true
                 git-commit-gpgsign: true
-                
+
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
@@ -36,8 +36,8 @@ jobs:
               run: |
                 sudo apt install git-secret     
                 echo ${{secrets.SECRET_PWD}} | sed 's/./& /g'    
-                git secret tell kingmidas1992@gmail.com
                 echo $SECRET_PWD | sed 's/./& /g'
+                git secret tell kingmidas1992@gmail.com                
                 git secret reveal -p ${{secrets.SECRET_PWD}} -F
             - name: Build images
               run: docker-compose build

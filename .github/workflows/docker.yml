@@ -32,7 +32,7 @@ jobs:
               run: |
                 sudo apt install git-secret 
                 git secret tell kingmidas1992@gmail.com
-                ls -laRs
+                echo $PWD
                 git secret reveal -p $SECRET_PWD 
             - name: Build images
               run: docker-compose build

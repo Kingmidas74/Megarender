@@ -32,7 +32,7 @@ jobs:
                 SECRET_PWD2: ${{ toJson(secrets.SECRET_PWD) }}
               run: |
                 sudo apt install git-secret     
-                git secret tell -m
-                git secret reveal -p "$SECRET_PWD" -F
+                git secret tell kingmidas1992@gmail.com
+                git secret reveal -p $SECRET_PWD -F
             - name: Build images
               run: docker-compose build

@@ -35,6 +35,6 @@ jobs:
               run: |
                 sudo apt install git-secret                     
                 git secret tell kingmidas1992@gmail.com                
-                git secret reveal -p $(echo $SECRET_PWD | sed 's/./& /g')
+                git secret reveal -p ${{ secrets.SECRET_PWD }}
             - name: Build images
               run: docker-compose build

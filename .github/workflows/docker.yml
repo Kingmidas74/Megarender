@@ -35,8 +35,8 @@ jobs:
               run: |
                 sudo apt install git-secret              
                 ls -las       
-                git secret tell kingmidas1992@gmail.com
                 sudo chmod -R 777 ./secrets
+                git secret tell kingmidas1992@gmail.com                
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             
        #     - name: Decrypt GPG secrets

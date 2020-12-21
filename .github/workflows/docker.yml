@@ -35,13 +35,15 @@ jobs:
               run: |
                 sudo apt install git-secret              
                 ls -las       
-                git secret tell kingmidas1992@gmail.com       
+                git secret tell kingmidas1992@gmail.com
+                sudo chmod -R 777 ./secrets
+                git secret reveal -p ${{ secrets.SECRET_PWD }}
             
-            - name: Decrypt GPG secrets
-              uses: minddocdev/decrypt-action@master
-              with:
-                files: ./secrets/DB_USER.secret,./secrets/GRANT_PASSWORD.secret
-                passphrase: ${{ secrets.SECRET_PWD }}
+       #     - name: Decrypt GPG secrets
+        #      uses: minddocdev/decrypt-action@master
+         #     with:
+          #      files: ./secrets/DB_USER.secret,./secrets/GRANT_PASSWORD.secret
+           #     passphrase: ${{ secrets.SECRET_PWD }}
             
             - name: Build images
               run: docker-compose build

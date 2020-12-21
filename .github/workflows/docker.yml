@@ -30,10 +30,12 @@ jobs:
                 git-commit-gpgsign: true
 
             - name: Reveal secrets
+              working-directory: ./Megarender
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
               run: |
-                sudo apt install git-secret                     
+                sudo apt install git-secret              
+                ls -las       
                 git secret tell kingmidas1992@gmail.com                
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             - name: Build images

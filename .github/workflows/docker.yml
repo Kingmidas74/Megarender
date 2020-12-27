@@ -26,7 +26,10 @@ jobs:
                 git clone https://github.com/sobolevn/git-secret.git git-secret
                 cd git-secret
                 sudo make build
-                sudo make install
+                sudo make install              
+
+            - name: Checkout sources
+              uses: actions/checkout@v2
 
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
@@ -35,9 +38,6 @@ jobs:
                 passphrase: ${{ secrets.SECRET_PWD }}
                 git-user-signingkey: true
                 git-commit-gpgsign: true
-
-            - name: Checkout sources
-              uses: actions/checkout@v2
               
             - name: Reveal secrets
               env:

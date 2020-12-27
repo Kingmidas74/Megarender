@@ -43,9 +43,6 @@ jobs:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
                 SECRETS_VERBOSE: 1              
               run: |                
-                ls -las        
-                echo _5_
-                echo $SECRETS_VERBOSE
                 git secret tell 
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             

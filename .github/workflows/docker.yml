@@ -39,7 +39,8 @@ jobs:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
               run: |
                 sudo apt install git-secret              
-                git config --local --get user.name
+                git config --local --get user.email
+                git config --global --get user.email
                 ls -las       
                 sudo chmod -R 777 ./secrets
                 git config user.email "kingmidas1992@gmail.com"

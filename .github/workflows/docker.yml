@@ -18,9 +18,6 @@ jobs:
 
         steps:
 
-            - name: Checkout sources
-              uses: actions/checkout@v2
-
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
               with:
@@ -29,11 +26,22 @@ jobs:
                 git-user-signingkey: true
                 git-commit-gpgsign: true                
             
+            - name: Install git-secret
+              working-directory: ~
+              run: |
+                git clone https://github.com/sobolevn/git-secret.git git-secret
+                cd git-secret && make build
+                PREFIX="/usr/local" make install
+
+            
+            - name: Checkout sources
+              uses: actions/checkout@v2
+              working-directory: ~
+              
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
-              run: |
-                sudo apt install git-secret              
+              run: |                
                 ls -las       
                 sudo chmod -R 777 ./secrets
                 git secret tell kingmidas1992@gmail.com                

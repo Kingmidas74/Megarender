@@ -21,7 +21,7 @@ jobs:
             - name: Install git-secret
               run: |
                 sudo chmod -R 777 .
-                sudo chmod -R 777 /usr/local/bin
+                sudo chmod -R 777 /usr                
                 ls -las
                 echo _1_
                 git clone https://github.com/sobolevn/git-secret.git git-secret

@@ -20,6 +20,7 @@ jobs:
 
             - name: Install git-secret
               run: |
+                sudo chmod -R 777 .
                 ls -las
                 echo _1_
                 git clone https://github.com/sobolevn/git-secret.git git-secret
@@ -47,7 +48,7 @@ jobs:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
                 SECRETS_VERBOSE: 1              
               run: |                
-                ls -las       
+                ls -las        
                 echo _5_
                 echo $SECRETS_VERBOSE
                 sudo chmod -R 777 ./secrets

@@ -17,6 +17,13 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+                          
+            - name: Install git-secret
+              working-directory: ./temp
+              run: |
+                git clone https://github.com/sobolevn/git-secret.git git-secret
+                cd git-secret && make build
+                PREFIX="/usr/local" make install
 
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
@@ -24,14 +31,7 @@ jobs:
                 gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
                 passphrase: ${{ secrets.SECRET_PWD }}
                 git-user-signingkey: true
-                git-commit-gpgsign: true                
-            
-            - name: Install git-secret
-              working-directory: ./temp
-              run: |
-                git clone https://github.com/sobolevn/git-secret.git git-secret
-                cd git-secret && make build
-                PREFIX="/usr/local" make install
+                git-commit-gpgsign: true          
 
             
             - name: Checkout sources

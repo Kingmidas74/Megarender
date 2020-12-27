@@ -18,33 +18,34 @@ jobs:
 
         steps:
 
-            - name: Checkout sources
-              uses: actions/checkout@v2
-
-            - name: Setup git user
-              uses: oleksiyrudenko/gha-git-credentials@v2-latest
-              with:
-                token: '${{ secrets.GITHUB_TOKEN }}'
-
+            - name: Install git-secret
+              working-directory: ./temp
+              run: |
+                git clone https://github.com/sobolevn/git-secret.git git-secret
+                cd git-secret && make build
+                PREFIX="/usr/local" make install
+            
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
               with:
                 gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
                 passphrase: ${{ secrets.SECRET_PWD }}
                 git-user-signingkey: true
-                git-commit-gpgsign: true                
+                git-commit-gpgsign: true          
+
             
+            - name: Checkout sources
+              uses: actions/checkout@v2
+              
             - name: Reveal secrets
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
-              run: |
-                sudo apt install git-secret          
+                SECRETS_VERBOSE: 1              
+              run: |                
                 ls -las       
                 sudo chmod -R 777 ./secrets
-                echo $(git config user.email)
-                git secret tell
+                git secret tell kingmidas1992@gmail.com                
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
-            
        #     - name: Decrypt GPG secrets
         #      uses: minddocdev/decrypt-action@master
          #     with:

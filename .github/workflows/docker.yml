@@ -43,11 +43,9 @@ jobs:
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
                 SECRETS_VERBOSE: 1              
-              run: |                
+              run: |
+                ls -las                
                 git secret tell -m
-                echo _1_
-                echo $(_get_secrets_dir_paths_mapping)
-                echo $(get_gpg_key_count)
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
                 
             

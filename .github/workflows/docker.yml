@@ -19,12 +19,17 @@ jobs:
         steps:
 
             - name: Install git-secret
-              working-directory: ./temp
               run: |
+                ls -las
+                echo _1_
                 git clone https://github.com/sobolevn/git-secret.git git-secret
+                ls -las
+                echo _2_
                 cd git-secret && make build
+                echo _3_
                 PREFIX="/usr/local" make install
-            
+                echo _4_
+
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
               with:
@@ -43,6 +48,8 @@ jobs:
                 SECRETS_VERBOSE: 1              
               run: |                
                 ls -las       
+                echo _5_
+                echo $SECRETS_VERBOSE
                 sudo chmod -R 777 ./secrets
                 git secret tell kingmidas1992@gmail.com                
                 git secret reveal -p ${{ secrets.SECRET_PWD }}

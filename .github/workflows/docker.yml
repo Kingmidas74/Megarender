@@ -27,7 +27,7 @@ jobs:
                 git-commit-gpgsign: true                
             
             - name: Install git-secret
-              working-directory: ~
+              working-directory: ./temp
               run: |
                 git clone https://github.com/sobolevn/git-secret.git git-secret
                 cd git-secret && make build
@@ -36,7 +36,6 @@ jobs:
             
             - name: Checkout sources
               uses: actions/checkout@v2
-              working-directory: ~
               
             - name: Reveal secrets
               env:

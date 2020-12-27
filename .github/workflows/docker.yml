@@ -21,6 +21,11 @@ jobs:
             - name: Checkout sources
               uses: actions/checkout@v2
 
+            - name: Setup git user
+              uses: oleksiyrudenko/gha-git-credentials@v2-latest
+              with:
+                token: '${{ secrets.GITHUB_TOKEN }}'
+
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
               with:
@@ -34,8 +39,10 @@ jobs:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
               run: |
                 sudo apt install git-secret              
+                git config --local --get user.name
                 ls -las       
                 sudo chmod -R 777 ./secrets
+                git config user.email "kingmidas1992@gmail.com"
                 git secret tell
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             

@@ -38,12 +38,10 @@ jobs:
               env:
                 SECRET_PWD: ${{ secrets.SECRET_PWD }}
               run: |
-                sudo apt install git-secret              
-                git config --local --get user.email
-                git config --global --get user.email
+                sudo apt install git-secret          
                 ls -las       
                 sudo chmod -R 777 ./secrets
-                git config user.email "kingmidas1992@gmail.com"
+                echo $(git config user.email)
                 git secret tell
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             

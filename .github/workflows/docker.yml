@@ -45,7 +45,11 @@ jobs:
                 SECRETS_VERBOSE: 1              
               run: |                
                 git secret tell -m
+                echo _1_
+                echo $(_get_secrets_dir_paths_mapping)
+                echo $(get_gpg_key_count)
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
+                
             
             - name: Build images
               run: docker-compose build

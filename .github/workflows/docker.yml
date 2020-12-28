@@ -20,12 +20,15 @@ jobs:
 
             - name: Install git-secret              
               uses: Kingmidas74/git-secret-github-action@latest
+              working-directory: ./gs
 
             - name: Checkout sources
               uses: actions/checkout@v2
+              working-directory: ./app
 
             - name: Configure GPG Key
               uses: crazy-max/ghaction-import-gpg@v3
+              working-directory: ./app
               with:
                 gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
                 passphrase: ${{ secrets.SECRET_PWD }}
@@ -33,6 +36,7 @@ jobs:
                 git-commit-gpgsign: true
               
             - name: Reveal secrets
+              working-directory: ./app
               env:
                 SECRETS_VERBOSE: 1              
               run: |                

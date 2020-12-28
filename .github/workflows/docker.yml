@@ -19,7 +19,7 @@ jobs:
         steps:
 
             - name: Install git-secret              
-              uses: Kingmidas74/git-secret-github-action@0.1.0
+              uses: Kingmidas74/git-secret-github-action@latest
 
             - name: Checkout sources
               uses: actions/checkout@v2

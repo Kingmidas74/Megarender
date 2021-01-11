@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.frontend.angular.label }}-deployment 
+  labels:
+    app: {{ .Values.appGroup }}
+    tier: {{ .Values.frontend.general.labels.tier }}
+    service: {{ .Values.frontend.angular.label }}
+spec:
+  replicas: {{ .Values.frontend.angular.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appGroup }}
+      tier: {{ .Values.frontend.general.labels.tier }}
+      service: {{ .Values.frontend.angular.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appGroup }}
+        tier: {{ .Values.frontend.general.labels.tier }}
+        service: {{ .Values.frontend.angular.label }}
+    spec:
+      containers:
+        - name: {{ .Values.frontend.angular.label }}
+          image: {{ .Values.general.images.repository }}/{{ .Values.frontend.angular.image }}:{{ .Values.general.images.tag }}
+          imagePullPolicy: {{ .Values.general.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.frontend.angular.ports.container }}
+          env:
+            - name: API_URI
+              value: "{{ .Release.Name }}-{{ .Values.backend.webapi.label }}-service:{{ .Values.backend.identity.ports.container }}/api"
+            - name: IS_URI
+              value: "{{ .Release.Name }}-{{ .Values.backend.identity.label }}-service:{{ .Values.backend.identity.ports.container }}"

@@ -38,7 +38,7 @@ spec:
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
             - name: PIS_HOST
-              value: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-deployment 
+              value: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-service 
             - name: PIS_PORT
               value: "{{ .Values.backend.identity.ports.container }}"
             - name: RMQ_HOST

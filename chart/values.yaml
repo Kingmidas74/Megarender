@@ -28,4 +28,16 @@ backend:
       service: 6000
     label: identity
     image: identity-service
+
+frontend:
+  general:
+    labels:
+      tier: frontend
+  angular:
+    replicas: 2
+    ports:
+      container: 80
+      service: 8888
+    label: angular
+    image: angular
     

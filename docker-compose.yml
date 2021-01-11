@@ -145,20 +145,21 @@ services:
     #   volumes: 
     #     - grafana-storage:/var/lib/grafana grafana/grafana
 
-    # angular:
-    #   build:
-    #     context: .
-    #     dockerfile: ./ClientApplications/Angular/Dockerfile        
-    #   container_name: angular
-    #   restart: unless-stopped
-    #   ports:
-    #     - 8888:80
-    #   environment: 
-    #     API_URI: "webapi_nginx:8989/api"
-    #     IS_URI:  "identity_nginx:8989"
-    #   depends_on:        
-    #     - identity_nginx
-    #     - webapi_nginx   
+    angular:
+      image: localhost:5000/angular:latest
+      build:
+        context: .
+        dockerfile: ./ClientApplications/Angular/Dockerfile        
+      container_name: angular
+      restart: unless-stopped
+      ports:
+        - 8888:80
+      environment: 
+        API_URI: "webapi_nginx:8989/api"
+        IS_URI:  "identity_nginx:8989"
+      depends_on:        
+        - identity_nginx
+        - webapi_nginx   
 
 
     webapi_nginx:

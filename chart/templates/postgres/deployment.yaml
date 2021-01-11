@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:      
+      labels:
+        name: db
+    spec:
+      containers:
+      - env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_PASSWORD_FILE
+          value: ~/secrets/DB_PASSWORD
+        - name: POSTGRES_USER_FILE
+          value: ~/secrets/DB_USER
+        image: {{ .Values.general.images.repository }}/db:{{ .Values.general.images.tag }}
+        imagePullPolicy: {{ .Values.general.images.pullPolicy }}
+        name: db
+        ports:
+        - containerPort: 5432
+        resources: {}
+        volumeMounts:        
+        - mountPath: /var/lib/postgresql/data
+          name: pg-data
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:      
+      - name: pg-data
+        persistentVolumeClaim:
+          claimName: pg-data
+status: {}

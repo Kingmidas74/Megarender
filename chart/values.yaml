@@ -1,0 +1,31 @@
+appGroup: mr
+
+environment: development
+
+general:
+  images:
+    pullPolicy: Always
+    repository: localhost:5000
+    tag: latest
+  labels:
+    name: mr
+
+backend:
+  general:
+    labels:
+      tier: backend
+  webapi:
+    replicas: 2
+    ports:
+      container: 5002
+      service: 6002
+    label: webapi
+    image: webapi-service
+  identity:
+    replicas: 2
+    ports:
+      container: 5000
+      service: 6000
+    label: identity
+    image: identity-service
+    

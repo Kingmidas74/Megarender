@@ -15,6 +15,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
+RUN mkdir ~/secrets
+COPY ./secrets ~/secrets
+
 EXPOSE 5000
 
 ENTRYPOINT ["dotnet", "IdentityService.dll"]

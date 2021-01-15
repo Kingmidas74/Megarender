@@ -1,8 +1,8 @@
 namespace Megarender.Domain
 {
-    public class AccessGroupPrivilege
+    public record AccessGroupPrivilege
     {
-        public virtual AccessGroup AccessGroup {get;set;}
-        public virtual Privilege Privilege {get;set;}
+        public virtual AccessGroup AccessGroup {get; init;}
+        public virtual Privilege Privilege {get; init;}
     }
 }

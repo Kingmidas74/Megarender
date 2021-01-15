@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Megarender.Domain
 {
-    public partial class Scene:Entity,IUserCreatable
+    public partial record Scene:Entity,IUserCreatable
     {
-        public string Title {get;set;}        
-        public virtual User CreatedBy {get;set;}
-        public virtual Project Project {get;set;}        
-        public virtual ICollection<Render> Renders {get;set;} = new HashSet<Render>();
+        public string Title {get; init;}        
+        public virtual User CreatedBy {get; init;}
+        public virtual Project Project {get; init;}        
+        public virtual ICollection<Render> Renders {get; init;} = new HashSet<Render>();
     }
 }

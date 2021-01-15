@@ -1,8 +1,8 @@
 namespace Megarender.Domain
 {
-    public class UserProject
+    public record UserProject
     {
-        public virtual User User {get;set;}
-        public virtual Project Project {get;set;}
+        public virtual User User {get; init;}
+        public virtual Project Project {get; init;}
     }
 }

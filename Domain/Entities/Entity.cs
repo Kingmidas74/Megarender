@@ -2,7 +2,7 @@ using System;
 
 namespace Megarender.Domain
 {
-    public partial class Entity : IEntity
+    public partial record Entity : IEntity
     {
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }

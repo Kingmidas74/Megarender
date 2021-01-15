@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace Megarender.Domain
 {
-    public partial class User:Entity
+    public partial record User:Entity
     {
-        public string FirstName {get; set;}
-        public string SecondName {get; set;}
-        public string SurName {get; set;}
-        public DateTime Birthdate {get;set;}
-        public virtual ICollection<UserOrganization> UserOrganizations {get;set;} = new HashSet<UserOrganization>();
-        public virtual ICollection<AccessGroupUser> UserAcessGroups {get;set;} = new HashSet<AccessGroupUser>();
-        public virtual ICollection<UserProject> UserProjects {get;set;} = new HashSet<UserProject>();
+        public string FirstName {get;  init;}
+        public string SecondName {get;  init;}
+        public string SurName {get;  init;}
+        public DateTime Birthdate {get; init;}
+        public virtual ICollection<UserOrganization> UserOrganizations {get; init;} = new HashSet<UserOrganization>();
+        public virtual ICollection<AccessGroupUser> UserAcessGroups {get; init;} = new HashSet<AccessGroupUser>();
+        public virtual ICollection<UserProject> UserProjects {get; init;} = new HashSet<UserProject>();
     }
 }

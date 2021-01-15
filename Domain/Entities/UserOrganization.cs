@@ -1,8 +1,8 @@
 namespace Megarender.Domain
 {
-    public class UserOrganization
+    public record UserOrganization
     {
-        public virtual User User {get;set;}
-        public virtual Organization Organization {get;set;}
+        public virtual User User {get; init;}
+        public virtual Organization Organization {get; init;}
     }
 }

@@ -40,6 +40,10 @@ namespace IdentityService {
             services
                 .AddIdentityServer (x => {
                     x.IssuerUri = System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_HOST));
+                    x.Events.RaiseErrorEvents = true;
+                    x.Events.RaiseInformationEvents = true;
+                    x.Events.RaiseFailureEvents = true;
+                    x.Events.RaiseSuccessEvents = true;
                 })
                 .AddInMemoryIdentityResources (Configuration.GetSection ("IdentityService:IdentityResources").Get<IdentityResource[]> ())
                 .AddInMemoryApiResources (Configuration.GetSection ("IdentityService:ApiResources").Get<ApiResource[]> ())

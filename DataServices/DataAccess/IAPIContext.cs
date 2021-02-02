@@ -1,6 +1,8 @@
+using System.Threading;
 using System.Threading.Tasks;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Megarender.DataAccess
 {
@@ -16,6 +18,9 @@ namespace Megarender.DataAccess
         DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}        
         int SaveChanges();
         Task<int> SaveChangesAsync();
+        Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
+        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        void RollbackTransaction();
 
     }
 }

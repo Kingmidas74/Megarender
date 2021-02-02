@@ -2,10 +2,10 @@ using System.Collections.Generic;
 
 namespace Megarender.Domain
 {
-    public class MoneyTransaction:Entity,IUserCreatable
+    public record MoneyTransaction:Entity,IUserCreatable
     {
-        public decimal Amount {get;set;}
-        public virtual MoneyTransactionStatusId MoneyTransactionStatus {get;set;}
-        public virtual User CreatedBy {get;set;}
+        public decimal Amount {get; init;}
+        public virtual MoneyTransactionStatusId MoneyTransactionStatus {get; init;}
+        public virtual User CreatedBy {get; init;}
     }
 }

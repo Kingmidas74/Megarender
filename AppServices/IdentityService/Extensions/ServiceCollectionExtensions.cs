@@ -12,6 +12,7 @@ namespace IdentityService {
     public static class ServiceCollectionExtensions {
         public static IServiceCollection AddSQL (this IServiceCollection services, string connectionString) {            
             services.AddDbContextPool<AppDbContext> ((provider, options) => {
+                Console.WriteLine($"PIS DB USER: {System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_USER))}");
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_USER)))) throw new FileNotFoundException(nameof (EnvironmentVariables.PIS_DB_USER));
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_PASSWORD)))) throw new FileNotFoundException(nameof (EnvironmentVariables.PIS_DB_PASSWORD));                
                 options.UseNpgsql (

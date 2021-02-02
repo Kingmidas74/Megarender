@@ -22,7 +22,7 @@ export class IdentityService {
       '/connect/token', 
       new HttpParams()
         .set('grant_type', environment.identityService.grantType.recieve)
-        .set('scope', environment.identityService.scope)
+        .set('scopes', environment.identityService.scope)
         .set('client_id', environment.identityService.clientId)
         .set('client_secret', environment.identityService.secret)
         .set('phone', getTokenQuery.phone)
@@ -36,7 +36,7 @@ export class IdentityService {
       '/connect/token',
       new HttpParams()
       .set('grant_type', environment.identityService.grantType.refresh)
-      .set('scope', environment.identityService.scope)
+      .set('scopes', environment.identityService.scope)
       .set('client_id', environment.identityService.clientId)
       .set('refresh_token', token.refresh_token)
     );

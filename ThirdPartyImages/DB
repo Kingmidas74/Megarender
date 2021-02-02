@@ -1,0 +1,6 @@
+FROM postgres:13.1-alpine
+
+RUN mkdir ~/secrets
+COPY ./secrets ~/secrets
+
+EXPOSE 5432

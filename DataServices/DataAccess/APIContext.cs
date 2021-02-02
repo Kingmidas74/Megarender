@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Megarender.Domain;
 using Megarender.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Megarender.DataAccess {
     public class APIContext : DbContext, IAPIContext {
@@ -45,6 +47,21 @@ namespace Megarender.DataAccess {
                 }
                 ((IEntity) entry.Entity).ModifiedDate = DateTime.UtcNow;
             }
+        }
+
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default) 
+        {
+            return Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public Task CommitTransactionAsync(CancellationToken cancellationToken = default) 
+        {
+            return Database.CommitTransactionAsync(cancellationToken);
+        }
+
+        public void RollbackTransaction() 
+        {
+            Database.RollbackTransaction();
         }
     }
 }

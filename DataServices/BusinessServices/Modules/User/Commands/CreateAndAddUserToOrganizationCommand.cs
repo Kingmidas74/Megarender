@@ -4,7 +4,7 @@ using Megarender.Domain;
 
 namespace Megarender.BusinessServices.Modules.UserModule
 {
-    public class CreateAndAddUserToOrganizationCommand:IRequest<User>
+    public class CreateAndAddUserToOrganizationCommand:IRequest<User>, ITransactionalRequest
     {
         public Guid Id {get;set;}
         public string FirstName {get; set;}

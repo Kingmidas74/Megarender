@@ -18,6 +18,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSidebarModule } from '@fuse/components';
 import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-found.component';
+import { EnvServiceProvider } from './services/env.service.provider';
 
 @NgModule({
   declarations: [
@@ -38,8 +39,7 @@ import { PageNotFoundComponent } from './error-pages/page-not-found/page-not-fou
     FuseSharedModule,
     FuseSidebarModule,
   ],
-  providers: [ 
-  ],
+  providers: [EnvServiceProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,6 +16,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
-EXPOSE 5002
+RUN mkdir ~/secrets
+COPY ./secrets ~/secrets
+
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "WebAPIService.dll"]

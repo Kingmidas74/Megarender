@@ -5,11 +5,10 @@
 export const environment = {
   production: false,
   API: {
-    URL: 'http://localhost:5002/api/0.1'
+    Version: '/0.1'
   },
   identityService: {
-    URL: 'http://localhost:5000',
-    scope: 'megarender_api offline_access',
+    scope: 'megarender_api',
     clientId: 'personal_local',
     secret: 'secret',
     grantType: {

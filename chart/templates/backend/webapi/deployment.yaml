@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.backend.webapi.label }}-deployment 
+  labels:
+    app: {{ .Values.appGroup }}
+    tier: {{ .Values.backend.general.labels.tier }}
+    service: {{ .Values.backend.webapi.label }}
+spec:
+  replicas: {{ .Values.backend.webapi.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appGroup }}
+      tier: {{ .Values.backend.general.labels.tier }}
+      service: {{ .Values.backend.webapi.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appGroup }}
+        tier: {{ .Values.backend.general.labels.tier }}
+        service: {{ .Values.backend.webapi.label }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.webapi.label }}
+          image: {{ .Values.general.images.repository }}/{{ .Values.backend.webapi.image }}:{{ .Values.general.images.tag }}
+          imagePullPolicy: {{ .Values.general.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.webapi.ports.container }}
+          env:
+            - name: API_DB_HOST
+              value: db
+            - name: API_DB_PASSWORD
+              value: ~/secrets/API_DB_PASSWORD
+            - name: API_DB_PORT
+              value: "5432"
+            - name: API_DB_USER
+              value: ~/secrets/API_DB_USER
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: PIS_HOST
+              value: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-service 
+            - name: PIS_PORT
+              value: "{{ .Values.backend.identity.ports.container }}"
+            - name: RMQ_HOST
+              value: rabbitmq
+            - name: RMQ_PASSWORD
+              value: ~/secrets/RMQ_PASSWORD
+            - name: RMQ_PORT
+              value: "5672"
+            - name: RMQ_USER
+              value: ~/secrets/RMQ_USER
+            - name: SeqURL
+              value: http://seq:5341

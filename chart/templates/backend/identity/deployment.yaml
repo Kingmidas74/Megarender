@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-deployment 
+  labels:
+    app: {{ .Values.appGroup }}
+    tier: {{ .Values.backend.general.labels.tier }}
+    service: {{ .Values.backend.identity.label }}
+spec:
+  replicas: {{ .Values.backend.identity.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appGroup }}
+      tier: {{ .Values.backend.general.labels.tier }}
+      service: {{ .Values.backend.identity.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appGroup }}
+        tier: {{ .Values.backend.general.labels.tier }}
+        service: {{ .Values.backend.identity.label }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.identity.label }}
+          image: {{ .Values.general.images.repository }}/{{ .Values.backend.identity.image }}:{{ .Values.general.images.tag }}
+          imagePullPolicy: {{ .Values.general.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.identity.ports.container }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: PIS_DB_HOST
+              value: db
+            - name: PIS_DB_PASSWORD
+              value: ~/secrets/IS_DB_PASSWORD
+            - name: PIS_DB_PORT
+              value: "5432"
+            - name: PIS_DB_USER
+              value: ~/secrets/IS_DB_USER
+            - name: Serilog__WriteTo__2__Args__serverUrl
+              value: http://seq:5341

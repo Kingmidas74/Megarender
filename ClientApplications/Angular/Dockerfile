@@ -18,3 +18,5 @@ RUN npm run build
 
 FROM nginx:1.17.10-alpine
 COPY --from=build /usr/src/app/dist/TestApp /usr/share/nginx/html
+
+CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/env.js | tee /usr/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]

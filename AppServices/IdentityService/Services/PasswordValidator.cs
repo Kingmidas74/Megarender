@@ -39,6 +39,7 @@ namespace IdentityService
                 new Claim ("userId", result.Id.ToString ()),
                 new Claim ("userEmail", result.Email),
                 new Claim ("userPhone", result.Phone),
+                new Claim ("aud","megarender_api")
             });
             return;
         }

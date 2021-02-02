@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -16,13 +17,16 @@ namespace Megarender.WebAPIService
             services.AddAuthentication ("Bearer")
                 .AddJwtBearer ("Bearer", options => {
                     options.Authority = identityServerURI;
-                    options.RequireHttpsMetadata = false;
-
-                    options.Audience = "megarender_api offline_access";
+                    options.RequireHttpsMetadata = false;                    
+                    options.TokenValidationParameters.ValidateAudience = false;
                 });
             return services;
         }
-        public static IServiceCollection AddSwagger (this IServiceCollection services) {
+        public static IServiceCollection AddSwagger (this IServiceCollection services, string connectionString) 
+        {
+            var identityServerURI = string.Format (connectionString, 
+                            System.Environment.GetEnvironmentVariable (nameof (WebAPIService.Models.EnvironmentVariables.PIS_HOST_EXT)), 
+                            System.Environment.GetEnvironmentVariable (nameof (WebAPIService.Models.EnvironmentVariables.PIS_PORT_EXT)));
 
             services.AddApiVersioning(options => {
                 options.ReportApiVersions=true;
@@ -57,6 +61,38 @@ namespace Megarender.WebAPIService
                 }  
 
                 c.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme {
+
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        ClientCredentials = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri($"{identityServerURI}connect/authorize"),
+                            TokenUrl = new Uri($"{identityServerURI}connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "megarender_api", "Full access " }
+                            }                           
+                        }                        
+                    }
+                });
+
+                c.AddSecurityRequirement (new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme {
+                            Reference = new OpenApiReference {
+                                Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                            }
+                        },
+                        new string[] { "megarender_api"}
+                    }
+                });
+/*
+                c.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme {
                     In = ParameterLocation.Header,
                         Description = "Please insert JWT with Bearer into field",
                         Name = "Authorization",
@@ -75,6 +111,7 @@ namespace Megarender.WebAPIService
                     }
                 });
   
+*/
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine (AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments (xmlPath);

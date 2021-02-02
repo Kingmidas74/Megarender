@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { HandlerService } from '@common/shared-utils/handlers';
 import { JWTToken } from '@DAL/identity-service/models/JWTToken';
 import { mergeMap, catchError } from 'rxjs/operators';
+import { EnvService } from 'app/services/env.service';
 
 
 export const API_INTERCEPTOR = new InjectionToken<HttpInterceptor[]>('API_INTERCEPTOR');
@@ -23,7 +24,10 @@ export class ApiHttpService extends HttpClient {
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  constructor(private storage: StorageMap) {}
+  constructor(private storage: StorageMap,
+              private env: EnvService
+            ) {}
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {    
     return this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey)
       .pipe(
@@ -34,7 +38,7 @@ export class ApiInterceptor implements HttpInterceptor {
               'Authorization': `Bearer ${(token as JWTToken).access_token}`
             })
           };
-          return next.handle(req.clone({ url: `${environment.API.URL}${req.url}`, headers:httpOptions.headers }))
+          return next.handle(req.clone({ url: `${this.env.API_URI}${environment.API.Version}${req.url}`, headers:httpOptions.headers }))
         })
       )
   }

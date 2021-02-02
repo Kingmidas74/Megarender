@@ -45,7 +45,7 @@ namespace Megarender.WebAPIService
             var applicationOptions = new WebAPIService.Models.ApplicationOptions ();
             Configuration.GetSection (nameof (WebAPIService.Models.ApplicationOptions)).Bind (applicationOptions);            
             
-            services.AddSwagger ();
+            services.AddSwagger (applicationOptions.IdentityServiceURI);
             services.AddAuth (applicationOptions.IdentityServiceURI);            
             services.AddSQL (Configuration.GetConnectionString ("DefaultConnection"));
             services.AddQueueService (applicationOptions.RabbitMQSeriveURI);

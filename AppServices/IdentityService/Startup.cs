@@ -47,6 +47,7 @@ namespace IdentityService {
                 })
                 .AddInMemoryIdentityResources (Configuration.GetSection ("IdentityService:IdentityResources").Get<IdentityResource[]> ())
                 .AddInMemoryApiResources (Configuration.GetSection ("IdentityService:ApiResources").Get<ApiResource[]> ())
+                .AddInMemoryApiScopes (Configuration.GetSection ("IdentityService:ApiResources").Get<ApiScope[]> ())
                 .AddInMemoryClients (Configuration.GetSection ("IdentityService:Clients").Get<Client[]> ())
                 .AddDeveloperSigningCredential ()
                 .AddProfileService<ProfileService> ()

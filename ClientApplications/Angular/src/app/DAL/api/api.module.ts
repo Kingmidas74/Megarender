@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedUtilsModule } from '@common/shared-utils/shared-utils.module';
 import { ApiInterceptor, API_INTERCEPTOR, ApiHttpService } from './api-interceptor';
 import { UserService } from './services/user.service';
+import { EnvServiceProvider } from 'app/services/env.service.provider';
 
 
 
@@ -16,7 +17,8 @@ import { UserService } from './services/user.service';
     ApiInterceptor,
     {provide: API_INTERCEPTOR, useClass: ApiInterceptor, multi: true},
     ApiHttpService,
-    UserService
+    UserService,
+    EnvServiceProvider
   ]
 })
 export class ApiModule { }

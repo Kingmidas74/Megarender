@@ -18,6 +18,6 @@ COPY --from=build /app ./
 RUN mkdir ~/secrets
 COPY ./secrets ~/secrets
 
-EXPOSE 5000
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "IdentityService.dll"]

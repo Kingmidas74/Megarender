@@ -19,6 +19,6 @@ COPY --from=build /app ./
 RUN mkdir ~/secrets
 COPY ./secrets ~/secrets
 
-EXPOSE 5002
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "WebAPIService.dll"]

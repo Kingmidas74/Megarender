@@ -70,13 +70,13 @@ services:
     
     # rabbitmq:
     #     build:
-    #       context: ./ThirdPartyImages
-    #       dockerfile: RabbitMQ
+    #       context: .
+    #       dockerfile: ./ThirdPartyImages/RabbitMQ
     #     container_name: rabbitmq
     #     restart: unless-stopped
     #     environment: 
-    #       RABBITMQ_DEFAULT_USER: "~/secrets/RMQ_USER"
-    #       RABBITMQ_DEFAULT_PASS: "~/secrets/RMQ_PASSWORD"
+    #       RABBITMQ_DEFAULT_USER_FILE: "~/secrets/RMQ_USER"
+    #       RABBITMQ_DEFAULT_PASS_FILE: "~/secrets/RMQ_PASSWORD"
     #     healthcheck:
     #       test: ["CMD", "curl", "-f", "http://localhost:15672"]
     #       interval: 30s
@@ -94,6 +94,7 @@ services:
     #       - 15671
     #     ports:            
     #         - 15672:15672
+    #         - 5672:5672
 
 
     # notification_worker:

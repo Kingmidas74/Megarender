@@ -39,7 +39,7 @@ namespace IdentityService {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services
                 .AddIdentityServer (x => {
-                    x.IssuerUri = System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_DB_HOST));
+                    x.IssuerUri = System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST));
                     x.Events.RaiseErrorEvents = true;
                     x.Events.RaiseInformationEvents = true;
                     x.Events.RaiseFailureEvents = true;

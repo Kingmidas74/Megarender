@@ -79,10 +79,10 @@ public class Testing
 
     public static async Task ResetState() =>
         await _checkpoint.Reset(string.Format (_configuration.GetConnectionString("DefaultConnection"), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_HOST)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PORT)), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_USER))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PASSWORD)))));        
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))));        
 
     public static async Task<TEntity> FindAsync<TEntity>(int id)
         where TEntity : class

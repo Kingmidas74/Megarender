@@ -11,21 +11,20 @@ services:
         expose:
           - 80
         environment: 
-          API_DB_HOST: "db"
-          API_DB_PORT: "5432"
-          API_DB_USER: "~/secrets/API_DB_USER"
-          API_DB_PASSWORD: "~/secrets/API_DB_PASSWORD"
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/API_DB_USER"
+          DB_PWD_FILE: "~/secrets/API_DB_PASSWORD"
           PIS_HOST: "identity_service"
           PIS_PORT: "80"
-          RMQ_USER: "~/secrets/RMQ_USER"
-          RMQ_PASSWORD: "~/secrets/RMQ_PASSWORD"
+          RMQ_USER_FILE: "~/secrets/RMQ_USER"
+          RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
           RMQ_HOST: "rabbitmq"
           RMQ_PORT: "5672"
-          ASPNETCORE_ENVIRONMENT: "Development"          
+          ASPNETCORE_ENVIRONMENT: "Development"
           SeqURL: "http://seq:5341"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
-          AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
         depends_on:    
           -  identity_service  
           # -  rabbitmq  
@@ -42,14 +41,39 @@ services:
         expose:
           - 80
         environment: 
-          PIS_DB_HOST: "db"
-          PIS_DB_PORT: "5432"
-          PIS_DB_USER: "~/secrets/IS_DB_USER"
-          PIS_DB_PASSWORD: "~/secrets/IS_DB_PASSWORD"
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/IS_DB_USER"
+          DB_PWD_FILE: "~/secrets/IS_DB_PASSWORD"
           ASPNETCORE_ENVIRONMENT: "Development"
           Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
         depends_on:
-          -  db    
+          -  db  
+
+
+    storage_service:
+        image: localhost:5000/storage-service:latest
+        build:
+          context: .
+          dockerfile: ./AppServices/StorageService/Dockerfile        
+        container_name: storage_service
+        restart: unless-stopped
+        expose:
+          - 80
+        environment: 
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/STORAGE_DB_USER"
+          DB_PWD_FILE: "~/secrets/STORAGE_DB_PASSWORD"
+          ASPNETCORE_ENVIRONMENT: "Development"         
+          SeqURL: "http://seq:5341"
+          AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
+          PIS_HOST_EXT: "localhost"
+          PIS_PORT_EXT: "5000"
+          PIS_HOST: "identity_service"
+          PIS_PORT: "80"
+        depends_on:
+          -  identity_service    
 
 
     db:
@@ -105,8 +129,8 @@ services:
     #     container_name: notification_worker
     #     restart: unless-stopped
     #     environment: 
-    #       RMQ_USER: "~/secrets/RMQ_USER"
-    #       RMQ_PASSWORD: "~/secrets/RMQ_PASSWORD"
+    #       RMQ_USER_FILE: "~/secrets/RMQ_USER"
+    #       RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
     #       RMQ_HOST: "rabbitmq"
     #       RMQ_PORT: "5672"
     #       DOTNET_ENVIRONMENT: "Development"
@@ -161,9 +185,11 @@ services:
       environment: 
         API_URI: "http://localhost:5002/api"
         IS_URI:  "http://localhost:5000"
+        STORAGE_URI:  "http://localhost:5004/api"
       depends_on:        
         - identity_nginx
         - webapi_nginx   
+        - storage_nginx
 
 
     webapi_nginx:
@@ -188,6 +214,17 @@ services:
         - 5000:8989
       depends_on: 
         - identity_service
+
+    storage_nginx:
+      build: 
+        context: .
+        dockerfile: ./AppServices/StorageService/nginx/Dockerfile
+      container_name: storage_nginx
+      restart: unless-stopped
+      ports:
+        - 5004:8989
+      depends_on: 
+        - storage_service
       
   
 volumes: 

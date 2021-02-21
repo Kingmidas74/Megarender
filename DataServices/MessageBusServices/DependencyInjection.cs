@@ -9,8 +9,8 @@ namespace Megarender.MessageBusServices
         public static IServiceCollection AddQueueService (this IServiceCollection services, string connectionString) {
             
             var rabbitMQSeriveURI = string.Format (connectionString, 
-                        System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_USER)), 
-                        System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PASSWORD)), 
+                        System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_USER_FILE)), 
+                        System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PWD_FILE)), 
                         System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_HOST)), 
                         System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PORT)));
             

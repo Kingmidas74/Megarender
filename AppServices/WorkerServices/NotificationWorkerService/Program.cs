@@ -46,7 +46,7 @@ namespace Megarender.NotificationWorkerService {
                 var rabbitMQSettings = new RabbitMQSettings ();
                 var settings = configuration.GetSection (nameof (RabbitMQSettings)).Get<RabbitMQSettings>();                
                 configuration.GetSection (nameof (RabbitMQSettings)).Bind (rabbitMQSettings);        
-                var rabbitMQSeriveURI = string.Format (settings.RabbitMQServiceURI, System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_USER)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PASSWORD)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_HOST)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PORT)));
+                var rabbitMQSeriveURI = string.Format (settings.RabbitMQServiceURI, System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_USER_FILE)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PWD_FILE)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_HOST)), System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.RMQ_PORT)));
 
                 services.AddTransient<MessageService> (s => {
                     var factory = new ConnectionFactory {

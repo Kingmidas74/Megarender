@@ -10,14 +10,14 @@ namespace Megarender.DataAccess
     {
         public static IServiceCollection AddSQL (this IServiceCollection services, string connectionString) {
             services.AddDbContextPool<APIContext> ((provider, options) => {                                     
-                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_USER)))) throw new FileNotFoundException(nameof (EnvironmentVariables.API_DB_USER));
-                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PASSWORD)))) throw new FileNotFoundException(nameof (EnvironmentVariables.API_DB_PASSWORD));
+                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_USER_FILE));
+                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_PWD_FILE));
                 options.UseNpgsql (
                     string.Format (connectionString, 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_HOST)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PORT)), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_USER))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.API_DB_PASSWORD)))), 
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
+                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))), 
                     providerOptions => {
                                 providerOptions.EnableRetryOnFailure (3);
                                 providerOptions.MigrationsAssembly (nameof (DataAccess));

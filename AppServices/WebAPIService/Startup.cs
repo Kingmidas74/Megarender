@@ -22,7 +22,8 @@ namespace Megarender.WebAPIService
         private readonly string CorsPolicy = nameof (CorsPolicy);
         public IConfiguration Configuration { get; }
 
-        public Startup (IConfiguration configuration) {
+        public Startup (IConfiguration configuration) 
+        {
             Configuration = configuration;          
         }
 
@@ -68,7 +69,8 @@ namespace Megarender.WebAPIService
             });
         }
 
-        public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider) {
+        public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider) 
+        {
             Log.Logger = new LoggerConfiguration ().ReadFrom.Configuration (Configuration)
                                 .Destructure.ByMaskingProperties("Password", "Token")
                                 .WriteTo.Seq(System.Environment.GetEnvironmentVariable(nameof(Models.EnvironmentVariables.SeqURL)))

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -31,7 +32,8 @@ namespace Megarender.WebAPIService
             services.AddApiVersioning(options => {
                 options.ReportApiVersions=true;
                 options.AssumeDefaultVersionWhenUnspecified=false;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(0,1);                                
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(0,1);
+                options.ApiVersionReader = new HeaderApiVersionReader("X-Accept-Version");
             });
             services.AddVersionedApiExplorer(options => {  
                 options.GroupNameFormat ="VVV";  
@@ -91,27 +93,7 @@ namespace Megarender.WebAPIService
                         new string[] { "megarender_api"}
                     }
                 });
-/*
-                c.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme {
-                    In = ParameterLocation.Header,
-                        Description = "Please insert JWT with Bearer into field",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey
-                });
-
-                c.AddSecurityRequirement (new OpenApiSecurityRequirement {
-                    {
-                        new OpenApiSecurityScheme {
-                            Reference = new OpenApiReference {
-                                Type = ReferenceType.SecurityScheme,
-                                    Id = "Bearer"
-                            }
-                        },
-                        new string[] { }
-                    }
-                });
-  
-*/
+                
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine (AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments (xmlPath);

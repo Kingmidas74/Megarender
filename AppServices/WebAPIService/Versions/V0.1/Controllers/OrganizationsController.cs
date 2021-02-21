@@ -6,12 +6,11 @@ using MediatR;
 using Megarender.BusinessServices.Modules.UserModule;
 using Megarender.Domain;
 using System;
-using WebAPIService;
 using System.Threading;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
-    [Route ("api/{version:apiVersion}/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [ApiVersion(Constants.V01)]
     [Authorize]

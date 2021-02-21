@@ -35,10 +35,11 @@ export class ApiInterceptor implements HttpInterceptor {
           let httpOptions = {
             headers: new HttpHeaders({
               'Content-Type': 'application/json; charset=utf-8',
+              'X-Accept-Version': environment.API.Version,
               'Authorization': `Bearer ${(token as JWTToken).access_token}`
             })
           };
-          return next.handle(req.clone({ url: `${this.env.API_URI}${environment.API.Version}${req.url}`, headers:httpOptions.headers }))
+          return next.handle(req.clone({ url: `${this.env.API_URI}${req.url}`, headers:httpOptions.headers }))
         })
       )
   }

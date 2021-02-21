@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Megarender.BusinessServices.Modules.UserModule;
 using System;
-using WebAPIService;
 using Megarender.DataStorage;
 using System.Threading;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
-    [Route ("api/{version:apiVersion}/[controller]")]
+    [Route ("api/[controller]")]
     [ApiController]
     [ApiVersion(Constants.V01)]
     [Authorize]

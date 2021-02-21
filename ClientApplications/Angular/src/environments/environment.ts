@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API: {
-    Version: '/0.1'
+    Version: '0.1'
   },
   identityService: {
     scope: 'megarender_api',

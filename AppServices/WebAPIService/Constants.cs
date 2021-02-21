@@ -1,4 +1,4 @@
-namespace WebAPIService
+namespace Megarender.WebAPIService
 {
     public static class Constants
     {

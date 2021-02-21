@@ -29,7 +29,6 @@ namespace Megarender.WebAPIService
         private JsonSerializerSettings ConfigureJSON() {
             var result = new JsonSerializerSettings () {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
-//                ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver (),
                 ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore                
@@ -65,7 +64,6 @@ namespace Megarender.WebAPIService
                     builder => builder.AllowAnyOrigin ()
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
-                    //.AllowCredentials()
                     .Build ());
             });
         }
@@ -92,7 +90,7 @@ namespace Megarender.WebAPIService
                 foreach ( var description in provider.ApiVersionDescriptions )
                 {
                     c.SwaggerEndpoint ($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-                    c.RoutePrefix = "swagger";                    
+                    c.RoutePrefix = string.Empty;                    
                 }
                 
             });

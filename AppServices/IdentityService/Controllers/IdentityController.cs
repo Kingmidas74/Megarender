@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using IdentityService.CQRS;
 using MediatR;
@@ -23,9 +25,9 @@ namespace IdentityService.Controllers
         /// <param name="createIdentityCommand"></param>
         /// <returns></returns>
         [HttpPost(nameof(CreateIdentity))]
-        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand) {
-            
-            return Created(string.Empty,await this.Mediator.Send(createIdentityCommand));
+        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken) 
+        {
+            return Created(string.Empty,await this.Mediator.Send(createIdentityCommand,cancellationToken));
         }
 
         /// <summary>
@@ -34,8 +36,9 @@ namespace IdentityService.Controllers
         /// <param name="confirmIdentityCommand"></param>
         /// <returns></returns>
         [HttpPost(nameof(ConfirmIdentity))]
-        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand) {
-            return Ok(await this.Mediator.Send(confirmIdentityCommand));
+        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken) 
+        {
+            return Ok(await this.Mediator.Send(confirmIdentityCommand, cancellationToken));
         }     
     }
 }

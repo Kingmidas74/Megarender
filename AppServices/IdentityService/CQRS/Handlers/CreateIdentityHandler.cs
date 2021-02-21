@@ -22,7 +22,7 @@ namespace IdentityService.CQRS
         {
             Guid result;
             var code = this.Utils.GenerateCode(Options.LowerBoundCode, Options.UpperBoundCode);
-            var identityExist = await IdentityDBContext.Identities.FirstOrDefaultAsync(u=>u.Email.Equals(request.Email) || u.Phone.Equals(request.Phone));            
+            var identityExist = await IdentityDBContext.Identities.FirstOrDefaultAsync(u=>u.Email.Equals(request.Email) || u.Phone.Equals(request.Phone), cancellationToken);            
             if(identityExist!=null)
             {                
                 identityExist.Code=code;                
@@ -40,11 +40,11 @@ namespace IdentityService.CQRS
                     Code = code
                 };
 
-                await IdentityDBContext.Identities.AddAsync(identity);
+                await IdentityDBContext.Identities.AddAsync(identity, cancellationToken);
 
                 result = identity.Id;
             }
-            await IdentityDBContext.SaveChangesAsync();
+            await IdentityDBContext.SaveChangesAsync(cancellationToken);
             return result;
         }
     }

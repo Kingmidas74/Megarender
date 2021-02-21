@@ -27,7 +27,7 @@ namespace IdentityService.CQRS
 
         public async Task<bool> IsExist(RemoveUserCommand query, CancellationToken cancellationToken)
         {
-            var user = await identityDBContext.Users.SingleAsync(u => u.Phone == query.Phone && u.Email==query.Email);
+            var user = await identityDBContext.Users.SingleAsync(u => u.Phone == query.Phone && u.Email==query.Email, cancellationToken);
             return user.Password == utils.HashedPassword(user.Phone, query.Password, user.Salt, options.Value.Pepper);
         }
     }

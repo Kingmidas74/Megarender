@@ -15,7 +15,7 @@ namespace IdentityService.CQRS
         }
         public async Task<User> Handle(FindUserByPhoneAndPasswordQuery request, CancellationToken cancellationToken)
         {
-            return await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone));
+            return await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone),cancellationToken);
         }
     }
 }

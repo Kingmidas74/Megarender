@@ -15,9 +15,9 @@ namespace IdentityService.CQRS
         }
         public async Task<Unit> Handle(RemoveUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone));
+            var user = await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone), cancellationToken);
             this.IdentityDBContext.Remove(user);
-            await this.IdentityDBContext.SaveChangesAsync();
+            await this.IdentityDBContext.SaveChangesAsync(cancellationToken);
             return new Unit();
         }
     }

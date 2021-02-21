@@ -23,13 +23,13 @@ namespace IdentityService.CQRS
         public async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
         {
             return await IdentityDBContext.Users
-                .AllAsync(l => l.Email != email);
+                .AllAsync(l => l.Email != email, cancellationToken);
         }
 
         public async Task<bool> BeUniquePhone(string phone, CancellationToken cancellationToken)
         {
             return await IdentityDBContext.Users
-                .AllAsync(l => l.Phone != phone);
+                .AllAsync(l => l.Phone != phone, cancellationToken);
         }
     }
 }

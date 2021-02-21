@@ -24,7 +24,7 @@ namespace IdentityService.CQRS
 
         public async Task<bool> IdentityExist(Guid Id, CancellationToken cancellationToken)
         {
-            return await IdentityDBContext.Identities.AnyAsync(x=>x.Id.Equals(Id));
+            return await IdentityDBContext.Identities.AnyAsync(x=>x.Id.Equals(Id), cancellationToken);
         }
 
         public bool IsWithin(string code)

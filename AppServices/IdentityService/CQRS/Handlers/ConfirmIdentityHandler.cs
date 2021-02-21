@@ -16,7 +16,7 @@ namespace IdentityService.CQRS
 
         public async Task<Guid> Handle(ConfirmIdentityCommand request, CancellationToken cancellationToken)
         {
-            var identity = await IdentityDBContext.Identities.SingleAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id));
+            var identity = await IdentityDBContext.Identities.SingleAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id), cancellationToken);
             
             await IdentityDBContext.Users.AddAsync(new User {
                 Id=identity.Id,
@@ -24,10 +24,10 @@ namespace IdentityService.CQRS
                 Password=identity.Password,
                 Phone=identity.Phone,
                 Salt=identity.Salt                        
-            });
+            }, cancellationToken);
 
             IdentityDBContext.Identities.Remove(identity);
-            await IdentityDBContext.SaveChangesAsync();
+            await IdentityDBContext.SaveChangesAsync(cancellationToken);
             return request.Id;            
         }
     }

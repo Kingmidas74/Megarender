@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using IdentityService.CQRS;
 using MediatR;
@@ -32,8 +33,8 @@ namespace IdentityService.Controllers
         /// <param name="removeUserCommand"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> Remove([FromBody]RemoveUserCommand removeUserCommand) {
-            await this.Mediator.Send(removeUserCommand);
+        public async Task<IActionResult> Remove([FromBody]RemoveUserCommand removeUserCommand, CancellationToken cancellationToken) {
+            await this.Mediator.Send(removeUserCommand, cancellationToken);
             return Ok();
         }     
     }

@@ -25,6 +25,7 @@ services:
           SeqURL: "http://seq:5341"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
+          AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
         depends_on:    
           -  identity_service  
           # -  rabbitmq  

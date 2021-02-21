@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Megarender.MemoryStorage
+namespace Megarender.DataStorage
 {
     public class CommandStore : ICommandStore
     {

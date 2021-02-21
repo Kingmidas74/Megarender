@@ -20,13 +20,13 @@ namespace Megarender.BusinessServices.Modules.UserModule
             DBContext=dbContext;
             Mapper = mapper;
         }
-        public async Task<IEnumerable<User>> Handle(GetUsersByOrganizationQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<User>> Handle(GetUsersByOrganizationQuery request, CancellationToken cancellationToken = default)
         {
             return await DBContext.Users.Where(s=>s.UserOrganizations
                                             .Select(x=>x.Organization)
                                             .Select(x=>x.Id)
                                             .Contains(request.OrganizationId))
-                                        .ToListAsync();
+                                        .ToListAsync(cancellationToken);
         }
     }
 }

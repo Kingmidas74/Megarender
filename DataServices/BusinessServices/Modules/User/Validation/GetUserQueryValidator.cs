@@ -18,7 +18,7 @@ namespace Megarender.BusinessServices.Modules.UserModule
             RuleFor(x=>x.Id).NotEmpty().MustAsync(isExist);                            
         }
 
-        private async Task<bool> isExist(Guid userId, CancellationToken cancellationToken)
+        private async Task<bool> isExist(Guid userId, CancellationToken cancellationToken = default)
         {
             return await DBContext.Users.AnyAsync(
                     new FindByIdSpecification<User>(userId).IsSatisfiedByExpression,

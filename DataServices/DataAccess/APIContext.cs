@@ -33,9 +33,9 @@ namespace Megarender.DataAccess {
             return base.SaveChanges ();
         }
 
-        public async Task<int> SaveChangesAsync () {
+        public async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
             AddAuitInfo ();
-            return await base.SaveChangesAsync ();
+            return await base.SaveChangesAsync (cancellationToken);
         }
 
         private void AddAuitInfo () {

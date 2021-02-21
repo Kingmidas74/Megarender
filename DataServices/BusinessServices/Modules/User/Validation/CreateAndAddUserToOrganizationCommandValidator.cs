@@ -21,9 +21,9 @@ namespace Megarender.BusinessServices.Modules.UserModule
             RuleFor(x=>x.OrganizationId).NotEmpty().MustAsync(OrganizationExist);          
         }
 
-        private async Task<bool> OrganizationExist(Guid organizationId, CancellationToken cancellationToken)
+        private async Task<bool> OrganizationExist(Guid organizationId, CancellationToken cancellationToken = default)
         {
-            return (await DBContext.Organizations.AnyAsync(x=>x.Id.Equals(organizationId)));
+            return (await DBContext.Organizations.AnyAsync(x=>x.Id.Equals(organizationId), cancellationToken));
         }
     }
 }

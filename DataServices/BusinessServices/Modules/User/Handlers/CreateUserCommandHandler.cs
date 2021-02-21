@@ -16,10 +16,10 @@ namespace Megarender.BusinessServices.Modules.UserModule
             DBContext=dbContext;
             Mapper = mapper;
         }
-        public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken = default)
         {
-            var user = (await this.DBContext.Users.AddAsync(Mapper.Map<User>(request),cancellationToken)).Entity;
-            await this.DBContext.SaveChangesAsync();
+            var user = (await this.DBContext.Users.AddAsync(Mapper.Map<User>(request), cancellationToken)).Entity;
+            await this.DBContext.SaveChangesAsync(cancellationToken);
             return user;
         }
     }

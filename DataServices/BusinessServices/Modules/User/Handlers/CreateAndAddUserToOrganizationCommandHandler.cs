@@ -20,18 +20,18 @@ namespace Megarender.BusinessServices.Modules.UserModule
             Mapper = mapper;
             DBContext = dBContext;
         }
-        public async Task<User> Handle(CreateAndAddUserToOrganizationCommand request, CancellationToken cancellationToken)
+        public async Task<User> Handle(CreateAndAddUserToOrganizationCommand request, CancellationToken cancellationToken = default)
         {   
             var user = (await this.DBContext.Users.AddAsync(Mapper.Map<User>(request),cancellationToken)).Entity;
             var organization = await this.DBContext.Organizations.SingleAsync(
-                    new FindByIdSpecification<Organization>(request.OrganizationId).IsSatisfiedByExpression);         
+                    new FindByIdSpecification<Organization>(request.OrganizationId).IsSatisfiedByExpression, cancellationToken);         
             organization.OrganizationUsers.Add(
                 new UserOrganization {
                     User = user,
                     Organization = organization
                 }
             );
-            await this.DBContext.SaveChangesAsync();
+            await this.DBContext.SaveChangesAsync(cancellationToken);
             return user;
         }
     }

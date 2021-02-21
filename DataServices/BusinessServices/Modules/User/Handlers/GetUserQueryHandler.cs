@@ -18,7 +18,7 @@ namespace Megarender.BusinessServices.Modules.UserModule
             DBContext=dbContext;
             Mapper = mapper;
         }
-        public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken = default)
         {
             return await DBContext.Users.SingleAsync(
                     new FindByIdSpecification<User>(request.Id).IsSatisfiedByExpression,

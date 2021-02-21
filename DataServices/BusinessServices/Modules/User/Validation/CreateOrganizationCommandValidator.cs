@@ -17,9 +17,9 @@ namespace Megarender.BusinessServices.Modules.UserModule
                                             .MustAsync(isUnique);                            
         }
 
-        private async Task<bool> isUnique(string organizationIdentifier, CancellationToken cancellationToken)
+        private async Task<bool> isUnique(string organizationIdentifier, CancellationToken cancellationToken = default)
         {
-            return !(await DBContext.Organizations.AnyAsync(x=>x.UniqueIdentifier.Equals(organizationIdentifier)));
+            return !(await DBContext.Organizations.AnyAsync(x=>x.UniqueIdentifier.Equals(organizationIdentifier), cancellationToken));
         }
     }
 }

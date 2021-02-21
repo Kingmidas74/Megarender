@@ -7,6 +7,7 @@ using Megarender.BusinessServices.Modules.UserModule;
 using Megarender.Domain;
 using System;
 using WebAPIService;
+using System.Threading;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
@@ -27,8 +28,8 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get() {
-            return Ok(await mediator.Send(new GetOrganizationsQuery()));
+        public async Task<IActionResult> Get(CancellationToken cancellationToken=default(CancellationToken)) {
+            return Ok(await mediator.Send(new GetOrganizationsQuery(), cancellationToken));
         }
 
         /// <summary>
@@ -36,8 +37,8 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById(Guid Id) {
-            return Ok(await mediator.Send(new GetOrganizationQuery{Id=Id}));
+        public async Task<IActionResult> GetById(Guid Id, CancellationToken cancellationToken=default(CancellationToken)) {
+            return Ok(await mediator.Send(new GetOrganizationQuery{Id=Id}, cancellationToken));
         }
 
         /// <summary>
@@ -46,8 +47,8 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="createOrganizationCommand"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand) {
-            var result = await mediator.Send(createOrganizationCommand);
+        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand, CancellationToken cancellationToken=default(CancellationToken)) {
+            var result = await mediator.Send(createOrganizationCommand, cancellationToken);
             return Created($"{nameof(Organization)}/{result.Id}",result);
         }
     }

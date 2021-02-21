@@ -6,6 +6,7 @@ using MediatR;
 using Megarender.BusinessServices.Modules.UserModule;
 using System;
 using WebAPIService;
+using System.Threading;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
@@ -26,8 +27,8 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get(GetUsersByOrganizationQuery getUsersByOrganization) {
-            return Ok(await mediator.Send(getUsersByOrganization));
+        public async Task<IActionResult> Get(GetUsersByOrganizationQuery getUsersByOrganization, CancellationToken cancellationToken=default(CancellationToken)) {
+            return Ok(await mediator.Send(getUsersByOrganization, cancellationToken));
         }
 
         /// <summary>
@@ -36,8 +37,8 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        public async Task<IActionResult> CetById(Guid Id) {
-            return Ok(await mediator.Send(new GetUserQuery{Id=Id}));
+        public async Task<IActionResult> CetById(Guid Id, CancellationToken cancellationToken=default(CancellationToken)) {
+            return Ok(await mediator.Send(new GetUserQuery{Id=Id}, cancellationToken));
         }
 
         /// <summary>
@@ -46,9 +47,9 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="createUserCommand"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody]CreateUserCommand createUserCommand)
+        public async Task<IActionResult> Create([FromBody]CreateUserCommand createUserCommand, CancellationToken cancellationToken=default(CancellationToken))
         {
-            var result = await mediator.Send(createUserCommand);
+            var result = await mediator.Send(createUserCommand, cancellationToken);
             return Created($"{nameof(User)}/{result.Id}",result); 
         }
 
@@ -58,9 +59,9 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="createAndAddUserToOrganizationCommand"></param>
         /// <returns></returns>
         [HttpPost(nameof(CreateAndAddToOrganization))]
-        public async Task<IActionResult> CreateAndAddToOrganization([FromBody]CreateAndAddUserToOrganizationCommand createAndAddUserToOrganizationCommand)
+        public async Task<IActionResult> CreateAndAddToOrganization([FromBody]CreateAndAddUserToOrganizationCommand createAndAddUserToOrganizationCommand, CancellationToken cancellationToken=default(CancellationToken))
         {
-            var result = await mediator.Send(createAndAddUserToOrganizationCommand);
+            var result = await mediator.Send(createAndAddUserToOrganizationCommand, cancellationToken);
             return Created($"{nameof(User)}/{result.Id}",result); 
         }
     }

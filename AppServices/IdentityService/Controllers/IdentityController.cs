@@ -25,7 +25,7 @@ namespace IdentityService.Controllers
         /// <param name="createIdentityCommand"></param>
         /// <returns></returns>
         [HttpPost(nameof(CreateIdentity))]
-        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken) 
+        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken = default) 
         {
             return Created(string.Empty,await this.Mediator.Send(createIdentityCommand,cancellationToken));
         }
@@ -36,7 +36,7 @@ namespace IdentityService.Controllers
         /// <param name="confirmIdentityCommand"></param>
         /// <returns></returns>
         [HttpPost(nameof(ConfirmIdentity))]
-        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken) 
+        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken = default) 
         {
             return Ok(await this.Mediator.Send(confirmIdentityCommand, cancellationToken));
         }     

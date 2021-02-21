@@ -9,10 +9,10 @@ namespace Megarender.DataStorage
 {
     public interface IFileStorage
     {
-        public Task<BlobContainerClient> CreateDirectoryAsync(string directoryName, CancellationToken cancellationToken = default(CancellationToken));
+        public Task<BlobContainerClient> CreateDirectoryAsync(string directoryName, CancellationToken cancellationToken = default);
 
-        public Task<BlobDownloadInfo> GetFileAsync(string directory, string filename, CancellationToken cancellationToken = default(CancellationToken));
+        public Task<BlobDownloadInfo> GetFileAsync(string directory, string filename, CancellationToken cancellationToken = default);
 
-        public Task<BlobContentInfo> UploadFileAsync(string directory, string filename, byte[] content, CancellationToken cancellationToken = default(CancellationToken));
+        public Task<BlobContentInfo> UploadFileAsync(string directory, string filename, byte[] content, CancellationToken cancellationToken = default);
     }
 }

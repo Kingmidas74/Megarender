@@ -28,7 +28,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get(CancellationToken cancellationToken=default(CancellationToken)) {
+        public async Task<IActionResult> Get(CancellationToken cancellationToken=default) {
             return Ok(await mediator.Send(new GetOrganizationsQuery(), cancellationToken));
         }
 
@@ -37,7 +37,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById(Guid Id, CancellationToken cancellationToken=default(CancellationToken)) {
+        public async Task<IActionResult> GetById(Guid Id, CancellationToken cancellationToken=default) {
             return Ok(await mediator.Send(new GetOrganizationQuery{Id=Id}, cancellationToken));
         }
 
@@ -47,7 +47,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="createOrganizationCommand"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand, CancellationToken cancellationToken=default(CancellationToken)) {
+        public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand, CancellationToken cancellationToken=default) {
             var result = await mediator.Send(createOrganizationCommand, cancellationToken);
             return Created($"{nameof(Organization)}/{result.Id}",result);
         }

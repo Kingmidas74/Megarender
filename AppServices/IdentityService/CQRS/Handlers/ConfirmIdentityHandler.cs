@@ -14,7 +14,7 @@ namespace IdentityService.CQRS
             this.IdentityDBContext = identityDBContext;
         }
 
-        public async Task<Guid> Handle(ConfirmIdentityCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(ConfirmIdentityCommand request, CancellationToken cancellationToken = default)
         {
             var identity = await IdentityDBContext.Identities.SingleAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id), cancellationToken);
             

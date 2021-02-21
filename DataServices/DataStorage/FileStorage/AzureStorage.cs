@@ -15,19 +15,19 @@ namespace Megarender.DataStorage
             _blobServiceClient = blobServiceClient;
         }
 
-        public async Task<BlobContainerClient> CreateDirectoryAsync(string directoryName, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<BlobContainerClient> CreateDirectoryAsync(string directoryName, CancellationToken cancellationToken = default)
         {
             return await _blobServiceClient.CreateBlobContainerAsync(directoryName, Azure.Storage.Blobs.Models.PublicAccessType.BlobContainer);
         }
 
-        public async Task<BlobDownloadInfo> GetFileAsync(string directory, string filename, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<BlobDownloadInfo> GetFileAsync(string directory, string filename, CancellationToken cancellationToken = default)
         {
             var container = _blobServiceClient.GetBlobContainerClient(directory);
             var blob = container.GetBlobClient(filename);
             return (await blob.DownloadAsync()).Value;
         }
 
-        public async Task<BlobContentInfo> UploadFileAsync(string directory, string filename, byte[] content, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<BlobContentInfo> UploadFileAsync(string directory, string filename, byte[] content, CancellationToken cancellationToken = default)
         {
             var container = _blobServiceClient.GetBlobContainerClient(directory);
             var blob = await container.UploadBlobAsync(filename, new MemoryStream(content), cancellationToken);

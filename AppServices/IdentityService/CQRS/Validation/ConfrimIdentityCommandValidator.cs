@@ -22,7 +22,7 @@ namespace IdentityService.CQRS
             RuleFor(x=>x.Code).NotEmpty().Must(IsWithin);            
         }
 
-        public async Task<bool> IdentityExist(Guid Id, CancellationToken cancellationToken)
+        public async Task<bool> IdentityExist(Guid Id, CancellationToken cancellationToken = default)
         {
             return await IdentityDBContext.Identities.AnyAsync(x=>x.Id.Equals(Id), cancellationToken);
         }

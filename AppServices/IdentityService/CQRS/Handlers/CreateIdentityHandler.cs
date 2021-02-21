@@ -18,7 +18,7 @@ namespace IdentityService.CQRS
             this.Utils = utils;
             this.Options = options?.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
         }
-        public async Task<Guid> Handle(CreateIdentityCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateIdentityCommand request, CancellationToken cancellationToken = default)
         {
             Guid result;
             var code = this.Utils.GenerateCode(Options.LowerBoundCode, Options.UpperBoundCode);

@@ -33,7 +33,7 @@ namespace IdentityService.Controllers
         /// <param name="removeUserCommand"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<IActionResult> Remove([FromBody]RemoveUserCommand removeUserCommand, CancellationToken cancellationToken) {
+        public async Task<IActionResult> Remove([FromBody]RemoveUserCommand removeUserCommand, CancellationToken cancellationToken = default) {
             await this.Mediator.Send(removeUserCommand, cancellationToken);
             return Ok();
         }     

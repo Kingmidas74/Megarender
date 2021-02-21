@@ -13,7 +13,7 @@ namespace IdentityService.CQRS
         {
             this.IdentityDBContext = identityDBContext;
         }
-        public async Task<User> Handle(FindUserByPhoneAndPasswordQuery request, CancellationToken cancellationToken)
+        public async Task<User> Handle(FindUserByPhoneAndPasswordQuery request, CancellationToken cancellationToken = default)
         {
             return await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone),cancellationToken);
         }

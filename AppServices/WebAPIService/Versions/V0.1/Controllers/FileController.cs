@@ -31,7 +31,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet(nameof(GetFile))]
-        public async Task<IActionResult> GetFile([FromRoute]string filename, CancellationToken cancellationToken=default(CancellationToken)) {
+        public async Task<IActionResult> GetFile([FromRoute]string filename, CancellationToken cancellationToken=default) {
             var userId = User.ExtractIdentifier ();
             return Ok(await fileStorage.GetFileAsync(userId.ToString(),filename, cancellationToken));
         }
@@ -42,7 +42,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpPost(nameof(CreateDirectory))]
-        public async Task<IActionResult> CreateDirectory(CancellationToken cancellationToken=default(CancellationToken)) {
+        public async Task<IActionResult> CreateDirectory(CancellationToken cancellationToken=default) {
             return Ok(await fileStorage.CreateDirectoryAsync(User.ExtractIdentifier().ToString(), cancellationToken));
         }
     }

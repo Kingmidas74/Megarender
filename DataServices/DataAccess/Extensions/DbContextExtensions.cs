@@ -51,7 +51,7 @@ namespace Megarender.DataAccess.Extensions
                     await operation();
                     break;
                 }
-                catch (TException ex)
+                catch (TException)
                 {
                     if (attempts == times)
                         throw;

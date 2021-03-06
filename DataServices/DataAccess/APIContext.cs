@@ -33,7 +33,7 @@ namespace Megarender.DataAccess {
             return base.SaveChanges ();
         }
 
-        public async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
+        public override async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
             AddAuitInfo ();
             return await base.SaveChangesAsync (cancellationToken);
         }

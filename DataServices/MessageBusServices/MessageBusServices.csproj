@@ -3,7 +3,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Domain\Domain.csproj"/>
+    <ProjectReference Include="..\..\Megarender.Domain\Megarender.Domain.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0"/>

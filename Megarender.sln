@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServices", "DataSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataServices\DataAccess\DataAccess.csproj", "{A253AB65-72ED-418F-95E2-FAD2CF9582D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{78709A52-8B1D-4F9B-A068-76880E814F49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Domain", "Megarender.Domain\Megarender.Domain.csproj", "{78709A52-8B1D-4F9B-A068-76880E814F49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusServices", "DataServices\MessageBusServices\MessageBusServices.csproj", "{04B4A81C-1224-45FC-A80A-A17DF8026515}"
 EndProject

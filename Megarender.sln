@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppServices", "AppServices", "{644AC576-52EB-4A77-B7C5-6EEF492D1737}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.AppServices", "Megarender.AppServices", "{644AC576-52EB-4A77-B7C5-6EEF492D1737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIService", "AppServices\WebAPIService\WebAPIService.csproj", "{383C0F29-5A86-41C0-A53C-751C8F5F8718}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.WebAPIService", "Megarender.AppServices\Megarender.WebAPIService\Megarender.WebAPIService.csproj", "{383C0F29-5A86-41C0-A53C-751C8F5F8718}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "AppServices\IdentityService\IdentityService.csproj", "{875E0EEA-CD0A-40EF-A56B-5B32941E775D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.IdentityService", "Megarender.AppServices\Megarender.IdentityService\Megarender.IdentityService.csproj", "{875E0EEA-CD0A-40EF-A56B-5B32941E775D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerServices", "WorkerServices", "{25F9B66C-3B09-430D-B74A-3CE0F848CE43}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.WorkerServices", "Megarender.WorkerServices", "{25F9B66C-3B09-430D-B74A-3CE0F848CE43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationWorkerService", "AppServices\WorkerServices\NotificationWorkerService\NotificationWorkerService.csproj", "{2B47EB39-5A25-4B3A-AF21-C3A8B516AAAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.NotificationWorkerService", "Megarender.AppServices\Megarender.WorkerServices\Megarender.NotificationWorkerService\Megarender.NotificationWorkerService.csproj", "{2B47EB39-5A25-4B3A-AF21-C3A8B516AAAB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.DataServices", "Megarender.DataServices", "{0821D538-9C13-4CB5-93EB-434789381FA0}"
 EndProject
@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataAccess", "Me
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Domain", "Megarender.Domain\Megarender.Domain.csproj", "{78709A52-8B1D-4F9B-A068-76880E814F49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusServices", "Megarender.DataServices\Megarender.MessageBusServices\Megarender.MessageBusServices.csproj", "{04B4A81C-1224-45FC-A80A-A17DF8026515}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.MessageBusServices", "Megarender.DataServices\Megarender.MessageBusServices\Megarender.MessageBusServices.csproj", "{04B4A81C-1224-45FC-A80A-A17DF8026515}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataStorage", "Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj", "{C56F8595-2193-4A35-A61C-63CCD2826818}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\Megarender.BusinessServices\Megarender.BusinessServices.IntegrationTests\Megarender.BusinessServices.IntegrationTests.csproj", "{788D1D6F-F08C-4755-9DE8-492C21C9816C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\Megarender.BusinessServices\Megarender.BusinessServices.UnitTests\Megarender.BusinessServices.UnitTests.csproj", "{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.StorageService", "Megarender.AppServices\Megarender.StorageService\Megarender.StorageService.csproj", "{D2AFBED4-B5FA-490F-A313-111D61E008ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -166,6 +168,18 @@ Global
 		{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}.Release|x64.Build.0 = Release|Any CPU
 		{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}.Release|x86.ActiveCfg = Release|Any CPU
 		{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}.Release|x86.Build.0 = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Debug|x86.Build.0 = Debug|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|x64.Build.0 = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|x86.ActiveCfg = Release|Any CPU
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{383C0F29-5A86-41C0-A53C-751C8F5F8718} = {644AC576-52EB-4A77-B7C5-6EEF492D1737}
@@ -179,5 +193,6 @@ Global
 		{C84A7F45-CC6E-4FF1-B9DA-1E209F95DD6C} = {DAADEF4D-7A6C-4B2A-9487-DA5F1EE6D19B}
 		{788D1D6F-F08C-4755-9DE8-492C21C9816C} = {C84A7F45-CC6E-4FF1-B9DA-1E209F95DD6C}
 		{37FE5FA4-28BE-4112-AF1F-B69EAF87808A} = {C84A7F45-CC6E-4FF1-B9DA-1E209F95DD6C}
+		{D2AFBED4-B5FA-490F-A313-111D61E008ED} = {644AC576-52EB-4A77-B7C5-6EEF492D1737}
 	EndGlobalSection
 EndGlobal

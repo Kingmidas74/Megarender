@@ -15,7 +15,7 @@
     <PackageReference Include="Respawn.Postgres" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AppServices\WebAPIService\WebAPIService.csproj" />
+    <ProjectReference Include="..\..\..\Megarender.AppServices\Megarender.WebAPIService\Megarender.WebAPIService.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.json">

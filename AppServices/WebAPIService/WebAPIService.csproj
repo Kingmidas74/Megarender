@@ -37,7 +37,7 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Megarender.DataServices\BusinessServices\BusinessServices.csproj" />
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.BusinessServices\Megarender.BusinessServices.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.MessageBusServices\Megarender.MessageBusServices.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj" />

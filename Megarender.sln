@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationWorkerService",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.DataServices", "Megarender.DataServices", "{0821D538-9C13-4CB5-93EB-434789381FA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServices", "Megarender.DataServices\BusinessServices\BusinessServices.csproj", "{47CDB452-8867-4A07-B6ED-598FA032A3F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.BusinessServices", "Megarender.DataServices\Megarender.BusinessServices\Megarender.BusinessServices.csproj", "{47CDB452-8867-4A07-B6ED-598FA032A3F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataAccess", "Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj", "{A253AB65-72ED-418F-95E2-FAD2CF9582D3}"
 EndProject
@@ -27,11 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataStorage", "M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAADEF4D-7A6C-4B2A-9487-DA5F1EE6D19B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessServices", "BusinessServices", "{C84A7F45-CC6E-4FF1-B9DA-1E209F95DD6C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.BusinessServices", "Megarender.BusinessServices", "{C84A7F45-CC6E-4FF1-B9DA-1E209F95DD6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\BusinessServices\IntegrationTests\IntegrationTests.csproj", "{788D1D6F-F08C-4755-9DE8-492C21C9816C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\Megarender.BusinessServices\Megarender.BusinessServices.IntegrationTests\Megarender.BusinessServices.IntegrationTests.csproj", "{788D1D6F-F08C-4755-9DE8-492C21C9816C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\BusinessServices\UnitTests\UnitTests.csproj", "{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\Megarender.BusinessServices\Megarender.BusinessServices.UnitTests\Megarender.BusinessServices.UnitTests.csproj", "{37FE5FA4-28BE-4112-AF1F-B69EAF87808A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

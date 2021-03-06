@@ -14,7 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
-    <ProjectReference Include="..\..\Megarender.Domain\Megarender.Domain.csproj" />
     <ProjectReference Include="..\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
 </Project>

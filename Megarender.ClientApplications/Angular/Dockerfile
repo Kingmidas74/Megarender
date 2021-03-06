@@ -11,13 +11,13 @@ RUN apk add --update \
 && rm -rf /var/cache/apk/*
 
 WORKDIR /usr/src/app
-COPY ./ClientApplications/Angular/package.json ./
+COPY ./Megarender.ClientApplications/Angular/package.json ./
 RUN npm install
-COPY ./ClientApplications/Angular .
+COPY ./Megarender.ClientApplications/Angular .
 RUN npm run build
 
 FROM nginx:1.17.10-alpine
-COPY ./ClientApplications/Angular/nginx/default.conf /etc/nginx/conf.d/
+COPY ./Megarender.ClientApplications/Angular/nginx/default.conf /etc/nginx/conf.d/
 COPY --from=build /usr/src/app/dist/TestApp /usr/share/nginx/html
 
 CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/env.js | tee /usr/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]

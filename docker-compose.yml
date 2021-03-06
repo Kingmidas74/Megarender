@@ -177,7 +177,7 @@ services:
       image: localhost:5000/angular:latest
       build:
         context: .
-        dockerfile: ./ClientApplications/Angular/Dockerfile        
+        dockerfile: ./Megarender.ClientApplications/Angular/Dockerfile        
       container_name: angular
       restart: unless-stopped
       ports:

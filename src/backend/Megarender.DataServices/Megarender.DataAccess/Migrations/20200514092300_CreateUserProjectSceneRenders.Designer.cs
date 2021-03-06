@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace DataAccess.Migrations
+namespace Megarender.DataAccess.Migrations
 {
     [DbContext(typeof(APIContext))]
     [Migration("20200514092300_CreateUserProjectSceneRenders")]

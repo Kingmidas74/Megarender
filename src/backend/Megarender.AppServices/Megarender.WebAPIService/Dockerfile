@@ -8,7 +8,7 @@ WORKDIR /source
 COPY . .
 RUN dotnet restore
 
-WORKDIR /source/Megarender.AppServices/Megarender.WebAPIService
+WORKDIR /source/src/backend/Megarender.AppServices/Megarender.WebAPIService
 RUN dotnet publish -c debug -o /app --no-restore
 
 # final stage/image

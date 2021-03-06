@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataAccess.Migrations
+namespace Megarender.DataAccess.Migrations
 {
     public partial class AddPaymentsStructure : Migration
     {

@@ -15,14 +15,14 @@
     <PackageReference Include="Respawn.Postgres" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\backend\Megarender.AppServices\Megarender.WebAPIService\Megarender.WebAPIService.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\backend\Megarender.AppServices\Megarender.WebAPIService\Megarender.WebAPIService.csproj" />
   </ItemGroup>
 </Project>

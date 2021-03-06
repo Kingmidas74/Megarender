@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace DataAccess.Migrations
+namespace Megarender.DataAccess.Migrations
 {
     [DbContext(typeof(APIContext))]
     partial class APIContextModelSnapshot : ModelSnapshot

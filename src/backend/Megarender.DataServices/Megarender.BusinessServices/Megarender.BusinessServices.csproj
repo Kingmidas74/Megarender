@@ -3,10 +3,6 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
-    <ProjectReference Include="..\Megarender.DataStorage\Megarender.DataStorage.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
     <PackageReference Include="FluentLogger" Version="3.0.0.30">
@@ -15,5 +11,10 @@
     </PackageReference>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Megarender.Domain\Megarender.Domain.csproj" />
+    <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
+    <ProjectReference Include="..\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
 </Project>

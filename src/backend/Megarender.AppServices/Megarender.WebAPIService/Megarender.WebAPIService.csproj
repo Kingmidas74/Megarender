@@ -37,17 +37,17 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.8.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.BusinessServices\Megarender.BusinessServices.csproj" />
-    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj" />
-    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.MessageBusServices\Megarender.MessageBusServices.csproj" />
-    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Certes\7d8c17b3-17e8-4fd0-8d83-89d9d02123cf.pfx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Versions\Any\**\*.cs" Condition="'$(ConfigurationName)' != 'Debug'" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.BusinessServices\Megarender.BusinessServices.csproj" />
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.MessageBusServices\Megarender.MessageBusServices.csproj" />
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
 </Project>

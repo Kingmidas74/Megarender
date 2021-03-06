@@ -5,7 +5,7 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY .src/backend/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService .
+COPY ./src/backend/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService .
 RUN dotnet restore
 
 RUN dotnet publish -c debug -o /app --no-restore

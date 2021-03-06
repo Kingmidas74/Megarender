@@ -13,17 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkerServices", "WorkerSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationWorkerService", "AppServices\WorkerServices\NotificationWorkerService\NotificationWorkerService.csproj", "{2B47EB39-5A25-4B3A-AF21-C3A8B516AAAB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataServices", "DataServices", "{0821D538-9C13-4CB5-93EB-434789381FA0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.DataServices", "Megarender.DataServices", "{0821D538-9C13-4CB5-93EB-434789381FA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServices", "DataServices\BusinessServices\BusinessServices.csproj", "{47CDB452-8867-4A07-B6ED-598FA032A3F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessServices", "Megarender.DataServices\BusinessServices\BusinessServices.csproj", "{47CDB452-8867-4A07-B6ED-598FA032A3F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataServices\DataAccess\DataAccess.csproj", "{A253AB65-72ED-418F-95E2-FAD2CF9582D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataAccess", "Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj", "{A253AB65-72ED-418F-95E2-FAD2CF9582D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Domain", "Megarender.Domain\Megarender.Domain.csproj", "{78709A52-8B1D-4F9B-A068-76880E814F49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusServices", "DataServices\MessageBusServices\MessageBusServices.csproj", "{04B4A81C-1224-45FC-A80A-A17DF8026515}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusServices", "Megarender.DataServices\MessageBusServices\MessageBusServices.csproj", "{04B4A81C-1224-45FC-A80A-A17DF8026515}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorage", "DataServices\DataStorage\DataStorage.csproj", "{C56F8595-2193-4A35-A61C-63CCD2826818}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStorage", "Megarender.DataServices\DataStorage\DataStorage.csproj", "{C56F8595-2193-4A35-A61C-63CCD2826818}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DAADEF4D-7A6C-4B2A-9487-DA5F1EE6D19B}"
 EndProject

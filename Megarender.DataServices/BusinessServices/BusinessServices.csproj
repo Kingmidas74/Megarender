@@ -3,7 +3,7 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
     <ProjectReference Include="..\DataStorage\DataStorage.csproj" />
   </ItemGroup>
   <ItemGroup>

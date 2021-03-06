@@ -5,19 +5,14 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY ./Megarender.AppServices/Megarender.StorageService .
+COPY .src/backend/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService .
 RUN dotnet restore
 
 RUN dotnet publish -c debug -o /app --no-restore
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
-RUN mkdir ~/secrets
-COPY ./secrets ~/secrets
-
-EXPOSE 80
-
-ENTRYPOINT ["dotnet", "Megarender.StorageService.dll"]
+ENTRYPOINT ["dotnet", "Megarender.NotificationWorkerService.dll"]

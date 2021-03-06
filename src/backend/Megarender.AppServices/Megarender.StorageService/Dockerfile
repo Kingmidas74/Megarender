@@ -5,7 +5,7 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY ./Megarender.AppServices/Megarender.IdentityService .
+COPY ./src/backend/Megarender.AppServices/Megarender.StorageService .
 RUN dotnet restore
 
 RUN dotnet publish -c debug -o /app --no-restore
@@ -20,4 +20,4 @@ COPY ./secrets ~/secrets
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "Megarender.IdentityService.dll"]
+ENTRYPOINT ["dotnet", "Megarender.StorageService.dll"]

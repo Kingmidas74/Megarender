@@ -5,14 +5,19 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY ./AppServices/WorkerServices/NotificationWorkerService .
+COPY ./src/backend/Megarender.AppServices/Megarender.IdentityService .
 RUN dotnet restore
 
 RUN dotnet publish -c debug -o /app --no-restore
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/runtime:5.0-alpine
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 
-ENTRYPOINT ["dotnet", "NotificationWorkerService.dll"]
+RUN mkdir ~/secrets
+COPY ./secrets ~/secrets
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "Megarender.IdentityService.dll"]

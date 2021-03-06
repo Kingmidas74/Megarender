@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
-    <ProjectReference Include="..\DataStorage\DataStorage.csproj" />
+    <ProjectReference Include="..\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />

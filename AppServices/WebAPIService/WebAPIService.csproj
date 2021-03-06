@@ -40,7 +40,7 @@
     <ProjectReference Include="..\..\Megarender.DataServices\BusinessServices\BusinessServices.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\MessageBusServices\MessageBusServices.csproj" />
-    <ProjectReference Include="..\..\Megarender.DataServices\DataStorage\DataStorage.csproj" />
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Certes\7d8c17b3-17e8-4fd0-8d83-89d9d02123cf.pfx">

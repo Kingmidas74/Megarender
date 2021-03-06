@@ -13,8 +13,8 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Megarender.Domain\Megarender.Domain.csproj" />
     <ProjectReference Include="..\Megarender.DataAccess\Megarender.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Megarender.Domain\Megarender.Domain.csproj" />
     <ProjectReference Include="..\Megarender.DataStorage\Megarender.DataStorage.csproj" />
   </ItemGroup>
 </Project>

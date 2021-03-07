@@ -5,7 +5,7 @@ services:
         image: localhost:5000/webapi-service:latest
         build:
           context: .
-          dockerfile: ./src/backend/Megarender.AppServices/Megarender.WebAPIService/Dockerfile        
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/Dockerfile        
         container_name: webapi_service
         restart: unless-stopped
         expose:
@@ -35,7 +35,7 @@ services:
         image: localhost:5000/identity-service:latest
         build:
           context: .
-          dockerfile: ./src/backend/Megarender.AppServices/Megarender.IdentityService/Dockerfile        
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/Dockerfile        
         container_name: identity_service
         restart: unless-stopped
         expose:
@@ -55,7 +55,7 @@ services:
         image: localhost:5000/storage-service:latest
         build:
           context: .
-          dockerfile: ./src/backend/Megarender.AppServices/Megarender.StorageService/Dockerfile        
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/Dockerfile        
         container_name: storage_service
         restart: unless-stopped
         expose:
@@ -125,7 +125,7 @@ services:
     # notification_worker:
     #     build:
     #       context: .
-    #       dockerfile: ./src/backend/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
+    #       dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
     #     container_name: notification_worker
     #     restart: unless-stopped
     #     environment: 
@@ -177,7 +177,7 @@ services:
       image: localhost:5000/angular:latest
       build:
         context: .
-        dockerfile: ./src/clients/angular/Dockerfile        
+        dockerfile: ./clients/angular/Dockerfile        
       container_name: angular
       restart: unless-stopped
       ports:
@@ -195,7 +195,7 @@ services:
     webapi_nginx:
       build: 
         context: .
-        dockerfile: ./src/backend/Megarender.AppServices/Megarender.WebAPIService/nginx/Dockerfile
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/nginx/Dockerfile
       container_name: webapi_nginx
       restart: unless-stopped
       ports:
@@ -207,7 +207,7 @@ services:
     identity_nginx:
       build: 
         context: .
-        dockerfile: ./src/backend/Megarender.AppServices/Megarender.IdentityService/nginx/Dockerfile
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/nginx/Dockerfile
       container_name: identity_nginx
       restart: unless-stopped
       ports:
@@ -218,7 +218,7 @@ services:
     storage_nginx:
       build: 
         context: .
-        dockerfile: ./src/backend/Megarender.AppServices/Megarender.StorageService/nginx/Dockerfile
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/nginx/Dockerfile
       container_name: storage_nginx
       restart: unless-stopped
       ports:

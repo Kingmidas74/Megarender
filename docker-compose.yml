@@ -225,6 +225,20 @@ services:
         - 5004:8989
       depends_on: 
         - storage_service
+
+    # reverse_proxy:
+    #   build: 
+    #     context: .
+    #     dockerfile: ./third-party-images/reverse-proxy/Dockerfile
+    #   container_name: reverse_proxy
+    #   restart: unless-stopped
+    #   ports:
+    #     - 8000:8989
+    #   depends_on: 
+    #     - identity_nginx
+    #     - webapi_nginx
+    #     - storage_nginx
+    #     - angular
       
   
 volumes: 

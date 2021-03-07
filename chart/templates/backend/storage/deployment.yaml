@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Values.backend.storage.label }}-deployment 
+  labels:
+    app: {{ .Values.appGroup }}
+    tier: {{ .Values.backend.general.labels.tier }}
+    service: {{ .Values.backend.storage.label }}
+spec:
+  replicas: {{ .Values.backend.storage.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appGroup }}
+      tier: {{ .Values.backend.general.labels.tier }}
+      service: {{ .Values.backend.storage.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appGroup }}
+        tier: {{ .Values.backend.general.labels.tier }}
+        service: {{ .Values.backend.storage.label }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.storage.label }}
+          image: {{ .Values.general.images.repository }}/{{ .Values.backend.storage.image }}:{{ .Values.general.images.tag }}
+          imagePullPolicy: {{ .Values.general.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.backend.storage.ports.container }}
+          env:
+            - name: DB_HOST
+              value: db
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER_FILE
+              value: ~/secrets/IS_DB_USER
+            - name: DB_PWD_FILE
+              value: ~/secrets/IS_DB_PASSWORD
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+            - name: Serilog__WriteTo__2__Args__serverUrl
+              value: http://seq:5341
+            - name: AZURE_STORAGE
+              value: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
+            - name: PIS_HOST_EXT
+              value: "{{ .Values.backend.identity.host.external }}"
+            - name: PIS_PORT_EXT
+              value: "{{ .Values.backend.identity.ports.external }}"
+            - name: PIS_HOST
+              value: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-service 
+            - name: PIS_PORT
+              value: "{{ .Values.backend.identity.ports.container }}"

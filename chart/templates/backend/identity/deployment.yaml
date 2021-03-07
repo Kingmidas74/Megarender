@@ -27,15 +27,15 @@ spec:
           ports:
             - containerPort: {{ .Values.backend.identity.ports.container }}
           env:
+            - name: DB_HOST
+              value: db
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USER_FILE
+              value: ~/secrets/IS_DB_USER
+            - name: DB_PWD_FILE
+              value: ~/secrets/IS_DB_PASSWORD
             - name: ASPNETCORE_ENVIRONMENT
               value: Development
-            - name: PIS_DB_HOST
-              value: db
-            - name: PIS_DB_PASSWORD
-              value: ~/secrets/IS_DB_PASSWORD
-            - name: PIS_DB_PORT
-              value: "5432"
-            - name: PIS_DB_USER
-              value: ~/secrets/IS_DB_USER
             - name: Serilog__WriteTo__2__Args__serverUrl
               value: http://seq:5341

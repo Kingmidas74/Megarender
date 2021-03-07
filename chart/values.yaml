@@ -17,17 +17,27 @@ backend:
   webapi:
     replicas: 2
     ports:
-      container: 5002
+      container: 80
       service: 6002
     label: webapi
     image: webapi-service
   identity:
     replicas: 2
     ports:
-      container: 5000
+      container: 80
       service: 6000
+      external: 5000
+    host:
+      external: localhost
     label: identity
     image: identity-service
+  storage:
+    replicas: 2
+    ports:
+      container: 80
+      service: 6004
+    label: storage
+    image: storage-service
 
 frontend:
   general:

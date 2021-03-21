@@ -26,7 +26,7 @@ namespace Megarender.Business.PipelineBehaviors
                 .SelectMany(x=>x.Errors)
                 .Where(x=>x!=null)
                 .ToList();
-
+            
             if(failures.Any()) 
                 throw new BusinessValidationException(new ValidationException(failures));
 

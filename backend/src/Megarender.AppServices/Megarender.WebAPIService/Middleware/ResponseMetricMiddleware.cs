@@ -5,23 +5,19 @@ using Microsoft.AspNetCore.Http;
 
 namespace Megarender.WebAPIService.Middleware
 {
-    public class ResponseMetricMiddleware
+    public class ResponseMetricMiddleware: IConventionMiddleware
     {
         private readonly RequestDelegate _request;
+        private readonly MetricReporter _reporter;
 
-        public ResponseMetricMiddleware(RequestDelegate request)
+        public ResponseMetricMiddleware(RequestDelegate request, MetricReporter reporter)
         {
             _request = request ?? throw new ArgumentNullException(nameof(request));
+            _reporter = reporter ?? throw new ArgumentNullException(nameof(reporter));
         }
 
-        public async Task Invoke(HttpContext httpContext, MetricReporter reporter)
+        public async Task InvokeAsync(HttpContext httpContext)
         {
-            var path = httpContext.Request.Path.Value;
-            if (path == "/metrics")
-            {
-                await _request.Invoke(httpContext);
-                return;
-            }
             var sw = Stopwatch.StartNew();
 
             try
@@ -31,8 +27,8 @@ namespace Megarender.WebAPIService.Middleware
             finally
             {
                 sw.Stop();
-                reporter.RegisterRequest();
-                reporter.RegisterResponseTime(httpContext.Response.StatusCode, httpContext.Request.Method, sw.Elapsed);
+                _reporter.RegisterRequest();
+                _reporter.RegisterResponseTime(httpContext.Response.StatusCode, httpContext.Request.Method, sw.Elapsed);
             }
         }
     }

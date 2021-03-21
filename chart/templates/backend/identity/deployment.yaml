@@ -36,6 +36,6 @@ spec:
             - name: DB_PWD_FILE
               value: ~/secrets/IS_DB_PASSWORD
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: Serilog__WriteTo__2__Args__serverUrl
               value: http://seq:5341

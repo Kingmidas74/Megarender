@@ -48,7 +48,7 @@ spec:
             - name: RMQ_PORT
               value: "5672"
             - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+              value: Production
             - name: SeqURL
               value: http://seq:5341- name: PIS_HOST_EXT
               value: "{{ .Values.backend.identity.host.external }}"

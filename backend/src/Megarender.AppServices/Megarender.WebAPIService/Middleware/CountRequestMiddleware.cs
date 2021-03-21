@@ -5,16 +5,18 @@ using Prometheus;
 
 namespace Megarender.WebAPIService.Middleware
 {
-    public class CountRequestMiddleware
+    public class CountRequestMiddleware: IConventionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly MetricReporter _reporter;
 
-        public CountRequestMiddleware(RequestDelegate next)
+        public CountRequestMiddleware(RequestDelegate next, MetricReporter reporter)
         {
             _next = next ?? throw new ArgumentNullException(nameof(next));
+            _reporter = reporter ?? throw new ArgumentNullException(nameof(reporter));
         }
 
-        public async Task Invoke(HttpContext httpContext, MetricReporter reporter)
+        public async Task InvokeAsync(HttpContext httpContext)
         {         
             Metrics.CreateCounter("PathCounter", "Count request", 
                                                 new CounterConfiguration{

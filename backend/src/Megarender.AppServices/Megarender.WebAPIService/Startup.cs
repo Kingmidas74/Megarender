@@ -1,7 +1,5 @@
-using System;
 using Megarender.Business;
 using Megarender.DataAccess;
-using Megarender.DataAccess.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,15 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using Megarender.WebAPIService.Middleware;
 using Megarender.WebAPIService.Models;
 using Megarender.DataBus;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Prometheus;
 using Masking.Serilog;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Megarender.WebAPIService
-{   
+{
     public class Startup {
         private readonly string CorsPolicy = nameof (CorsPolicy);
         public IConfiguration Configuration { get; }
@@ -67,26 +66,29 @@ namespace Megarender.WebAPIService
                     .AllowAnyHeader ()
                     .Build ());
             });
+            services.AddHealthChecks();
         }
 
-        public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider) 
+        public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider, IHostEnvironment env) 
         {
             Log.Logger = new LoggerConfiguration ().ReadFrom.Configuration (Configuration)
                                 .Destructure.ByMaskingProperties("Password", "Token")
                                 .WriteTo.Seq(System.Environment.GetEnvironmentVariable(nameof(Models.EnvironmentVariables.SeqURL)))
                                 .CreateLogger();
+             
+            if (!env.IsDevelopment())
+            {
+                app.UseAPIMiddlewares();
+                app.UseMetricServer(); 
+                app.UseCustomExceptionHandler();
+                app.UseHttpMetrics();
+            }
+            else {
+                app.UseDeveloperExceptionPage();
+            }
             
-            app.UseMiddleware<RequestResponseLoggingMiddleware> ();
-            app.UseMiddleware<ResponseMetricMiddleware>();
-            app.UseMiddleware<CountRequestMiddleware>();
-            
-            app.UseStaticFiles();            
-
+            app.UseStaticFiles(); 
             app.UseCors (nameof (CorsPolicy));
-            app.UseMetricServer(); 
-            app.UseCustomExceptionHandler();
-            app.UseHttpMetrics();
-            app.UseDeveloperExceptionPage();  
             app.UseSwagger ();
             app.UseSwaggerUI (c => {
                 foreach ( var description in provider.ApiVersionDescriptions )
@@ -104,15 +106,9 @@ namespace Megarender.WebAPIService
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
+                endpoints.MapHealthChecks("/health");
             });
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
-                var context = serviceScope.ServiceProvider.GetRequiredService<APIContext> ();                    
-                    
-                if(!context.AllMigrationsApplied())
-                {
-                    context.Database.Migrate();
-                }                
-            }
+            app.ApplyMigrations<APIContext>();
         }
     }
 }

@@ -174,3 +174,19 @@ $RECYCLE.BIN/
 
 secrets/*
 !secrets/*.secret
+
+**/tests/**/*.feature.cs
+**/.idea
+# Default ignored files
+**/shelf/
+**/workspace.xml
+# Rider ignored files
+**/.idea.Megarender.iml
+**/projectSettingsUpdater.xml
+**/modules.xml
+**/contentModel.xml
+# Datasource local storage ignored files
+**/dataSources/
+**/dataSources.local.xml
+# Editor-based HTTP Client requests
+**/httpRequests/

@@ -54,3 +54,7 @@ spec:
               value: "{{ .Values.backend.identity.host.external }}"
             - name: PIS_PORT_EXT
               value: "{{ .Values.backend.identity.ports.external }}"
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PORT
+              value: "6379"  

@@ -25,8 +25,11 @@ services:
           SeqURL: "http://seq:5341"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
+          REDIS_HOST: "redis"
+          REDIS_PORT: "6379"
         depends_on:    
-          -  identity_service  
+          -  identity_service
+          -  redis  
           # -  rabbitmq  
           # -  seq
           
@@ -173,6 +176,14 @@ services:
     #   volumes: 
     #     - grafana-storage:/var/lib/grafana grafana/grafana
 
+    redis:
+      image: redis:6.2.1-alpine
+      ports:
+        - 6379:6379
+      environment:
+        - REDIS_REPLICATION_MODE=master
+
+    
     angular:
       image: localhost:5000/angular:latest
       build:

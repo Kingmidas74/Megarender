@@ -1,6 +1,7 @@
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace Megarender.DataStorage
 {
@@ -21,7 +22,22 @@ namespace Megarender.DataStorage
                 //services.AddSingleton<IFileStorage,FTPStorage>(ftpStoreConfig.RootPath);
             }
 
+            var redisSettings = new RedisSettings();
+            configuration.GetSection(nameof(RedisSettings)).Bind(redisSettings);
+            redisSettings.ConnectionString = string.Format(redisSettings.ConnectionString,
+                System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_HOST)),
+                System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_PORT)));
+            services.AddSingleton(redisSettings);
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.ConfigurationOptions = ConfigurationOptions.Parse(redisSettings.ConnectionString);
+            });
+            services.AddSingleton<ICacheDataStorage, RedisDataStorage>();
+
             return services;
         }
-    }    
+    }
+
+    
 }

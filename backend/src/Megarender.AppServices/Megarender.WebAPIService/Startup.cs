@@ -12,6 +12,7 @@ using Megarender.DataBus;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Prometheus;
 using Masking.Serilog;
+using Megarender.DataStorage;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -26,7 +27,8 @@ namespace Megarender.WebAPIService
             Configuration = configuration;          
         }
 
-        private JsonSerializerSettings ConfigureJSON() {
+        private JsonSerializerSettings ConfigureJSON() 
+        {
             var result = new JsonSerializerSettings () {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
                 ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver(),
@@ -37,7 +39,8 @@ namespace Megarender.WebAPIService
             return result;
         }
 
-        public void ConfigureServices (IServiceCollection services) {
+        public void ConfigureServices (IServiceCollection services) 
+        {
             JsonConvert.DefaultSettings = ConfigureJSON;
             services.Configure<ApplicationOptions> (Configuration.GetSection (nameof (ApplicationOptions)));
             
@@ -48,6 +51,7 @@ namespace Megarender.WebAPIService
             services.AddAuth (applicationOptions.IdentityServiceURI);            
             services.AddSQL (Configuration.GetConnectionString ("DefaultConnection"));
             services.AddQueueService (applicationOptions.RabbitMQSeriveURI);
+            services.AddDataStorage(Configuration);
             services.AddBusinessServices();
 
             services.AddSingleton<MetricReporter>();

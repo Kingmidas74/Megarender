@@ -27,27 +27,34 @@ spec:
           ports:
             - containerPort: {{ .Values.backend.webapi.ports.container }}
           env:
-            - name: API_DB_HOST
+            - name: DB_HOST
               value: db
-            - name: API_DB_PASSWORD
-              value: ~/secrets/API_DB_PASSWORD
-            - name: API_DB_PORT
-              value: "5432"
-            - name: API_DB_USER
+            - name: DB_PORT
+              value: "5432"              
+            - name: DB_USER_FILE
               value: ~/secrets/API_DB_USER
-            - name: ASPNETCORE_ENVIRONMENT
-              value: Development
+            - name: DB_PWD_FILE
+              value: ~/secrets/API_DB_PASSWORD
             - name: PIS_HOST
               value: {{ .Release.Name }}-{{ .Values.backend.identity.label }}-service 
             - name: PIS_PORT
               value: "{{ .Values.backend.identity.ports.container }}"
+            - name: RMQ_USER_FILE
+              value: ~/secrets/RMQ_USER
+            - name: RMQ_PWD_FILE
+              value: ~/secrets/RMQ_PASSWORD
             - name: RMQ_HOST
               value: rabbitmq
-            - name: RMQ_PASSWORD
-              value: ~/secrets/RMQ_PASSWORD
             - name: RMQ_PORT
               value: "5672"
-            - name: RMQ_USER
-              value: ~/secrets/RMQ_USER
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
             - name: SeqURL
-              value: http://seq:5341
+              value: http://seq:5341- name: PIS_HOST_EXT
+              value: "{{ .Values.backend.identity.host.external }}"
+            - name: PIS_PORT_EXT
+              value: "{{ .Values.backend.identity.ports.external }}"
+            - name: REDIS_HOST
+              value: redis
+            - name: REDIS_PORT
+              value: "6379"  

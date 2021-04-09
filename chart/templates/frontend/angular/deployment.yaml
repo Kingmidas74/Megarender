@@ -28,6 +28,8 @@ spec:
             - containerPort: {{ .Values.frontend.angular.ports.container }}
           env:
             - name: API_URI
-              value: "{{ .Release.Name }}-{{ .Values.backend.webapi.label }}-service:{{ .Values.backend.identity.ports.container }}/api"
+              value: "{{ .Release.Name }}-{{ .Values.backend.webapi.label }}-service:{{ .Values.backend.webapi.ports.container }}/api"
             - name: IS_URI
               value: "{{ .Release.Name }}-{{ .Values.backend.identity.label }}-service:{{ .Values.backend.identity.ports.container }}"
+            - name: STORAGE_URI
+              value: "{{ .Release.Name }}-{{ .Values.backend.storage.label }}-service:{{ .Values.backend.storage.ports.container }}"

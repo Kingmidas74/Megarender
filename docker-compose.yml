@@ -5,28 +5,31 @@ services:
         image: localhost:5000/webapi-service:latest
         build:
           context: .
-          dockerfile: ./AppServices/WebAPIService/Dockerfile        
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/Dockerfile        
         container_name: webapi_service
         restart: unless-stopped
         expose:
           - 80
         environment: 
-          API_DB_HOST: "db"
-          API_DB_PORT: "5432"
-          API_DB_USER: "~/secrets/API_DB_USER"
-          API_DB_PASSWORD: "~/secrets/API_DB_PASSWORD"
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/API_DB_USER"
+          DB_PWD_FILE: "~/secrets/API_DB_PASSWORD"
           PIS_HOST: "identity_service"
           PIS_PORT: "80"
-          RMQ_USER: "~/secrets/RMQ_USER"
-          RMQ_PASSWORD: "~/secrets/RMQ_PASSWORD"
+          RMQ_USER_FILE: "~/secrets/RMQ_USER"
+          RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
           RMQ_HOST: "rabbitmq"
           RMQ_PORT: "5672"
-          ASPNETCORE_ENVIRONMENT: "Development"          
+          ASPNETCORE_ENVIRONMENT: "Production"
           SeqURL: "http://seq:5341"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
+          REDIS_HOST: "redis"
+          REDIS_PORT: "6379"
         depends_on:    
-          -  identity_service  
+          -  identity_service
+          -  redis  
           # -  rabbitmq  
           # -  seq
           
@@ -35,27 +38,52 @@ services:
         image: localhost:5000/identity-service:latest
         build:
           context: .
-          dockerfile: ./AppServices/IdentityService/Dockerfile        
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/Dockerfile        
         container_name: identity_service
         restart: unless-stopped
         expose:
           - 80
         environment: 
-          PIS_DB_HOST: "db"
-          PIS_DB_PORT: "5432"
-          PIS_DB_USER: "~/secrets/IS_DB_USER"
-          PIS_DB_PASSWORD: "~/secrets/IS_DB_PASSWORD"
-          ASPNETCORE_ENVIRONMENT: "Development"
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/IS_DB_USER"
+          DB_PWD_FILE: "~/secrets/IS_DB_PASSWORD"
+          ASPNETCORE_ENVIRONMENT: "Production"
           Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
         depends_on:
-          -  db    
+          -  db  
+
+
+    storage_service:
+        image: localhost:5000/storage-service:latest
+        build:
+          context: .
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/Dockerfile        
+        container_name: storage_service
+        restart: unless-stopped
+        expose:
+          - 80
+        environment: 
+          DB_HOST: "db"
+          DB_PORT: "5432"
+          DB_USER_FILE: "~/secrets/STORAGE_DB_USER"
+          DB_PWD_FILE: "~/secrets/STORAGE_DB_PASSWORD"
+          ASPNETCORE_ENVIRONMENT: "Production"         
+          SeqURL: "http://seq:5341"
+          AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
+          PIS_HOST_EXT: "localhost"
+          PIS_PORT_EXT: "5000"
+          PIS_HOST: "identity_service"
+          PIS_PORT: "80"
+        depends_on:
+          -  identity_service    
 
 
     db:
         image: localhost:5000/db:latest
         build:
           context: .
-          dockerfile: ./ThirdPartyImages/DB
+          dockerfile: ./third-party-images/DB
         volumes: 
           - pg_data:/var/lib/postgresql/data        
         ports: 
@@ -70,13 +98,13 @@ services:
     
     # rabbitmq:
     #     build:
-    #       context: ./ThirdPartyImages
-    #       dockerfile: RabbitMQ
+    #       context: .
+    #       dockerfile: ./third-party-images/RabbitMQ
     #     container_name: rabbitmq
     #     restart: unless-stopped
     #     environment: 
-    #       RABBITMQ_DEFAULT_USER: "~/secrets/RMQ_USER"
-    #       RABBITMQ_DEFAULT_PASS: "~/secrets/RMQ_PASSWORD"
+    #       RABBITMQ_DEFAULT_USER_FILE: "~/secrets/RMQ_USER"
+    #       RABBITMQ_DEFAULT_PASS_FILE: "~/secrets/RMQ_PASSWORD"
     #     healthcheck:
     #       test: ["CMD", "curl", "-f", "http://localhost:15672"]
     #       interval: 30s
@@ -94,20 +122,21 @@ services:
     #       - 15671
     #     ports:            
     #         - 15672:15672
+    #         - 5672:5672
 
 
     # notification_worker:
     #     build:
     #       context: .
-    #       dockerfile: ./AppServices/WorkerServices/NotificationWorkerService/Dockerfile        
+    #       dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
     #     container_name: notification_worker
     #     restart: unless-stopped
     #     environment: 
-    #       RMQ_USER: "~/secrets/RMQ_USER"
-    #       RMQ_PASSWORD: "~/secrets/RMQ_PASSWORD"
+    #       RMQ_USER_FILE: "~/secrets/RMQ_USER"
+    #       RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
     #       RMQ_HOST: "rabbitmq"
     #       RMQ_PORT: "5672"
-    #       DOTNET_ENVIRONMENT: "Development"
+    #       DOTNET_ENVIRONMENT: "Production"
     #     depends_on:    
     #       -  rabbitmq  
           
@@ -133,7 +162,7 @@ services:
     #   ports:
     #     - 9090:9090
     #   volumes:
-    #     - ./ThirdPartyImages/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    #     - ./third-party-images/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
 
     # grafana: 
@@ -147,11 +176,19 @@ services:
     #   volumes: 
     #     - grafana-storage:/var/lib/grafana grafana/grafana
 
+    redis:
+      image: redis:6.2.1-alpine
+      ports:
+        - 6379:6379
+      environment:
+        - REDIS_REPLICATION_MODE=master
+
+    
     angular:
       image: localhost:5000/angular:latest
       build:
         context: .
-        dockerfile: ./ClientApplications/Angular/Dockerfile        
+        dockerfile: ./clients/angular/Dockerfile        
       container_name: angular
       restart: unless-stopped
       ports:
@@ -159,15 +196,17 @@ services:
       environment: 
         API_URI: "http://localhost:5002/api"
         IS_URI:  "http://localhost:5000"
+        STORAGE_URI:  "http://localhost:5004/api"
       depends_on:        
         - identity_nginx
         - webapi_nginx   
+        - storage_nginx
 
 
     webapi_nginx:
       build: 
         context: .
-        dockerfile: ./AppServices/WebAPIService/nginx/Dockerfile
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/nginx/Dockerfile
       container_name: webapi_nginx
       restart: unless-stopped
       ports:
@@ -179,13 +218,38 @@ services:
     identity_nginx:
       build: 
         context: .
-        dockerfile: ./AppServices/IdentityService/nginx/Dockerfile
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/nginx/Dockerfile
       container_name: identity_nginx
       restart: unless-stopped
       ports:
         - 5000:8989
       depends_on: 
         - identity_service
+
+    storage_nginx:
+      build: 
+        context: .
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/nginx/Dockerfile
+      container_name: storage_nginx
+      restart: unless-stopped
+      ports:
+        - 5004:8989
+      depends_on: 
+        - storage_service
+
+    # reverse_proxy:
+    #   build: 
+    #     context: .
+    #     dockerfile: ./third-party-images/reverse-proxy/Dockerfile
+    #   container_name: reverse_proxy
+    #   restart: unless-stopped
+    #   ports:
+    #     - 8000:8989
+    #   depends_on: 
+    #     - identity_nginx
+    #     - webapi_nginx
+    #     - storage_nginx
+    #     - angular
       
   
 volumes: 

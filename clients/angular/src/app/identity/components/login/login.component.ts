@@ -11,6 +11,7 @@ import { fuseAnimations } from '@fuse/animations';
 import { JWTToken } from '@DAL/identity-service/models/JWTToken';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { UserService } from '@DAL/api/services/user.service';
+import { CleanSubscriptions } from '@common/shared-utils/clean-subscriptions';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ import { UserService } from '@DAL/api/services/user.service';
   encapsulation: ViewEncapsulation.None,
   animations   : fuseAnimations
 })
-export class LoginComponent implements OnInit, OnDestroy {
+@CleanSubscriptions()
+export class LoginComponent implements OnInit/*, OnDestroy*/ {
 
   loginForm: FormGroup;
   subscriptions:Array<Subscription> = new Array<Subscription>();
@@ -44,13 +46,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {    
-    this.subscriptions.forEach(element => {
-      element.unsubscribe();
-    });
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
+  // ngOnDestroy() {    
+  //   this.subscriptions.forEach(element => {
+  //     element.unsubscribe();
+  //   });
+  //   this.unsubscribe$.next();
+  //   this.unsubscribe$.complete();
+  // }
 
   signin() {
     this.subscriptions.forEach(element => {
@@ -58,11 +60,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
     if (!this.loginForm.valid) {
       console.error(this.loginForm.errors);
+      return;
     }    
     this.subscriptions.push(this.athenticationService
     .login(this.loginForm.value.userPhone,this.loginForm.value.userPassword)
     .pipe(
-      takeUntil(this.unsubscribe$),
+      //takeUntil(this.unsubscribe$),
       mergeMap(token=>this.athenticationService.getDecodedAccessToken(token as JWTToken)),
       mergeMap(identityUser => this.apiService.getUserById(identityUser.userId)),
       mergeMap(user=>this.storage.set(environment.constants.UserStorageKey,user))      

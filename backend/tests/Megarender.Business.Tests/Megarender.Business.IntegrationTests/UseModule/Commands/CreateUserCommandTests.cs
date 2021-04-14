@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoFixture;
 using FluentAssertions;
 using FluentValidation;
 using Megarender.Business.Exceptions;
@@ -14,33 +15,58 @@ namespace Megarender.Business.IntegrationTests.UserModule.Commands
 
     public class CreateUserCommandTests : TestBase
     {
-        [Test]
-        public void ShouldRequireMinimumFields()
-        {
-            var command = new CreateUserCommand();
-
-            FluentActions.Invoking(async () =>
-                await SendAsync(command)).Should().ThrowAsync<BusinessValidationException>();
-        }
+        private static readonly Fixture Fixture = new Fixture();
         
         [Test]
-        [TestCaseSource(nameof(CreateUserCommandsData))]
-        public void ShouldCreateUser(Guid id, string firstName, string secondName, string surName, DateTime birthdate)
+        [TestCaseSource(nameof(CreateUserCommands))]
+        public void CreateUserCommandRunner(CreateUserCommand command, Action<Func<Task<User>>> assertation)
         {
-            FluentActions.Invoking(async () =>
-                await SendAsync(new CreateUserCommand
+            assertation(async () => await SendAsync(command));
+        }
+        
+        private static IEnumerable<TestCaseData> CreateUserCommands()
+        {
+            yield return new TestCaseData(
+                Fixture.Create<CreateUserCommand>(),
+                new Action<Func<Task<User>>>(result =>
                 {
-                    Id = id,
-                    FirstName = firstName,
-                    SecondName = secondName,
-                    SurName = surName,
-                    Birthdate = birthdate
-                })).Should().BeOfType<User>();
-        }
-        
-        private static IEnumerable<TestCaseData> CreateUserCommandsData()
-        {
-            yield return new TestCaseData(Guid.NewGuid(), "Denis", "Ed", "Suleymanov", new DateTime(1992, 10, 01));
+                    FluentActions.Awaiting(result).Invoke().Result.Should().BeOfType<User>("User was created successfully");
+                }));
+            yield return new TestCaseData(
+                Fixture.Build<CreateUserCommand>().Without(o => o.FirstName).Create(),
+                new Action<Func<Task<User>>>(result =>
+                {
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>($"First name is null")
+                        .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.FirstName));
+                }));
+            yield return new TestCaseData(
+                Fixture.Build<CreateUserCommand>().Without(o => o.SurName).Create(),
+                new Action<Func<Task<User>>>(result =>
+                {
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>($"Surname name is null")
+                        .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.SurName));
+                }));
+            yield return new TestCaseData(
+                Fixture.Build<CreateUserCommand>().Without(o => o.SecondName).Create(),
+                new Action<Func<Task<User>>>(result =>
+                {
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>($"Second name is null")
+                        .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.SecondName));
+                }));
+            yield return new TestCaseData(
+                Fixture.Build<CreateUserCommand>().Without(o => o.Birthdate).Create(),
+                new Action<Func<Task<User>>>(result =>
+                {
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>("Birthdate is null")
+                        .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.Birthdate));
+                }));
+            yield return new TestCaseData(
+                Fixture.Build<CreateUserCommand>().Without(o => o.Id).Create(),
+                new Action<Func<Task<User>>>(result =>
+                {
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>("Id is null")
+                        .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.Id));
+                }));
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using FluentValidation;
 using IdentityServer4.Models;
 using MediatR;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Megarender.IdentityService.PipelineBehaviors;
 using Newtonsoft.Json;
 using Serilog;
 using Prometheus;

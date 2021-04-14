@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Megarender.WebAPIService.Extensions;
 using System.Threading.Tasks;
 using MediatR;
 using Megarender.Business.Modules.UserModule;

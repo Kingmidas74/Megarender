@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
-using FluentValidation;
 using Megarender.Business.Exceptions;
 using Megarender.Business.Modules.UserModule;
 using Megarender.Domain;
@@ -15,7 +14,7 @@ namespace Megarender.Business.IntegrationTests.UserModule.Commands
 
     public class CreateUserCommandTests : TestBase
     {
-        private static readonly Fixture Fixture = new Fixture();
+        private static readonly Fixture Fixture = new();
         
         [Test]
         [TestCaseSource(nameof(CreateUserCommands))]

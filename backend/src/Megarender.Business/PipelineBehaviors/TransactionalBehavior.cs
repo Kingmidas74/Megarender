@@ -5,6 +5,7 @@ using MediatR;
 using Megarender.Business.Modules;
 using Megarender.DataAccess;
 using Megarender.DataAccess.Extensions;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 namespace Megarender.Business.PipelineBehaviors
@@ -18,13 +19,14 @@ namespace Megarender.Business.PipelineBehaviors
 
         public TransactionBehaviour(IAPIContext dbContext, ILogger<TransactionBehaviour<TRequest, TResponse>> logger)
         {
-            _dbContext = dbContext ?? throw new ArgumentException(nameof(dbContext));
-            _logger = logger ?? throw new ArgumentException(nameof(ILogger));
+            _dbContext = dbContext ?? throw new ArgumentException(null, nameof(dbContext));
+            _logger = logger ?? throw new ArgumentException(null, nameof(logger));
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             TResponse response = default;
+            IDbContextTransaction transaction = default;
 
             try
             {
@@ -32,11 +34,11 @@ namespace Megarender.Business.PipelineBehaviors
                 {
                     _logger.LogInformation($"Begin transaction {typeof(TRequest).Name}", request);
 
-                    using var transaction = await _dbContext.BeginTransactionAsync();
-
+                    transaction ??= await _dbContext.BeginTransactionAsync(cancellationToken);
+    
                     response = await next();
 
-                    await transaction.CommitAsync();
+                    await transaction.CommitAsync(cancellationToken);
 
                     _logger.LogInformation($"Committed transaction {typeof(TRequest).Name}", request);
                 });
@@ -47,11 +49,19 @@ namespace Megarender.Business.PipelineBehaviors
             {
                 _logger.LogInformation($"Rollback transaction executed {typeof(TRequest).Name}");
 
-                _dbContext.RollbackTransaction();
+                _dbContext.RollbackTransaction(transaction);
 
                 _logger.LogError(e.Message, e.StackTrace);
 
-                throw e;
+                throw;
+            }
+            finally
+            {
+                if (transaction != null)
+                {
+                    transaction.Dispose();
+                    transaction = null;
+                }
             }
         }
     }

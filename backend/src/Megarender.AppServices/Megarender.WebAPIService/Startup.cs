@@ -1,7 +1,6 @@
 using Megarender.Business;
 using Megarender.DataAccess;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -13,7 +12,6 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Prometheus;
 using Masking.Serilog;
 using Megarender.DataStorage;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Megarender.WebAPIService

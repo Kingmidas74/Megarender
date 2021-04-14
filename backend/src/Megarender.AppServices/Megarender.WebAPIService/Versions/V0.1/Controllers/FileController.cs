@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Megarender.WebAPIService.Extensions;
 using System.Threading.Tasks;
 using MediatR;
-using Megarender.Business.Modules.UserModule;
-using System;
 using Megarender.DataStorage;
 using System.Threading;
 

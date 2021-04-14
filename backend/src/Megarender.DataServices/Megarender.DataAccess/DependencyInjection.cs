@@ -19,7 +19,6 @@ namespace Megarender.DataAccess
                                     File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
                                     File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))), 
                     providerOptions => {
-                                providerOptions.EnableRetryOnFailure (3);
                                 providerOptions.MigrationsAssembly ($"{nameof(Megarender)}.{nameof(Megarender.DataAccess)}");
                     });
                 var extension = options.Options.FindExtension<CoreOptionsExtension> ();

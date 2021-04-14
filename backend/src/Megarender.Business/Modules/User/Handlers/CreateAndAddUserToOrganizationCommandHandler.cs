@@ -1,9 +1,7 @@
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Megarender.Business.Services;
 using Megarender.Business.Specifications;
 using Megarender.DataAccess;
 using Megarender.Domain;
@@ -31,7 +29,6 @@ namespace Megarender.Business.Modules.UserModule
                     Organization = organization
                 }
             );
-            await this.DBContext.SaveChangesAsync(cancellationToken);
             return user;
         }
     }

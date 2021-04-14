@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Megarender.Domain;
@@ -20,7 +21,8 @@ namespace Megarender.DataAccess
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
         Task CommitTransactionAsync(CancellationToken cancellationToken = default);
-        void RollbackTransaction();
+        void RollbackTransaction(IDbContextTransaction transaction);
+        Task ExecuteAsync(Func<Task> operation);
 
     }
 }

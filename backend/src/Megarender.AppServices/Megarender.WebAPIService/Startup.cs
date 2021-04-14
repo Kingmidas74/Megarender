@@ -42,15 +42,15 @@ namespace Megarender.WebAPIService
         public void ConfigureServices (IServiceCollection services) 
         {
             JsonConvert.DefaultSettings = ConfigureJSON;
-            services.Configure<ApplicationOptions> (Configuration.GetSection (nameof (ApplicationOptions)));
             
-            var applicationOptions = new WebAPIService.Models.ApplicationOptions ();
-            Configuration.GetSection (nameof (WebAPIService.Models.ApplicationOptions)).Bind (applicationOptions);            
+            var applicationOptions = new ApplicationOptions ();
+            Configuration.GetSection (nameof (ApplicationOptions)).Bind (applicationOptions);
+            services.AddSingleton(applicationOptions);
             
             services.AddSwagger (applicationOptions.IdentityServiceURI);
             services.AddAuth (applicationOptions.IdentityServiceURI);            
             services.AddSQL (Configuration.GetConnectionString ("DefaultConnection"));
-            services.AddQueueService (applicationOptions.RabbitMQSeriveURI);
+            services.AddQueueService (Configuration);
             services.AddDataStorage(Configuration);
             services.AddBusinessServices();
 

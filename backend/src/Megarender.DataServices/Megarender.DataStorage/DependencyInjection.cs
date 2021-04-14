@@ -1,3 +1,4 @@
+using System;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,16 +25,23 @@ namespace Megarender.DataStorage
 
             var redisSettings = new RedisSettings();
             configuration.GetSection(nameof(RedisSettings)).Bind(redisSettings);
-            redisSettings.ConnectionString = string.Format(redisSettings.ConnectionString,
-                System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_HOST)),
-                System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_PORT)));
-            services.AddSingleton(redisSettings);
-
-            services.AddStackExchangeRedisCache(options =>
+            if (!redisSettings.Enabled && !String.IsNullOrEmpty(redisSettings.ConnectionString))
             {
-                options.ConfigurationOptions = ConfigurationOptions.Parse(redisSettings.ConnectionString);
-            });
-            services.AddSingleton<ICacheDataStorage, RedisDataStorage>();
+                redisSettings.ConnectionString = string.Format(redisSettings.ConnectionString,
+                    Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_HOST)),
+                    Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.REDIS_PORT)));
+                services.AddSingleton(redisSettings);
+
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.ConfigurationOptions = ConfigurationOptions.Parse(redisSettings.ConnectionString);
+                });
+                services.AddSingleton<ICacheDataStorage, RedisDataStorage>();
+            }
+            else
+            {
+                services.AddSingleton<ICacheDataStorage, DefaultCacheDataStorage>();
+            }
 
             return services;
         }

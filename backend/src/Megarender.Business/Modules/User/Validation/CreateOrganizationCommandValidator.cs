@@ -14,7 +14,8 @@ namespace Megarender.Business.Modules.UserModule
 
             RuleFor(x=>x.Id).NotEmpty();
             RuleFor(x=>x.UniqueIdentifier).NotEmpty()
-                                            .MustAsync(isUnique);                            
+                                            .MustAsync(isUnique);   
+            RuleFor(x => x.CommandId).NotEmpty();                         
         }
 
         private async Task<bool> isUnique(string organizationIdentifier, CancellationToken cancellationToken = default)

@@ -18,7 +18,8 @@ namespace Megarender.Business.Modules.UserModule
             RuleFor(x=>x.FirstName).NotEmpty();
             RuleFor(x=>x.SecondName).NotEmpty();
             RuleFor(x=>x.SurName).NotEmpty();  
-            RuleFor(x=>x.OrganizationId).NotEmpty().MustAsync(OrganizationExist);          
+            RuleFor(x=>x.OrganizationId).NotEmpty().MustAsync(OrganizationExist);    
+            RuleFor(x => x.CommandId).NotEmpty();      
         }
 
         private async Task<bool> OrganizationExist(Guid organizationId, CancellationToken cancellationToken = default)

@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Megarender.Business.Exceptions;
+using Megarender.Business.Modules;
 
 namespace Megarender.Business.PipelineBehaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private readonly IEnumerable<IValidator<TRequest>> validators;
+        private IEnumerable<IValidator<TRequest>> validators;
 
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {

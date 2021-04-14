@@ -13,7 +13,8 @@ namespace Megarender.Business.Modules.UserModule
             RuleFor(x=>x.Birthdate).NotEmpty();
             RuleFor(x=>x.FirstName).NotEmpty();
             RuleFor(x=>x.SecondName).NotEmpty();
-            RuleFor(x=>x.SurName).NotEmpty();            
+            RuleFor(x=>x.SurName).NotEmpty();
+            RuleFor(x => x.CommandId).NotEmpty();
         }
     }
 }

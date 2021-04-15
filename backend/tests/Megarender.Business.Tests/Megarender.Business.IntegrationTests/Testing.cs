@@ -48,7 +48,7 @@ public class Testing
         {
             TablesToIgnore = new [] { "__EFMigrationsHistory" },
             AutoCreateExtensions = true,
-
+            //DbAdapter = DbAdapter.Postgres,
             SchemasToInclude = new[]
             {
                 "public"
@@ -77,12 +77,15 @@ public class Testing
     }
 
 
-    public static async Task ResetState() =>
-        await _checkpoint.Reset(string.Format (_configuration.GetConnectionString("DefaultConnection"), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))));        
+    public static async Task ResetState()
+    {
+        var connection = string.Format(_configuration.GetConnectionString("DefaultConnection"),
+            System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_HOST)),
+            System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PORT)),
+            File.ReadAllText(System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_USER_FILE))),
+            File.ReadAllText(System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PWD_FILE))));
+        await _checkpoint.Reset(connection);
+    }
 
     public static async Task<TEntity> FindAsync<TEntity>(int id)
         where TEntity : class

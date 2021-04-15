@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
 using Megarender.Business.Exceptions;
-using Megarender.Business.Modules;
 
 namespace Megarender.Business.PipelineBehaviors
 {

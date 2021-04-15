@@ -19,7 +19,7 @@ namespace Megarender.StorageService.Migrations
             modelBuilder
                 .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("Megarender.StorageService.DAL.StorageSystem", b =>
                 {

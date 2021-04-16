@@ -69,9 +69,10 @@ jobs:
                 git secret reveal -p ${{ secrets.SECRET_PWD }}     
             
             - name: Run Integrations Tests              
-              run: |
-                ls -las
+              working-directory: ./backend
+              run: |      
+                ls -las          
                 dotnet restore
                 docker-compose up -d db
-                dotnet test ./backend/tests/Megarender.Business.Tests/Megarender.Business.IntegrationTests/Megarender.Business.IntegrationTests.csproj
+                dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.IntegrationTests/Megarender.Business.IntegrationTests.csproj
 

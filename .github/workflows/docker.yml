@@ -70,9 +70,30 @@ jobs:
             
             - name: Run Integrations Tests              
               working-directory: ./backend
-              run: |      
-                ls -las          
+              run: |         
                 dotnet restore
                 docker-compose up -d db
                 dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.IntegrationTests/Megarender.Business.IntegrationTests.csproj
+            
+            - name: Unit tests for Business Layer
+              uses: zyborg/dotnet-tests-report@v1
+              with:
+                project_path: backend/tests/Megarender.Business.Tests/Megarender.Business.UnitTests
+                report_name: unit_business_tests
+                report_title: Unit Business Tests
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                gist_name: unit_business_tests.md
+                gist_badge_label: 'Unit Tests: %Counters_passed%/%Counters_total%'
+                gist_token: ${{ secrets.GIST_TOKEN }}
+
+            - name: Integration tests for Business Layer
+              uses: zyborg/dotnet-tests-report@v1
+              with:
+                project_path: backend/tests/Megarender.Business.Tests/Megarender.Business.IntegrationTests
+                report_name: integration_business_tests
+                report_title: Integration Business Tests
+                github_token: ${{ secrets.GITHUB_TOKEN }}
+                gist_name: integration_business_tests.md
+                gist_badge_label: 'Integration Tests: %Counters_passed%/%Counters_total%'
+                gist_token: ${{ secrets.GIST_TOKEN }}
 

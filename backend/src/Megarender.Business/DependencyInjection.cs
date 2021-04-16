@@ -2,6 +2,7 @@ using AutoMapper;
 using Megarender.Business.PipelineBehaviors;
 using FluentValidation;
 using MediatR;
+using Megarender.Business.Providers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Megarender.Business
@@ -12,6 +13,7 @@ namespace Megarender.Business
         {
             services.AddMediatR(typeof(DependencyInjection));
             services.AddAutoMapper (typeof (DependencyInjection));
+            services.AddTransient<IMapperProvider, MapperProvider>();
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);    
             //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(IdempotentBehaviour<,>));

@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
+using Megarender.Business.Providers;
 using Megarender.DataAccess;
 using Megarender.Domain;
 
@@ -18,8 +19,7 @@ namespace Megarender.Business.Modules.UserModule
         }
         public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken = default)
         {
-            var user = (await this._dbContext.Users.AddAsync(_mapper.Map<User>(request), cancellationToken)).Entity;
-            return user;
+            return (await _dbContext.Users.AddAsync(_mapper.Map<CreateUserCommand, User>(request), cancellationToken)).Entity;
         }
     }
 }

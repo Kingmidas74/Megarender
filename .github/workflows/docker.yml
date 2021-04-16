@@ -63,10 +63,12 @@ jobs:
               run: |                
                 git secret reveal -p ${{ secrets.SECRET_PWD }}
             
-            - name: Run Integrations Tests              
+            - name: Install dotnet
               uses: actions/setup-dotnet@v1.7.2
               with:
-                dotnet-version: '5.0.x'
+                dotnet-version: '5.0.x'              
+            
+            - name: Run Integrations Tests              
               run: |
                 dotnet restore
                 docker-compose up -d db

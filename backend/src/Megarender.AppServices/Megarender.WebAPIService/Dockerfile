@@ -8,6 +8,7 @@ WORKDIR /source
 COPY . .
 WORKDIR /source/backend
 RUN dotnet restore
+RUN dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.UnitTests/Megarender.Business.UnitTests.csproj 
 
 WORKDIR /source/backend/src/Megarender.AppServices/Megarender.WebAPIService
 RUN dotnet publish -c debug -o /app --no-restore

@@ -11,34 +11,7 @@ on:
             - develop 
 
 jobs:
-
-    # build:
-
-    #     runs-on: ubuntu-latest
-
-    #     steps:
-
-    #         - name: Install git-secret              
-    #           uses: Kingmidas74/git-secret-github-action@latest
-
-    #         - name: Checkout sources
-    #           uses: actions/checkout@v2
-
-    #         - name: Configure GPG Key
-    #           uses: crazy-max/ghaction-import-gpg@v3
-    #           with:
-    #             gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
-    #             passphrase: ${{ secrets.SECRET_PWD }}
-    #             git-user-signingkey: true
-    #             git-commit-gpgsign: true
-              
-    #         - name: Reveal secrets         
-    #           run: |                
-    #             git secret reveal -p ${{ secrets.SECRET_PWD }}                
-            
-    #         - name: Build images
-    #           run: docker-compose build
-    
+      
     tests:
 
         runs-on: ubuntu-latest
@@ -66,15 +39,8 @@ jobs:
               
             - name: Reveal secrets         
               run: |                
-                git secret reveal -p ${{ secrets.SECRET_PWD }}     
-            
-            - name: Run Integrations Tests              
-              working-directory: ./backend
-              run: |         
-                dotnet restore
-                docker-compose up -d db
-                dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.IntegrationTests/Megarender.Business.IntegrationTests.csproj
-            
+                git secret reveal -p ${{ secrets.SECRET_PWD }}
+
             - name: Unit tests for Business Layer
               uses: zyborg/dotnet-tests-report@v1
               with:
@@ -96,4 +62,33 @@ jobs:
                 gist_name: integration_business_tests.md
                 gist_badge_label: 'Integration Tests: %Counters_passed%/%Counters_total%'
                 gist_token: ${{ secrets.GIST_TOKEN }}
+
+    build:
+
+        needs: tests
+
+        runs-on: ubuntu-latest
+
+        steps:
+
+            - name: Install git-secret              
+              uses: Kingmidas74/git-secret-github-action@latest
+
+            - name: Checkout sources
+              uses: actions/checkout@v2
+
+            - name: Configure GPG Key
+              uses: crazy-max/ghaction-import-gpg@v3
+              with:
+                gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
+                passphrase: ${{ secrets.SECRET_PWD }}
+                git-user-signingkey: true
+                git-commit-gpgsign: true
+              
+            - name: Reveal secrets         
+              run: |                
+                git secret reveal -p ${{ secrets.SECRET_PWD }}                
+            
+            - name: Build images
+              run: docker-compose build
 

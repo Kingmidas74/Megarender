@@ -21,7 +21,7 @@ services:
           RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
           RMQ_HOST: "rabbitmq"
           RMQ_PORT: "5672"
-          ASPNETCORE_ENVIRONMENT: "Production"
+          ASPNETCORE_ENVIRONMENT: "Development"
           SeqURL: "http://seq:5341"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
@@ -48,7 +48,7 @@ services:
           DB_PORT: "5432"
           DB_USER_FILE: "~/secrets/IS_DB_USER"
           DB_PWD_FILE: "~/secrets/IS_DB_PASSWORD"
-          ASPNETCORE_ENVIRONMENT: "Production"
+          ASPNETCORE_ENVIRONMENT: "Development"
           Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
         depends_on:
           -  db  
@@ -68,7 +68,7 @@ services:
           DB_PORT: "5432"
           DB_USER_FILE: "~/secrets/STORAGE_DB_USER"
           DB_PWD_FILE: "~/secrets/STORAGE_DB_PASSWORD"
-          ASPNETCORE_ENVIRONMENT: "Production"         
+          ASPNETCORE_ENVIRONMENT: "Development"         
           SeqURL: "http://seq:5341"
           AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
           PIS_HOST_EXT: "localhost"

@@ -26,7 +26,7 @@ export class AuthenticationService {
 
   public login(userPhone:string, userPassword:string):Observable<string|JWTToken> {      
     this.unsubscribeAll();
-    var query = new GetTokenQuery();
+    let query = new GetTokenQuery();
     query.phone=userPhone;
     query.password=userPassword;
     return this.identityService.getToken(query).pipe(
@@ -69,10 +69,7 @@ export class AuthenticationService {
     this.storage.get<JWTToken>(environment.constants.JWTTokenStorageKey).pipe(
       mergeMap(token => this.identityService.refreshToken(token as JWTToken)),
       mergeMap(token => this.storage.set(environment.constants.JWTTokenStorageKey,token)),
-      catchError((error) => () => {
-        this.unsubscribeAll();
-        this.handleError(error);
-      })  
+      catchError((error) => () => this.handleError(error))  
     ).subscribe();
   };
 
@@ -93,6 +90,7 @@ export class AuthenticationService {
   }
 
   private handleError(error: HttpErrorResponse):Observable<string> {
+    this.unsubscribeAll();
     if(error.status>=400 && error.status<500) {
       console.error('An error occurred:', error.error.message, error);
       return throwError(error.message);

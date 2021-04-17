@@ -53,10 +53,10 @@ namespace Megarender.DataAccess {
             return Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
         }
 
-        public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default)
         {
             await SaveChangesAsync(cancellationToken);
-            await Database.CommitTransactionAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
         }
 
         public void RollbackTransaction(IDbContextTransaction transaction) 

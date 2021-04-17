@@ -3,7 +3,7 @@ import { ApiHttpService } from '../api-interceptor';
 import { CreateUserCommand } from '../models/commands/create-user-command'
 import { User } from '../models/entities/user'
 import { Observable } from 'rxjs';
-import { ApiModule } from '../api.module';
+import * as uuid from 'uuid';
 
 @Injectable()
 export class UserService {  
@@ -12,6 +12,7 @@ export class UserService {
 
   public createUser(createUserCommand:CreateUserCommand):Observable<User>
   {
+    createUserCommand.commandId = uuid.v4();
     return this.apiHttpClient.post<User>('/users',createUserCommand);
   }
 

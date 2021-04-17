@@ -11,7 +11,7 @@ RUN dotnet restore
 RUN dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.UnitTests/Megarender.Business.UnitTests.csproj 
 
 WORKDIR /source/backend/src/Megarender.AppServices/Megarender.WebAPIService
-RUN dotnet publish -c debug -o /app --no-restore
+RUN dotnet publish -c release -o /app --no-restore
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine

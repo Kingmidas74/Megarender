@@ -4,4 +4,5 @@ export class CreateUserCommand {
     secondName: string;
     surName: string;
     birthdate: Date;
+    commandId: string;
 }

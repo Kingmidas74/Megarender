@@ -20,7 +20,7 @@ namespace Megarender.DataAccess
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
-        Task CommitTransactionAsync(CancellationToken cancellationToken = default);
+        Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default);
         void RollbackTransaction(IDbContextTransaction transaction);
         Task ExecuteAsync(Func<Task> operation);
 

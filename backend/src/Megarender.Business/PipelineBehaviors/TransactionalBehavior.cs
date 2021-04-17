@@ -38,7 +38,7 @@ namespace Megarender.Business.PipelineBehaviors
     
                     response = await next();
 
-                    await transaction.CommitAsync(cancellationToken);
+                    await _dbContext.CommitTransactionAsync(transaction, cancellationToken);
 
                     _logger.LogInformation($"Committed transaction {typeof(TRequest).Name}", request);
                 });

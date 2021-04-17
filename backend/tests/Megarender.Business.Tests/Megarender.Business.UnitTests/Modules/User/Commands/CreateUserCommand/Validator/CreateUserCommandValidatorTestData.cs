@@ -2,11 +2,9 @@ using System;
 using AutoFixture;
 using FluentAssertions;
 using FluentValidation.TestHelper;
-using Megarender.Business.Modules.UserModule;
 using Megarender.Business.UnitTests.Models;
-using Megarender.Business.UnitTests.Modules.User.Validators;
 
-namespace Megarender.Business.UnitTests.Modules.User.Commands
+namespace Megarender.Business.Modules.UserModule.UnitTests
 {
     public class CreateUserCommandValidatorTestData: TheoryData<CreateUserCommand, Action<CreateUserCommand, CreateUserCommandValidator>>
     {
@@ -19,7 +17,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     var validationResult = await validator.TestValidateAsync(command);
                     validationResult.ShouldNotHaveAnyValidationErrors();
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldNotHaveAnyValidationErrors");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldNotHaveAnyValidationErrors");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.Id).Create(),
                 async (command, validator) =>
                 {
@@ -27,7 +25,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.Id);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForId");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForId");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.FirstName).Create(),
                 async (command, validator) =>
                 {
@@ -35,7 +33,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.FirstName);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForFirstName");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForFirstName");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.SecondName).Create(),
                 async (command, validator) =>
                 {
@@ -43,7 +41,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.SecondName);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForSecondName");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForSecondName");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.SurName).Create(),
                 async (command, validator) =>
                 {
@@ -51,7 +49,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.SurName);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForSurName");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForSurName");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.Birthdate).Create(),
                 async (command, validator) =>
                 {
@@ -59,7 +57,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.Birthdate);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForBirthdate");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForBirthdate");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.CommandId).Create(),
                 async (command, validator) =>
                 {
@@ -67,7 +65,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.Errors.Should().HaveCount(1);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.CommandId);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorForCommandId");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorForCommandId");
             Add(Fixture.Build<CreateUserCommand>().Without(u=>u.FirstName).Without(u=>u.SecondName).Create(),
                 async (command, validator) =>
                 {
@@ -76,7 +74,7 @@ namespace Megarender.Business.UnitTests.Modules.User.Commands
                     validationResult.ShouldHaveValidationErrorFor(u=>u.FirstName);
                     validationResult.ShouldHaveValidationErrorFor(u=>u.SecondName);
                 },
-                $"{nameof(CreateuserCommandValidatorTests)}_ShouldHaveValidationErrorsForFirstAndSecondName");
+                $"{nameof(CreateUserCommandValidatorTests)}_ShouldHaveValidationErrorsForFirstAndSecondName");
         }
     }
 }

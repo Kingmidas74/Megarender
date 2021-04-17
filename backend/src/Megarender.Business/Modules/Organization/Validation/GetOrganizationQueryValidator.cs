@@ -7,20 +7,20 @@ using Megarender.DataAccess;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Megarender.Business.Modules.UserModule
+namespace Megarender.Business.Modules.OrganizationModule
 {
     public class GetOrganizationQueryValidator:AbstractValidator<GetOrganizationQuery>
     {
-        private IAPIContext DBContext {get;set;}
-        public GetOrganizationQueryValidator(IAPIContext dbContext) {
-            DBContext=dbContext;
+        private readonly IAPIContext _apiContext;
+        public GetOrganizationQueryValidator(IAPIContext apiContext) {
+            _apiContext=apiContext;
 
-            RuleFor(x=>x.Id).NotEmpty().MustAsync(isExist);                            
+            RuleFor(x=>x.Id).NotEmpty().MustAsync(IsExist);                            
         }
 
-        private async Task<bool> isExist(Guid organizationId, CancellationToken cancellationToken = default)
+        private async Task<bool> IsExist(Guid organizationId, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Organizations.AnyAsync(
+            return await _apiContext.Organizations.AnyAsync(
                     new FindByIdSpecification<Organization>(organizationId).IsSatisfiedByExpression,
                     cancellationToken);
         }

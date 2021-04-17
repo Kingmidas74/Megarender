@@ -12,6 +12,6 @@ namespace Megarender.Business.Modules.UserModule
         public string SurName {get; set;}
         public DateTime Birthdate {get;set;}
         public Guid OrganizationId {get;set;}
-        public Guid CommandId { get; set; }
+        public Guid CommandId { get; init; }
     }
 }

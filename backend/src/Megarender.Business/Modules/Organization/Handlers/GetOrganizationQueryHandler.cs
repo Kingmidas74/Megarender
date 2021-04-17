@@ -7,20 +7,20 @@ using Megarender.DataAccess;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Megarender.Business.Modules.UserModule
+namespace Megarender.Business.Modules.OrganizationModule
 {
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
     {
-        private IAPIContext DBContext;
-        private IMapper Mapper;
-        public GetOrganizationQueryHandler(IAPIContext dbContext, IMapper mapper)
+        private readonly IAPIContext _apiContext;
+        private readonly IMapper _mapper;
+        public GetOrganizationQueryHandler(IAPIContext apiContext, IMapper mapper)
         {
-            DBContext=dbContext;
-            Mapper = mapper;
+            _apiContext=apiContext;
+            _mapper = mapper;
         }
         public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Organizations.SingleAsync(
+            return await _apiContext.Organizations.SingleAsync(
                     new FindByIdSpecification<Organization>(request.Id).IsSatisfiedByExpression,
                     cancellationToken);
         }

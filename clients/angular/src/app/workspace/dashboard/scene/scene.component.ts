@@ -38,13 +38,13 @@ export class SceneComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit(): void { 
+    this.dataSource = new MatTableDataSource(this.scene.renders);
   }
 
 
-  ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource(this.scene.renders);
+  ngAfterViewInit() { 
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;    
+    this.dataSource.sort = this.sort;   
   }
 
 }

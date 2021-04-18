@@ -4,6 +4,6 @@ namespace Megarender.Business.Modules
 {
     public interface IIdempotentRequest 
     {
-        Guid CommandId { get; init; }
+        Guid CommandId { get; set; }
     }
 }

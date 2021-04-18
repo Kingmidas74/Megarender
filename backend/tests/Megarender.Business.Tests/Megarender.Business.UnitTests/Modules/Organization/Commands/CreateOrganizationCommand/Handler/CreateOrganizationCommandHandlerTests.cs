@@ -5,13 +5,13 @@ using AutoMapper;
 using FluentAssertions;
 using Megarender.Business.Modules.UserModule;
 using Megarender.Business.Specifications;
-using Megarender.Business.UnitTests;
+using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace Megarender.Business.Modules.OrganizationModule.UnitTests
-{
+namespace Megarender.Business.UnitTests.Modules.OrganizationModule
+{   
     public class CreateOrganizationCommandHandlerTests:TestBaseFixture
     {
         private readonly IMapper _mapper;
@@ -62,7 +62,5 @@ namespace Megarender.Business.Modules.OrganizationModule.UnitTests
             // createdUser.UserOrganizations.Should().HaveCount(1);
             // createdUser.UserOrganizations.First().Organization.CreatedBy.Should().Be(organization.Id);
         }
-        
-        
     }
 }

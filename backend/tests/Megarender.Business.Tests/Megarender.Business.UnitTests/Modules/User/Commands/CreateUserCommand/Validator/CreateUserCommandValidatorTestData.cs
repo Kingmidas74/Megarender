@@ -3,8 +3,9 @@ using AutoFixture;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Megarender.Business.UnitTests.Models;
+using Megarender.Business.Modules.UserModule;
 
-namespace Megarender.Business.Modules.UserModule.UnitTests
+namespace Megarender.Business.UnitTests.Modules.UserModule
 {
     public class CreateUserCommandValidatorTestData: TheoryData<CreateUserCommand, Action<CreateUserCommand, CreateUserCommandValidator>>
     {

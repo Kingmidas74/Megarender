@@ -2,14 +2,14 @@ using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
-using Megarender.Business.UnitTests;
+using Megarender.Business.Modules.UserModule;
 using Xunit;
 
-namespace Megarender.Business.Modules.UserModule.UnitTests
+namespace Megarender.Business.UnitTests.Modules.UserModule
 {   
     public class CreateUserCommandHandlerTests:TestBaseFixture
     {
-        private readonly IMapper _mapper;
+        private IMapper _mapper;
 
         public CreateUserCommandHandlerTests()
         {
@@ -21,7 +21,9 @@ namespace Megarender.Business.Modules.UserModule.UnitTests
         [Fact]
         public async Task CreateUserCommandHandler_ShouldCreateUser()
         {
-            var command = Fixture.Build<CreateUserCommand>().Create();
+            var command = Fixture.Build<CreateUserCommand>()
+                .Without(c=>c.FirstName)
+                .Create();
 
             var handler = new CreateUserCommandHandler(Context, _mapper);    
             

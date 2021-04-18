@@ -2,7 +2,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Megarender.Business.Providers;
 using Megarender.DataAccess;
 using Megarender.Domain;
 

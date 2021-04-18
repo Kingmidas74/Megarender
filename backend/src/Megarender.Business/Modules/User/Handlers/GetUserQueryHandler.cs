@@ -11,16 +11,16 @@ namespace Megarender.Business.Modules.UserModule
 {
     public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
     {
-        private IAPIContext DBContext;
-        private IMapper Mapper;
+        private readonly IAPIContext _dbContext;
+        private readonly IMapper _mapper;
         public GetUserQueryHandler(IAPIContext dbContext, IMapper mapper)
         {
-            DBContext=dbContext;
-            Mapper = mapper;
+            _dbContext=dbContext;
+            _mapper = mapper;
         }
         public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Users.SingleAsync(
+            return await _dbContext.Users.SingleAsync(
                     new FindByIdSpecification<User>(request.Id).IsSatisfiedByExpression,
                     cancellationToken);
         }

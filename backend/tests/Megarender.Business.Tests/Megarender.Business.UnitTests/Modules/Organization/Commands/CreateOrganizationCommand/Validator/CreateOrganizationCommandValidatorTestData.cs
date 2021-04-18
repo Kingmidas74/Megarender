@@ -3,8 +3,9 @@ using AutoFixture;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Megarender.Business.UnitTests.Models;
+using Megarender.Business.Modules.OrganizationModule;
 
-namespace Megarender.Business.Modules.OrganizationModule.UnitTests
+namespace Megarender.Business.UnitTests.Modules.OrganizationModule
 {
     public class CreateOrganizationCommandValidatorTestData: TheoryData<CreateOrganizationCommand, Action<CreateOrganizationCommand, CreateOrganizationCommandValidator>>
     {

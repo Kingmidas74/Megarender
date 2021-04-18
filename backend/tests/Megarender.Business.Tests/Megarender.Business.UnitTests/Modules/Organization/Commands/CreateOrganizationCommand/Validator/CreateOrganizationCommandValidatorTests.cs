@@ -7,11 +7,11 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using Megarender.Business.Modules.UserModule;
 using Megarender.Business.Specifications;
-using Megarender.Business.UnitTests;
+using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using Xunit;
 
-namespace Megarender.Business.Modules.OrganizationModule.UnitTests
+namespace Megarender.Business.UnitTests.Modules.OrganizationModule
 {
     public class CreateOrganizationCommandValidatorTests:TestBaseFixture
     {

@@ -1,9 +1,8 @@
 using System;
 using Megarender.Business.Modules.UserModule;
-using Megarender.Business.UnitTests;
 using Xunit;
 
-namespace Megarender.Business.Modules.UserModule.UnitTests
+namespace Megarender.Business.UnitTests.Modules.UserModule
 {
     public class CreateUserCommandValidatorTests:TestBaseFixture
     {

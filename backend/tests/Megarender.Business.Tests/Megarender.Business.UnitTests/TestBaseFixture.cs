@@ -1,6 +1,5 @@
 using System;
 using AutoFixture;
-using AutoMapper;
 using Megarender.DataAccess;
 
 namespace Megarender.Business.UnitTests
@@ -13,7 +12,6 @@ namespace Megarender.Business.UnitTests
             Fixture = new Fixture();
             Fixture.Behaviors.Remove(new ThrowingRecursionBehavior());
             Fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-
         }
 
         protected Fixture Fixture { get; }

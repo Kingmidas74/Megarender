@@ -7,7 +7,7 @@ using Megarender.DataAccess;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace Megarender.Business.Modules.UserModule
+namespace Megarender.Business.Modules.OrganizationModule
 {
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
     {

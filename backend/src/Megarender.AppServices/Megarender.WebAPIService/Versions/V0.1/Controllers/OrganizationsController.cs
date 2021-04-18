@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using MediatR;
-using Megarender.Business.Modules.UserModule;
+using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using System;
 using System.Threading;

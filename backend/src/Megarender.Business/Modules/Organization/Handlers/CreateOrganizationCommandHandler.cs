@@ -9,16 +9,16 @@ namespace Megarender.Business.Modules.OrganizationModule
 {
     public class CreateOrganizationCommandHandler : IRequestHandler<CreateOrganizationCommand, Organization>
     {
-        private IAPIContext DBContext;
-        private IMapper Mapper;
+        private readonly IAPIContext _dbContext;
+        private readonly IMapper _mapper;
         public CreateOrganizationCommandHandler(IAPIContext dbContext, IMapper mapper)
         {
-            DBContext=dbContext;
-            Mapper = mapper;
+            _dbContext=dbContext;
+            _mapper = mapper;
         }
         public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken = default)
         {
-            var organization = (await this.DBContext.Organizations.AddAsync(Mapper.Map<Organization>(request),cancellationToken)).Entity;
+            var organization = (await this._dbContext.Organizations.AddAsync(_mapper.Map<Organization>(request),cancellationToken)).Entity;
             return organization;
         }
     }

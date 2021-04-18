@@ -11,16 +11,16 @@ namespace Megarender.Business.Modules.OrganizationModule
 {
     public class GetOrganizationQueryHandler : IRequestHandler<GetOrganizationQuery, Organization>
     {
-        private IAPIContext DBContext;
-        private IMapper Mapper;
+        private readonly IAPIContext _dbContext;
+        private readonly IMapper _mapper;
         public GetOrganizationQueryHandler(IAPIContext dbContext, IMapper mapper)
         {
-            DBContext=dbContext;
-            Mapper = mapper;
+            _dbContext=dbContext;
+            _mapper = mapper;
         }
         public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Organizations.SingleAsync(
+            return await _dbContext.Organizations.SingleAsync(
                     new FindByIdSpecification<Organization>(request.Id).IsSatisfiedByExpression,
                     cancellationToken);
         }

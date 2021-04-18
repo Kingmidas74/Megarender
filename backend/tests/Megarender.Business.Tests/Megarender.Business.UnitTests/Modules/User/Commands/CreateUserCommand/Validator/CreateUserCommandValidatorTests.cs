@@ -1,11 +1,10 @@
 using System;
 using Megarender.Business.Modules.UserModule;
-using Megarender.Business.UnitTests.Modules.User.Commands;
 using Xunit;
 
-namespace Megarender.Business.UnitTests.Modules.User.Validators
+namespace Megarender.Business.UnitTests.Modules.UserModule
 {
-    public class CreateuserCommandValidatorTests:TestBaseFixture
+    public class CreateUserCommandValidatorTests:TestBaseFixture
     {
         [Theory]
         [ClassData(typeof(CreateUserCommandValidatorTestData))]

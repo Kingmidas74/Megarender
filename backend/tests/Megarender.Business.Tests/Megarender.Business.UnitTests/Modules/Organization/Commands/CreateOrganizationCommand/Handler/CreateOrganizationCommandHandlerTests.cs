@@ -56,11 +56,12 @@ namespace Megarender.Business.UnitTests.Modules.OrganizationModule
             createdOrganization.Should().NotBeNull();
             createdOrganization.CreatedBy.Id.Should().Be(user.Id);
 
-            // var createdUser =
-            //     await Context.Users.SingleAsync(new FindByIdSpecification<User>(user.Id).IsSatisfiedByExpression);
-            // createdUser.Should().NotBeNull();
-            // createdUser.UserOrganizations.Should().HaveCount(1);
-            // createdUser.UserOrganizations.First().Organization.CreatedBy.Should().Be(organization.Id);
+            var createdUser =
+                await Context.Users.SingleAsync(new FindByIdSpecification<User>(user.Id).IsSatisfiedByExpression);
+            createdUser.Should().NotBeNull();
+            createdUser.UserOrganizations.Should().HaveCount(1);
+            createdUser.UserOrganizations.First().Organization.Id.Should().Be(organization.Id);
+            createdUser.UserOrganizations.First().User.Id.Should().Be(user.Id);
         }
     }
 }

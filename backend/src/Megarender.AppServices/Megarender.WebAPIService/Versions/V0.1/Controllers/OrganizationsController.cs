@@ -6,6 +6,7 @@ using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using System;
 using System.Threading;
+using Megarender.WebAPIService.Extensions;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
@@ -46,6 +47,7 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand, CancellationToken cancellationToken=default) {
+            createOrganizationCommand.CreatedBy = User.ExtractIdentifier();
             var result = await mediator.Send(createOrganizationCommand, cancellationToken);
             return Created($"{nameof(Organization)}/{result.Id}",result);
         }

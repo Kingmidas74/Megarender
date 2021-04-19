@@ -22,15 +22,10 @@ namespace Megarender.DataAccess
                                 providerOptions.MigrationsAssembly ($"{nameof(Megarender)}.{nameof(Megarender.DataAccess)}");
                     });
                 var extension = options.Options.FindExtension<CoreOptionsExtension> ();
-                if (extension != null) {
-                    var loggerFactory = extension.ApplicationServiceProvider.GetService<ILoggerFactory> ();
-                    if (loggerFactory != null) {
-#if DEBUG
-                        options.EnableSensitiveDataLogging ().UseLoggerFactory (loggerFactory);
-#else
-                        options.UseLoggerFactory (loggerFactory);
-#endif
-                    }
+                var loggerFactory = extension?.ApplicationServiceProvider.GetService<ILoggerFactory> ();
+                if (loggerFactory != null)
+                {
+                    options.UseLoggerFactory (loggerFactory);
                 }
             });
             services.AddScoped<IAPIContext>(provider => provider.GetService<APIContext>());

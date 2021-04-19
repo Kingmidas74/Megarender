@@ -21,7 +21,7 @@ namespace Megarender.Business.Modules.UserModule
         public async Task<User> Handle(GetUserQuery request, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Users.SingleAsync(
-                    new FindByIdSpecification<User>(request.Id).IsSatisfiedByExpression,
+                    new FindByIdSpecification<User>(request.Id).ToExpression(),
                     cancellationToken);
         }
     }

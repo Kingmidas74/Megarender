@@ -5,9 +5,9 @@ namespace Megarender.Business.Modules.UserModule
 {
     public class CreateUserCommandValidator:AbstractValidator<CreateUserCommand>
     {
-        private IAPIContext DBContext {get;set;}
+        private IAPIContext _dbContext;
         public CreateUserCommandValidator(IAPIContext dbContext) {
-            DBContext=dbContext;
+            _dbContext=dbContext;
 
             RuleFor(x=>x.Id).NotEmpty();
             RuleFor(x=>x.Birthdate).NotEmpty();

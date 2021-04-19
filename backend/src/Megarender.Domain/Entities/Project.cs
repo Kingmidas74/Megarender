@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Megarender.Domain
 {
-    public partial record Project:Entity,IUserCreatable
+    public record Project:Entity,IUserCreatable
     {
         public string Title {get; init;}        
         public virtual User CreatedBy {get; init;}

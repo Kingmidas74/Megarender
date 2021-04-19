@@ -27,7 +27,7 @@ namespace Megarender.Business.UnitTests.Modules.OrganizationModule
                     .ForMember(dest => dest.CreatedBy,
                         opt =>
                             opt.MapFrom(src => Context.Users.Single(
-                                new FindByIdSpecification<User>(src.CreatedBy).IsSatisfiedByExpression)));
+                                new FindByIdSpecification<User>(src.CreatedBy).ToExpression())));
                 }
             ).CreateMapper();
         }

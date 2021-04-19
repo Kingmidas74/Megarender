@@ -9,9 +9,9 @@ namespace Megarender.Business.Modules.UserModule
 {
     public class CreateAndAddUserToOrganizationCommandValidator:AbstractValidator<CreateAndAddUserToOrganizationCommand>
     {
-        private IAPIContext DBContext {get;set;}
+        private readonly IAPIContext _dbContext;
         public CreateAndAddUserToOrganizationCommandValidator(IAPIContext dbContext) {
-            DBContext=dbContext;
+            _dbContext=dbContext;
 
             RuleFor(x=>x.Id).NotEmpty();
             RuleFor(x=>x.Birthdate).NotEmpty();
@@ -24,7 +24,7 @@ namespace Megarender.Business.Modules.UserModule
 
         private async Task<bool> OrganizationExist(Guid organizationId, CancellationToken cancellationToken = default)
         {
-            return (await DBContext.Organizations.AnyAsync(x=>x.Id.Equals(organizationId), cancellationToken));
+            return (await _dbContext.Organizations.AnyAsync(x=>x.Id.Equals(organizationId), cancellationToken));
         }
     }
 }

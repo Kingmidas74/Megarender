@@ -21,7 +21,7 @@ namespace Megarender.Business.Modules.OrganizationModule
         public async Task<Organization> Handle(GetOrganizationQuery request, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Organizations.SingleAsync(
-                    new FindByIdSpecification<Organization>(request.Id).IsSatisfiedByExpression,
+                    new FindByIdSpecification<Organization>(request.Id).ToExpression(),
                     cancellationToken);
         }
     }

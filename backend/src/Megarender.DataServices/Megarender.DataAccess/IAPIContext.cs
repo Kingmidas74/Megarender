@@ -17,12 +17,13 @@ namespace Megarender.DataAccess
         DbSet<Render> Renders {get;set;}
         DbSet<SharedMoneyTransaction> SharedMoneyTransactions {get;set;}
         DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}        
+        
+        DbSet<UserOrganization> UserOrganizations { get; set; }
+        
         int SaveChanges();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
         Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default);
         void RollbackTransaction(IDbContextTransaction transaction);
-        Task ExecuteAsync(Func<Task> operation);
-
     }
 }

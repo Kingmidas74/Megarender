@@ -22,7 +22,7 @@ namespace Megarender.Business.Modules.UserModule
         {   
             var user = (await _dbContext.Users.AddAsync(_mapper.Map<User>(request),cancellationToken)).Entity;
             var organization = await _dbContext.Organizations.SingleAsync(
-                    new FindByIdSpecification<Organization>(request.OrganizationId).IsSatisfiedByExpression, cancellationToken);         
+                    new FindByIdSpecification<Organization>(request.OrganizationId).ToExpression(), cancellationToken);         
             organization.OrganizationUsers.Add(
                 new UserOrganization {
                     User = user,

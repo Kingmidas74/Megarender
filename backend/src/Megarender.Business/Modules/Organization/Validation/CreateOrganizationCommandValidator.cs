@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -30,7 +31,7 @@ namespace Megarender.Business.Modules.OrganizationModule
         
         private async Task<bool> IsExistAndHavePermissions(Guid userId, CancellationToken cancellationToken = default)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(new FindByIdSpecification<User>(userId).IsSatisfiedByExpression, cancellationToken);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(new FindByIdSpecification<User>(userId).And(new FindActiveSpecification<User>()).ToExpression(), cancellationToken);
             var createdOrganizationsCount = await _dbContext.Organizations.CountAsync(x => x.CreatedBy.Id == userId, cancellationToken);
             return user is not null && createdOrganizationsCount == 0;
         }

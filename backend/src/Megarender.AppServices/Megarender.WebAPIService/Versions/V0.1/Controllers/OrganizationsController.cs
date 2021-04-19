@@ -5,8 +5,10 @@ using MediatR;
 using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Megarender.WebAPIService.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Megarender.WebAPIService.Versions.V01.Controllers {
 
@@ -16,10 +18,10 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
     [Authorize]
     public class OrganizationsController : ControllerBase {    
 
-        private readonly ISender mediator;
+        private readonly ISender _mediator;
             
         public OrganizationsController (ISender mediator) {            
-            this.mediator = mediator;
+            this._mediator = mediator;
         }
         
         /// <summary>
@@ -27,17 +29,25 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Organization>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken=default) {
-            return Ok(await mediator.Send(new GetOrganizationsQuery(), cancellationToken));
+            return Ok(await _mediator.Send(new GetOrganizationsQuery(), cancellationToken));
         }
 
         /// <summary>
         /// Get organization by id
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById(Guid Id, CancellationToken cancellationToken=default) {
-            return Ok(await mediator.Send(new GetOrganizationQuery{Id=Id}, cancellationToken));
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Organization))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken=default) {
+            return Ok(await _mediator.Send(new GetOrganizationQuery{Id=id}, cancellationToken));
         }
 
         /// <summary>
@@ -46,10 +56,28 @@ namespace Megarender.WebAPIService.Versions.V01.Controllers {
         /// <param name="createOrganizationCommand"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Organization))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateOrganization([FromBody]CreateOrganizationCommand createOrganizationCommand, CancellationToken cancellationToken=default) {
             createOrganizationCommand.CreatedBy = User.ExtractIdentifier();
-            var result = await mediator.Send(createOrganizationCommand, cancellationToken);
+            var result = await _mediator.Send(createOrganizationCommand, cancellationToken);
             return Created($"{nameof(Organization)}/{result.Id}",result);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DisableOrganization(
+            [FromBody] DisableOrganizationCommand disableOrganizationCommand,
+            CancellationToken cancellationToken = default)
+        {
+            disableOrganizationCommand.ModifyBy = User.ExtractIdentifier();
+            await _mediator.Send(disableOrganizationCommand, cancellationToken);
+            return NoContent();
         }
     }
 }

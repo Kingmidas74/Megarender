@@ -21,7 +21,7 @@ namespace Megarender.Business.Modules.OrganizationModule
         private async Task<bool> IsExist(Guid organizationId, CancellationToken cancellationToken = default)
         {
             return await _apiContext.Organizations.AnyAsync(
-                    new FindByIdSpecification<Organization>(organizationId).IsSatisfiedByExpression,
+                    new FindByIdSpecification<Organization>(organizationId).ToExpression(),
                     cancellationToken);
         }
     }

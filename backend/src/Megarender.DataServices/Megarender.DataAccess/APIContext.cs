@@ -19,6 +19,8 @@ namespace Megarender.DataAccess {
         public DbSet<Render> Renders {get;set;}
         public DbSet<SharedMoneyTransaction> SharedMoneyTransactions {get;set;}
         public DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}
+        
+        public DbSet<UserOrganization> UserOrganizations { get; set; }
         public APIContext (DbContextOptions<APIContext> options) : base (options) { }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
@@ -73,11 +75,6 @@ namespace Megarender.DataAccess {
                     transaction = null;
                 }
             }
-        }
-
-        public async Task ExecuteAsync(Func<Task> operation)
-        {
-            //await Database.ExecuteAsync(operation)
         }
     }
 }

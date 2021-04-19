@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Megarender.Domain
 {
-    public partial record User:Entity
+    public record User:Entity
     {
         public string FirstName {get;  init;}
         public string SecondName {get;  init;}

@@ -13,7 +13,7 @@ namespace Megarender.DataAccess
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_USER_FILE));
                 if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_PWD_FILE));
                 options.UseNpgsql (
-                    string.Format (connectionString,                                     
+                    string.Format (connectionString,
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
                                     File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 

@@ -11,17 +11,17 @@ namespace Megarender.Business.Modules.UserModule
 {
     public class GetUsersByOrganizationQueryValidator:AbstractValidator<GetUsersByOrganizationQuery>
     {
-        private IAPIContext DBContext {get;set;}
+        private readonly IAPIContext _dbContext;
         public GetUsersByOrganizationQueryValidator(IAPIContext dbContext) {
-            DBContext=dbContext;
+            _dbContext=dbContext;
 
-            RuleFor(x=>x.OrganizationId).NotEmpty().MustAsync(isExist);                            
+            RuleFor(x=>x.OrganizationId).NotEmpty().MustAsync(IsExist);                            
         }
 
-        private async Task<bool> isExist(Guid organizationId, CancellationToken cancellationToken = default)
+        private async Task<bool> IsExist(Guid organizationId, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Organizations.AnyAsync(
-                    new FindByIdSpecification<Organization>(organizationId).IsSatisfiedByExpression,
+            return await _dbContext.Organizations.AnyAsync(
+                    new FindByIdSpecification<Organization>(organizationId).ToExpression(),
                     cancellationToken);
         }
     }

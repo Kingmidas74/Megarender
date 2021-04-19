@@ -27,7 +27,7 @@ namespace Megarender.Business.Modules.OrganizationModule
         public Organization Convert(CreateOrganizationCommand source, Organization destination, ResolutionContext context)
         {
             var user = _apiContext.Users.Single(
-                new FindByIdSpecification<User>(source.CreatedBy).IsSatisfiedByExpression);
+                new FindByIdSpecification<User>(source.CreatedBy).ToExpression());
             
             return new Organization
             {

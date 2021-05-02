@@ -15,9 +15,13 @@ COPY ./clients/angular/package.json ./
 RUN npm install
 COPY ./clients/angular .
 RUN npm run build
+RUN chmod 777 ./dist/megarender-client/env.js
 
-FROM nginx:1.17.10-alpine
+FROM nginxinc/nginx-unprivileged:latest
 COPY ./clients/angular/nginx/default.conf /etc/nginx/conf.d/
-COPY --from=build /usr/src/app/dist/TestApp /usr/share/nginx/html
-
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/env.js | tee /usr/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]
+COPY --from=build /usr/src/app/dist/megarender-client /tmp/share/nginx/html
+#COPY --from=build /usr/src/app/dist/megarender-client/env.js /tmp/env.js
+CMD ["/bin/sh",  "-c",  "envsubst < /tmp/share/nginx/html/env.js | tee /tmp/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]
+#RUN chmod +x /tmp/share/nginx/html/env.js
+#CMD ["/bin/sh",  "-c",  "envsubst < /tmp/share/nginx/html/env.js > /tmp/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]
+#CMD ["/bin/sh",  "-c",  "nginx -g 'daemon off;'"]

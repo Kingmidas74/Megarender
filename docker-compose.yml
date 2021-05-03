@@ -243,7 +243,7 @@ services:
         - 8000:8989
       depends_on: 
         - identity-nginx
-        - mangement-nginx
+        - management-nginx
         - storage-nginx
         - angular
       

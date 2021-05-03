@@ -1,38 +1,6 @@
 version: "3.7"
 services:
 
-    # webapi_service:
-    #     image: localhost:5000/webapi-service:latest
-    #     build:
-    #       context: .
-    #       dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/Dockerfile        
-    #     container_name: webapi_service
-    #     restart: unless-stopped
-    #     expose:
-    #       - 80
-    #     environment: 
-    #       DB_HOST: "db"
-    #       DB_PORT: "5432"
-    #       DB_USER_FILE: "~/secrets/API_DB_USER"
-    #       DB_PWD_FILE: "~/secrets/API_DB_PASSWORD"
-    #       PIS_HOST: "identity_service"
-    #       PIS_PORT: "80"
-    #       RMQ_USER_FILE: "~/secrets/RMQ_USER"
-    #       RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
-    #       RMQ_HOST: "rabbitmq"
-    #       RMQ_PORT: "5672"
-    #       ASPNETCORE_ENVIRONMENT: "Development"
-    #       SeqURL: "http://seq:5341"
-    #       PIS_HOST_EXT: "localhost"
-    #       PIS_PORT_EXT: "5000"
-    #       REDIS_HOST: "redis"
-    #       REDIS_PORT: "6379"
-    #     depends_on:    
-    #       -  identity_service
-    #       -  redis  
-    #       # -  rabbitmq  
-    #       # -  seq
-
     management-service:
         image: localhost:5000/management-service:latest
         build:
@@ -47,7 +15,7 @@ services:
           DB_PORT: "5432"
           DB_USER_FILE: "~/secrets/API_DB_USER"
           DB_PWD_FILE: "~/secrets/API_DB_PASSWORD"
-          PIS_HOST: "identity_service"
+          PIS_HOST: "identity-service"
           PIS_PORT: "80"
           RMQ_USER_FILE: "~/secrets/RMQ_USER"
           RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
@@ -59,18 +27,18 @@ services:
           PIS_PORT_EXT: "5000"
           REDIS_HOST: "redis"
           REDIS_PORT: "6379"
-        # depends_on:    
-        #   -  identity_service
-        #   -  redis  
+        depends_on:    
+          -  identity-service
+          -  redis  
           # -  rabbitmq  
           # -  seq
           
-    identity_service:
+    identity-service:
         image: localhost:5000/identity-service:latest
         build:
           context: .
           dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/Dockerfile        
-        container_name: identity_service
+        container_name: identity-service
         restart: unless-stopped
         expose:
           - 80
@@ -85,12 +53,12 @@ services:
           -  db  
 
 
-    storage_service:
+    storage-service:
         image: localhost:5000/storage-service:latest
         build:
           context: .
           dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/Dockerfile        
-        container_name: storage_service
+        container_name: storage-service
         restart: unless-stopped
         expose:
           - 80
@@ -104,10 +72,10 @@ services:
           AZURE_STORAGE: "~/secrets/AZURE_STORAGE_CONNECTIONSTRING"
           PIS_HOST_EXT: "localhost"
           PIS_PORT_EXT: "5000"
-          PIS_HOST: "identity_service"
+          PIS_HOST: "identity-service"
           PIS_PORT: "80"
         depends_on:
-          -  identity_service    
+          -  identity-service    
 
 
     db:
@@ -229,9 +197,9 @@ services:
         IS_URI:  "http://localhost:5000"
         STORAGE_URI:  "http://localhost:5004/api"
       depends_on:        
-        - identity_nginx
+        - identity-nginx
         - management-nginx   
-        - storage_nginx
+        - storage-nginx
         
     management-nginx:
       build: 
@@ -245,27 +213,27 @@ services:
         - management-service
     
 
-    identity_nginx:
+    identity-nginx:
       build: 
         context: .
         dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/nginx/Dockerfile
-      container_name: identity_nginx
+      container_name: identity-nginx
       restart: unless-stopped
       ports:
         - 5000:8989
-      depends_on: 
-        - identity_service
+      # depends_on: 
+      #   - identity-service
 
-    storage_nginx:
+    storage-nginx:
       build: 
         context: .
         dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/nginx/Dockerfile
-      container_name: storage_nginx
+      container_name: storage-nginx
       restart: unless-stopped
       ports:
         - 5004:8989
-      depends_on: 
-        - storage_service
+      # depends_on: 
+      #   - storage-service
 
     reverse-proxy:
       build: 
@@ -276,9 +244,9 @@ services:
       ports:
         - 8000:8989
       # depends_on: 
-      #   - identity_nginx
-      #   - webapi_nginx
-      #   - storage_nginx
+      #   - identity-nginx
+      #   - mangement-nginx
+      #   - storage-nginx
       #   - angular
       
   

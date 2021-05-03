@@ -28,7 +28,8 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Megarender.AppServices\Megarender.WebAPIService\Megarender.WebAPIService.csproj" />
+    <ProjectReference Include="..\..\..\src\Megarender.AppServices\Megarender.ManagementService\Megarender.ManagementService.csproj" />
+    
   </ItemGroup>
 
 </Project>

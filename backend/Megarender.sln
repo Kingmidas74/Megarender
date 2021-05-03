@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataAccess", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.ManagementService", "src\Megarender.AppServices\Megarender.ManagementService\Megarender.ManagementService.csproj", "{11B19AAC-7266-4B89-B987-134668E8A232}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.WebServiceCore", "src\Megarender.AppServices\Megarender.WebServiceCore\Megarender.WebServiceCore.csproj", "{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -212,6 +214,18 @@ Global
 		{11B19AAC-7266-4B89-B987-134668E8A232}.Release|x64.Build.0 = Release|Any CPU
 		{11B19AAC-7266-4B89-B987-134668E8A232}.Release|x86.ActiveCfg = Release|Any CPU
 		{11B19AAC-7266-4B89-B987-134668E8A232}.Release|x86.Build.0 = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|x64.Build.0 = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Debug|x86.Build.0 = Debug|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|x64.ActiveCfg = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|x64.Build.0 = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|x86.ActiveCfg = Release|Any CPU
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BE80389E-3062-4A9A-A391-1ACDB3558712} = {AE654DB1-3EA5-47CA-9E3A-0F408646FE7F}
@@ -232,5 +246,6 @@ Global
 		{E479DB1A-0F3A-450F-AD28-5B32ADCF8DDF} = {AF2DB880-963E-11EB-B952-951FE8543FFC}
 		{2A072366-A483-4A84-9C32-42242D032417} = {F15B9C13-04A6-4FCC-A761-6A36F8DD50C6}
 		{11B19AAC-7266-4B89-B987-134668E8A232} = {5792DD5F-A20F-41D3-B3FB-00F352A87CCD}
+		{4136BB55-E2BF-4A47-84AA-CC6A7CF552AA} = {5792DD5F-A20F-41D3-B3FB-00F352A87CCD}
 	EndGlobalSection
 EndGlobal

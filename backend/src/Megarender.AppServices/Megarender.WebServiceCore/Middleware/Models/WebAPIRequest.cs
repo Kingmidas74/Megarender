@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 
-namespace Megarender.ManagementService.Middleware
+namespace Megarender.WebServiceCore.Middleware
 {
     public class WebAPIRequest
     {

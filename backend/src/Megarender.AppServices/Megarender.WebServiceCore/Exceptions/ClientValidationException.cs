@@ -3,7 +3,7 @@ using System;
 using FluentValidation;
 using System.Linq;
 
-namespace Megarender.ManagementService.Exceptions
+namespace Megarender.WebServiceCore.Exceptions
 {
     public class ClientValidationException:Exception
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Megarender.ManagementService.Models {
+namespace Megarender.WebServiceCore.Models {
     public class ApplicationOptions {
         public String IdentityServiceURI { get; set; }
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using Newtonsoft.Json;
 
-namespace Megarender.ManagementService.Extensions {
+namespace Megarender.WebServiceCore.Extensions {
     public static class ClaimsPrincipalExtensions {
         public static Guid ExtractIdentifier (this ClaimsPrincipal user) {
             if (Guid.TryParse (user.Claims.FirstOrDefault (c => c.Type.Equals ("userId"))?.Value ?? String.Empty, out Guid userId)) {

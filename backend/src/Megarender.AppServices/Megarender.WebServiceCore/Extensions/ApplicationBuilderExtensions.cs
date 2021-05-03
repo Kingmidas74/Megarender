@@ -9,9 +9,9 @@ using Megarender.Business.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Megarender.DataAccess.Extensions;
-using Megarender.ManagementService.Middleware;
+using Megarender.WebServiceCore.Middleware;
 
-namespace Megarender.ManagementService
+namespace Megarender.WebServiceCore
 {
     public static class ApplicationBuilderExtensions
     {

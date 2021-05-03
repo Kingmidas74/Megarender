@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Megarender.ManagementService.Middleware
+namespace Megarender.WebServiceCore.Middleware
 {
     public class ResponseMetricMiddleware: IConventionMiddleware
     {

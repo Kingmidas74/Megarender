@@ -2,19 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Megarender.WebServiceCore.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace Megarender.ManagementService
+namespace Megarender.WebServiceCore
 {
     public static class IServiceCollectionExtensions {
         
         public static IServiceCollection AddAuth (this IServiceCollection services, string connectionString) {            
             var identityServerURI = string.Format (connectionString, 
-                            System.Environment.GetEnvironmentVariable (nameof (ManagementService.Models.EnvironmentVariables.PIS_HOST)), 
-                            System.Environment.GetEnvironmentVariable (nameof (ManagementService.Models.EnvironmentVariables.PIS_PORT)));
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_HOST)), 
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_PORT)));
             services.AddAuthentication ("Bearer")
                 .AddJwtBearer ("Bearer", options => {
                     options.Authority = identityServerURI;
@@ -23,16 +25,16 @@ namespace Megarender.ManagementService
                 });
             return services;
         }
-        public static IServiceCollection AddSwagger (this IServiceCollection services, string connectionString) 
+        public static IServiceCollection AddSwagger<T> (this IServiceCollection services, string connectionString) 
         {
-            var identityServerURI = string.Format (connectionString, 
-                            System.Environment.GetEnvironmentVariable (nameof (ManagementService.Models.EnvironmentVariables.PIS_HOST_EXT)), 
-                            System.Environment.GetEnvironmentVariable (nameof (ManagementService.Models.EnvironmentVariables.PIS_PORT_EXT)));
+            var identityServerUri = string.Format (connectionString, 
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_HOST_EXT)), 
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_PORT_EXT)));
 
-            services.AddApiVersioning(options => {
+            services.AddApiVersioning(options => {  
                 options.ReportApiVersions=true;
                 options.AssumeDefaultVersionWhenUnspecified=false;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(0,1);
+                options.DefaultApiVersion = new ApiVersion(0,1);
                 options.ApiVersionReader = new HeaderApiVersionReader("X-Accept-Version");
             });
             services.AddVersionedApiExplorer(options => {  
@@ -44,11 +46,11 @@ namespace Megarender.ManagementService
   
                 foreach (var description in provider.ApiVersionDescriptions)  
                 {  
-                    c.SwaggerDoc(description.GroupName, new OpenApiInfo()  
+                    c.SwaggerDoc(description.GroupName, new OpenApiInfo
                     {  
-                        Title = $"{typeof(Startup).Assembly.GetCustomAttribute<System.Reflection.AssemblyProductAttribute>().Product}",  
+                        Title = $"{typeof(T).Assembly.GetCustomAttribute<AssemblyProductAttribute>().Product}",  
                         Version = description.ApiVersion.ToString(),  
-                        Description = description.IsDeprecated ? $"{typeof(Startup).GetType().Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description} - DEPRECATED" : typeof(Startup).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description,  
+                        Description = description.IsDeprecated ? $"{typeof(T).GetType().Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description} - DEPRECATED" : typeof(T).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description,  
                         TermsOfService = new Uri ("https://example.com/terms"),
                         Contact = new OpenApiContact {
                             Name = "Suleymanov Denis",
@@ -72,8 +74,8 @@ namespace Megarender.ManagementService
                     {
                         ClientCredentials = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri($"{identityServerURI}connect/authorize"),
-                            TokenUrl = new Uri($"{identityServerURI}connect/token"),
+                            AuthorizationUrl = new Uri($"{identityServerUri}connect/authorize"),
+                            TokenUrl = new Uri($"{identityServerUri}connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
                                 { "megarender_api", "Full access " }
@@ -90,11 +92,11 @@ namespace Megarender.ManagementService
                                     Id = "Bearer"
                             }
                         },
-                        new string[] { "megarender_api"}
+                        new[] { "megarender_api"}
                     }
                 });
                 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFile = $"{typeof(T).Assembly.GetName().Name}.xml";
                 var xmlPath = Path.Combine (AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments (xmlPath);
             });

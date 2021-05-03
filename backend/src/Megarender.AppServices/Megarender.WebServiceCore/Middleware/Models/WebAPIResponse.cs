@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Megarender.ManagementService.Middleware
+namespace Megarender.WebServiceCore.Middleware
 {
     public abstract class WebAPIResponse
     {

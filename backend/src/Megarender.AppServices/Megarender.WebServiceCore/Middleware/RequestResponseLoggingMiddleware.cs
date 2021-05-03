@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace Megarender.ManagementService.Middleware {    
+namespace Megarender.WebServiceCore.Middleware {    
 
     public class RequestResponseLoggingMiddleware : IConventionMiddleware
     {

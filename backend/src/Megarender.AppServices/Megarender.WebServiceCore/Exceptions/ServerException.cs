@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Megarender.ManagementService.Exceptions
+namespace Megarender.WebServiceCore.Exceptions
 {
     public class ServerException:Exception
     {

@@ -7,7 +7,7 @@ using Megarender.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Megarender.ManagementService.Extensions;
+using Megarender.WebServiceCore.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace Megarender.ManagementService.Versions.V01.Controllers {

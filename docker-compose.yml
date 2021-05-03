@@ -232,20 +232,7 @@ services:
         - identity_nginx
         - management-nginx   
         - storage_nginx
-
-
-    # webapi_nginx:
-    #   build: 
-    #     context: .
-    #     dockerfile: ./backend/src/Megarender.AppServices/Megarender.WebAPIService/nginx/Dockerfile
-    #   container_name: webapi_nginx
-    #   restart: unless-stopped
-    #   ports:
-    #     - 5002:8989
-    #   depends_on: 
-    #     - webapi_service
-
-
+        
     management-nginx:
       build: 
         context: .

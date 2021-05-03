@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Logging;
 using Prometheus;
 
-namespace Megarender.ManagementService
+namespace Megarender.WebServiceCore
 {
     public class MetricReporter
     {

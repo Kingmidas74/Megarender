@@ -9,7 +9,8 @@ using NUnit.Framework;
 using Respawn.Postgres;
 using System.IO;
 using System.Threading.Tasks;
-using Megarender.WebAPIService;
+using Megarender.Business.IntegrationTests;
+using Megarender.ManagementService;
 
 [SetUpFixture]
 public class Testing
@@ -25,7 +26,7 @@ public class Testing
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
+            .AddJsonFile("appsettings.json", true, false)
             .AddEnvironmentVariables();
 
         _configuration = builder.Build();
@@ -36,7 +37,7 @@ public class Testing
 
         services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
             w.EnvironmentName == "Development" &&
-            w.ApplicationName == "Megarender.WebAPIService"));
+            w.ApplicationName == "Megarender.ManagementService"));
 
         services.AddLogging();
 

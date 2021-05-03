@@ -21,6 +21,6 @@ export class IdentityInterceptor implements HttpInterceptor {
   constructor(private env: EnvService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(req.clone({ url: `${this.env.IS_URI}${req.url}` }));
+    return next.handle(req.clone({ url: `${this.env.API_URI}${environment.API.management_prefix}${req.url}` }));
   }
 }

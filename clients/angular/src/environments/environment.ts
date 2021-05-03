@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   API: {
+    management_prefix: '/management',
     Version: '0.1'
   },
   identityService: {

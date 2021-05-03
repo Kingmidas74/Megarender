@@ -193,9 +193,7 @@ services:
       ports:
         - 8888:8080
       environment: 
-        API_URI: "http://localhost:5002/api"
-        IS_URI:  "http://localhost:5000"
-        STORAGE_URI:  "http://localhost:5004/api"
+        API_URI: "http://localhost:8000/api"        
       depends_on:        
         - identity-nginx
         - management-nginx   
@@ -221,8 +219,8 @@ services:
       restart: unless-stopped
       ports:
         - 5000:8989
-      # depends_on: 
-      #   - identity-service
+      depends_on: 
+        - identity-service
 
     storage-nginx:
       build: 
@@ -232,8 +230,8 @@ services:
       restart: unless-stopped
       ports:
         - 5004:8989
-      # depends_on: 
-      #   - storage-service
+      depends_on: 
+        - storage-service
 
     reverse-proxy:
       build: 
@@ -243,11 +241,11 @@ services:
       restart: unless-stopped
       ports:
         - 8000:8989
-      # depends_on: 
-      #   - identity-nginx
-      #   - mangement-nginx
-      #   - storage-nginx
-      #   - angular
+      depends_on: 
+        - identity-nginx
+        - mangement-nginx
+        - storage-nginx
+        - angular
       
   
 volumes: 

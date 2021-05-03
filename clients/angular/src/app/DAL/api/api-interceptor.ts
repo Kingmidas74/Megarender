@@ -39,7 +39,7 @@ export class ApiInterceptor implements HttpInterceptor {
               'Authorization': `Bearer ${(token as JWTToken).access_token}`
             })
           };
-          return next.handle(req.clone({ url: `${this.env.API_URI}${req.url}`, headers:httpOptions.headers }))
+          return next.handle(req.clone({ url: `${this.env.API_URI}${environment.API.management_prefix}${req.url}`, headers:httpOptions.headers }))
         })
       )
   }

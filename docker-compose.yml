@@ -233,6 +233,19 @@ services:
       depends_on: 
         - storage-service
 
+    doc-portal:
+      build: 
+        context: .
+        dockerfile: ./clients/megarender-doc-portal/Dockerfile
+      container_name: doc-portal
+      restart: unless-stopped
+      ports:
+        - 8889:8080
+      depends_on: 
+        - identity-nginx
+        - management-nginx
+        - storage-nginx
+
     reverse-proxy:
       build: 
         context: .
@@ -246,6 +259,7 @@ services:
         - management-nginx
         - storage-nginx
         - angular
+        - doc-portal
       
   
 volumes: 

@@ -1,0 +1,9 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.swagger-ui .info {
+  display: none;
+}

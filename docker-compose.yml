@@ -177,6 +177,7 @@ services:
 
     redis:
       image: redis:6.2.1-alpine
+      container_name: redis
       ports:
         - 6379:6379
       environment:
@@ -243,10 +244,10 @@ services:
         API_URI: "http://localhost:8000/api"  
       ports:
         - 8889:8080
-      # depends_on: 
-      #   - identity-nginx
-      #   - management-nginx
-      #   - storage-nginx
+      depends_on: 
+        - identity-nginx
+        - management-nginx
+        - storage-nginx
 
     reverse-proxy:
       build: 
@@ -256,12 +257,12 @@ services:
       restart: unless-stopped
       ports:
         - 8000:8989
-      # depends_on: 
-      #   - identity-nginx
-      #   - management-nginx
-      #   - storage-nginx
-      #   - portal
-      #   - doc-portal
+      depends_on: 
+        - identity-nginx
+        - management-nginx
+        - storage-nginx
+        - portal
+        - doc-portal
       
   
 volumes: 

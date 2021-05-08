@@ -9,7 +9,6 @@ const Sidebar = props => {
                     updateDefinitionLink={props.updateDefinitionLink}
                 />
     });
-
   return (
     <div className="side-bar">
         <div className="side-bar-header">            

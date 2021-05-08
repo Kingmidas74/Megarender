@@ -45,7 +45,7 @@
             "args": [
                 "start",
                 "--prefix",
-                "${workspaceFolder}/clients/angular"
+                "${workspaceFolder}/clients/portal"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -88,15 +88,15 @@
             }
         },
         {
-            "name": "Angular",
+            "name": "Portal",
             "type": "chrome",
             "request": "launch",    
             "preLaunchTask": "serve",        
             "url": "http://localhost:4200",
-            "cwd": "${workspaceFolder}/src/clinet/angular",
-            "webRoot": "${workspaceFolder}/src/clinet/angular",
+            "cwd": "${workspaceFolder}/clients/portal",
+            "webRoot": "${workspaceFolder}/clients/portal",
             "env": {
-                "API_URI": "localhost:5002/api",
+                "API_URI": "localhost:8000/api",
                 "IS_URI":  "localhost:5000",
                 "STORAGE_URI":  "localhost:5004/api"
             }
@@ -115,7 +115,7 @@
                 "Management Service",
                 "Identity Service",
                 "Storage Service",
-                "Angular"
+                "Portal"
             ]
         },
         {

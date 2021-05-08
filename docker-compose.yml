@@ -183,12 +183,12 @@ services:
         - REDIS_REPLICATION_MODE=master
 
     
-    angular:
-      image: localhost:5000/angular:latest
+    portal:
+      image: localhost:5000/portal:latest
       build:
         context: .
-        dockerfile: ./clients/angular/Dockerfile        
-      container_name: angular
+        dockerfile: ./clients/portal/Dockerfile        
+      container_name: portal
       restart: unless-stopped
       ports:
         - 8888:8080
@@ -236,15 +236,17 @@ services:
     doc-portal:
       build: 
         context: .
-        dockerfile: ./clients/megarender-doc-portal/Dockerfile
+        dockerfile: ./clients/doc-portal/Dockerfile
       container_name: doc-portal
       restart: unless-stopped
+      environment: 
+        API_URI: "http://localhost:8000/api"  
       ports:
         - 8889:8080
-      depends_on: 
-        - identity-nginx
-        - management-nginx
-        - storage-nginx
+      # depends_on: 
+      #   - identity-nginx
+      #   - management-nginx
+      #   - storage-nginx
 
     reverse-proxy:
       build: 
@@ -254,12 +256,12 @@ services:
       restart: unless-stopped
       ports:
         - 8000:8989
-      depends_on: 
-        - identity-nginx
-        - management-nginx
-        - storage-nginx
-        - angular
-        - doc-portal
+      # depends_on: 
+      #   - identity-nginx
+      #   - management-nginx
+      #   - storage-nginx
+      #   - portal
+      #   - doc-portal
       
   
 volumes: 

@@ -6,20 +6,10 @@ import Sidebar from './Sidebar.js'
 class App extends Component {
   constructor(props) {
     super(props);
-    let services = [{
-      name:'identity',
-      url:'http://localhost:8000/api/management/swagger/0.1/swagger.json'
-    },{
-      name:'management',
-      url:'http://localhost:5002/swagger/0.1/swagger.json'
-    },{
-      name:'storage',
-      url:'http://localhost:5004/swagger/0.1/swagger.json'
-    }];
     this.state = {
         organizationConfig: null,
-        definitionList: services,
-        definitionLink: services[0].url
+        definitionList: null, 
+        definitionLink: null, 
       }
       
       this.updateDefinitionLink = this.updateDefinitionLink.bind(this)
@@ -28,6 +18,8 @@ class App extends Component {
   componentWillMount() {
     this.setState({
       organizationConfig:  Config.orgData,
+      definitionList: Config.orgData.services,
+      definitionLink:  `${window.__env.API_URI}${Config.orgData.services[0].path}`
     })
   }
 

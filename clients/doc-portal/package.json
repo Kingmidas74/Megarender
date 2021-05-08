@@ -1,6 +1,7 @@
 {
   "name": "oas-doc-portal",
   "version": "0.1.0",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "har-validator": "^5.1.3",

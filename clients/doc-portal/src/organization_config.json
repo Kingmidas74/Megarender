@@ -1,0 +1,21 @@
+{
+    "orgData": {
+        "orgName": "mr",
+        "displayName": "Megarender",
+        "displayTag": "Documentation apis",
+        "services": [
+            {
+                "name": "identity",
+                "path": "/management/identity/swagger/0.1/swagger.json"
+            },
+            {
+                "name": "management",
+                "path": "/management/swagger/0.1/swagger.json"
+            },
+            {
+                "name": "storage",
+                "path": "/storage/swagger/0.1/swagger.json"
+            }
+        ]
+    }
+}

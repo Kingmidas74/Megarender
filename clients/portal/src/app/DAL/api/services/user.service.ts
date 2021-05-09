@@ -13,7 +13,7 @@ export class UserService {
   public createUser(createUserCommand:CreateUserCommand):Observable<User>
   {
     createUserCommand.commandId = uuid.v4();
-    return this.apiHttpClient.post<User>('/users',createUserCommand);
+    return this.apiHttpClient.post<User>('/users/',createUserCommand);
   }
 
   public getUserById(userId:string): Observable<User> {

@@ -9,25 +9,25 @@ namespace Megarender.IdentityService.CQRS
 {
     public class ConfirmIdentityCommandValidator:AbstractValidator<ConfirmIdentityCommand>
     {
-        private readonly AppDbContext IdentityDBContext;
-        private readonly ApplicationOptions Options;
-        public ConfirmIdentityCommandValidator(AppDbContext identityDBContext, IOptions<ApplicationOptions> options)
+        private readonly AppDbContext _identityDbContext;
+        private readonly ApplicationOptions _options;
+        public ConfirmIdentityCommandValidator(AppDbContext identityDbContext, IOptions<ApplicationOptions> options)
         {
-            IdentityDBContext = identityDBContext;
-            Options = options.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
+            _identityDbContext = identityDbContext;
+            _options = options.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
 
             RuleFor(x=>x.Id).NotEmpty().MustAsync(IdentityExist);
             RuleFor(x=>x.Code).NotEmpty().Must(IsWithin);            
         }
 
-        public async Task<bool> IdentityExist(Guid Id, CancellationToken cancellationToken = default)
+        private async Task<bool> IdentityExist(Guid id, CancellationToken cancellationToken = default)
         {
-            return await IdentityDBContext.Identities.AnyAsync(x=>x.Id.Equals(Id), cancellationToken);
+            return await _identityDbContext.Identities.AnyAsync(x=>x.Id.Equals(id), cancellationToken);
         }
 
-        public bool IsWithin(string code)
+        private bool IsWithin(string code)
         {
-            return Options.LowerBoundCode<=int.Parse(code) && int.Parse(code)<=Options.UpperBoundCode;
+            return _options.LowerBoundCode<=int.Parse(code) && int.Parse(code)<=_options.UpperBoundCode;
         }
     }
 }

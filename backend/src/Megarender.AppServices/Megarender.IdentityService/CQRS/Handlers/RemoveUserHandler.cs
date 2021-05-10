@@ -7,17 +7,17 @@ namespace Megarender.IdentityService.CQRS
 {
     public class RemoveUserHandler : IRequestHandler<RemoveUserCommand, Unit>
     {
-        private readonly AppDbContext IdentityDBContext;
+        private readonly AppDbContext _identityDbContext;
 
-        public RemoveUserHandler(AppDbContext identityDBContext)
+        public RemoveUserHandler(AppDbContext identityDbContext)
         {
-            this.IdentityDBContext = identityDBContext;
+            _identityDbContext = identityDbContext;
         }
         public async Task<Unit> Handle(RemoveUserCommand request, CancellationToken cancellationToken = default)
         {
-            var user = await this.IdentityDBContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone), cancellationToken);
-            this.IdentityDBContext.Remove(user);
-            await this.IdentityDBContext.SaveChangesAsync(cancellationToken);
+            var user = await _identityDbContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone), cancellationToken);
+            _identityDbContext.Remove(user);
+            await _identityDbContext.SaveChangesAsync(cancellationToken);
             return new Unit();
         }
     }

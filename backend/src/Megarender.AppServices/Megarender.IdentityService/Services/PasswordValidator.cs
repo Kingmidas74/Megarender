@@ -3,17 +3,17 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using Megarender.IdentityService.CQRS;
 using MediatR;
+using Megarender.IdentityService.CQRS;
 
 namespace Megarender.IdentityService
 {
     public class PasswordValidator : IExtensionGrantValidator {
 
-        private readonly ISender mediator;
+        private readonly ISender _mediator;
 
         public PasswordValidator (ISender mediator) {
-            this.mediator = mediator;
+            _mediator = mediator;
         }
         public string GrantType => "custom";
 
@@ -26,7 +26,7 @@ namespace Megarender.IdentityService
                 return;
             }
 
-            var result = await this.mediator.Send(new FindUserByPhoneAndPasswordQuery{
+            var result = await _mediator.Send(new FindUserByPhoneAndPasswordQuery{
                 Password = userPassword,
                 Phone = userPhone
             });
@@ -37,11 +37,9 @@ namespace Megarender.IdentityService
 
             context.Result = new GrantValidationResult (userPhone, GrantType, new List<Claim> {
                 new Claim ("userId", result.Id.ToString ()),
-                new Claim ("userEmail", result.Email),
                 new Claim ("userPhone", result.Phone),
                 new Claim ("aud","megarender_api")
             });
-            return;
         }
     }
 }

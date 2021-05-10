@@ -15,9 +15,9 @@ using Masking.Serilog;
 
 namespace Megarender.IdentityService {
     public class Startup {
-        private readonly string CorsPolicy = nameof (CorsPolicy);
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
+        private readonly string _corsPolicy = nameof (_corsPolicy);
+        private IWebHostEnvironment Environment { get; }
+        private IConfiguration Configuration { get; }
 
         public Startup (IConfiguration configuration, IWebHostEnvironment environment) {
             Configuration = configuration;
@@ -57,7 +57,7 @@ namespace Megarender.IdentityService {
                 });
 
             services.AddCors (options => {
-                options.AddPolicy (nameof (CorsPolicy),
+                options.AddPolicy (nameof (_corsPolicy),
                     builder => builder.AllowAnyOrigin ()
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
@@ -66,12 +66,15 @@ namespace Megarender.IdentityService {
         }
 
         public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider) {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext> ();                    
-                   
-                if(!context.AllMigrationsApplied())
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ()?.CreateScope ()) {
+                if (serviceScope != null)
                 {
-                    context.Database.Migrate();
+                    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext> ();                    
+                   
+                    if(!context.AllMigrationsApplied())
+                    {
+                        context.Database.Migrate();
+                    }
                 }
             }
 
@@ -84,7 +87,7 @@ namespace Megarender.IdentityService {
             app.UseMiddleware<ResponseMetricMiddleware>();
             app.UseMiddleware<CountRequestMiddleware>();
 
-            app.UseCors (nameof (CorsPolicy));
+            app.UseCors (nameof (_corsPolicy));
             app.UseMetricServer(); 
             app.UseCustomExceptionHandler();
             app.UseHttpMetrics();

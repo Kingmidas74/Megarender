@@ -5,7 +5,7 @@ namespace Megarender.IdentityService.CQRS
 {
     public class ConfirmIdentityCommand:IRequest<Guid>
     {
-        public Guid Id {get;set;}
-        public string Code {get;set;}
+        public Guid Id { get; init; }
+        public string Code { get; init; }
     }
 }

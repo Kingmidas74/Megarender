@@ -8,27 +8,26 @@ namespace Megarender.IdentityService.CQRS
 {
     public class RemoveUserCommandValidator : AbstractValidator<RemoveUserCommand>
     {
-        private readonly AppDbContext identityDBContext;
-        private readonly UtilsService utils;
-        private readonly IOptions<ApplicationOptions> options;
+        private readonly AppDbContext _identityDbContext;
+        private readonly UtilsService _utils;
+        private readonly IOptions<ApplicationOptions> _options;
 
-        public RemoveUserCommandValidator(AppDbContext identityDBContext, UtilsService utils, IOptions<ApplicationOptions> options)
+        public RemoveUserCommandValidator(AppDbContext identityDbContext, UtilsService utils, IOptions<ApplicationOptions> options)
         {
-            this.options = options;
-            this.utils = utils;
-            this.identityDBContext = identityDBContext;
+            this._options = options;
+            this._utils = utils;
+            this._identityDbContext = identityDbContext;
 
             
             RuleFor(x => x.Phone).NotEmpty();
             RuleFor(x => x.Password).NotEmpty();
-            RuleFor(x => x.Email).NotEmpty();
             RuleFor(x => x.Phone).MustAsync((x,y,z)=>IsExist(x,z));
         }
 
-        public async Task<bool> IsExist(RemoveUserCommand query, CancellationToken cancellationToken = default)
+        private async Task<bool> IsExist(RemoveUserCommand query, CancellationToken cancellationToken = default)
         {
-            var user = await identityDBContext.Users.SingleAsync(u => u.Phone == query.Phone && u.Email==query.Email, cancellationToken);
-            return user.Password == utils.HashedPassword(user.Phone, query.Password, user.Salt, options.Value.Pepper);
+            var user = await _identityDbContext.Users.SingleAsync(u => u.Phone == query.Phone, cancellationToken);
+            return user.Password == _utils.HashedPassword(user.Phone, query.Password, user.Salt, _options.Value.Pepper);
         }
     }
 }

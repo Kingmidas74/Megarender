@@ -11,11 +11,11 @@ namespace Megarender.IdentityService.Controllers
     [ApiVersionNeutral]
     public class IdentityController:ControllerBase
     {
-        private readonly ISender Mediator;
+        private readonly ISender _mediator;
 
         public IdentityController(ISender mediator)
         {
-            this.Mediator = mediator;
+            _mediator = mediator;
         }   
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Megarender.IdentityService.Controllers
         [HttpPost(nameof(CreateIdentity))]
         public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken = default) 
         {
-            return Created(string.Empty,await this.Mediator.Send(createIdentityCommand,cancellationToken));
+            return Created(string.Empty,await _mediator.Send(createIdentityCommand,cancellationToken));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Megarender.IdentityService.Controllers
         [HttpPost(nameof(ConfirmIdentity))]
         public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken = default) 
         {
-            return Ok(await this.Mediator.Send(confirmIdentityCommand, cancellationToken));
+            return Ok(await _mediator.Send(confirmIdentityCommand, cancellationToken));
         }     
     }
 }

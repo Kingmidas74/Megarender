@@ -53,7 +53,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.registerForm = this.formBuilder.group(
       {
         userPhone: ['', [Validators.required, Validators.pattern(this.mobNumberPattern)]],
-        userEmail: ['', [Validators.required, Validators.email]],
         userPassword: ['', [Validators.required, Validators.pattern(this.passwordPattern)]],
         userPasswordConfirm: ['', [Validators.required]],
         userFirstName: ['', Validators.required],
@@ -85,7 +84,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       return;
     }        
     const command = new CreateIdentityCommand();
-    command.email = this.registerForm.value.userEmail;
     command.phone = this.registerForm.value.userPhone;
     command.password = this.registerForm.value.userPassword;
     command.confirmPassword = this.registerForm.value.userPasswordConfirm;

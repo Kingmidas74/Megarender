@@ -12,15 +12,13 @@ namespace Megarender.IdentityService {
     public class User {
         public Guid Id { get; init; }
         public string Email { get; init; }
-        public string Password { get; init; }
+        public string Password { get; set; }
         public string Salt { get; init; }
         public string Phone { get; init; }
     }
 
     public class Identity {
         public Guid Id { get; init; }
-        public string Password { get; init; }
-        public string Salt { get; init; }
         public string Phone { get; init; }
         public string Code {get;set;}
     }

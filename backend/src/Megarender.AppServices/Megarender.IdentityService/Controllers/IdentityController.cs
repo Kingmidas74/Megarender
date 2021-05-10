@@ -16,28 +16,29 @@ namespace Megarender.IdentityService.Controllers
         public IdentityController(ISender mediator)
         {
             _mediator = mediator;
-        }   
-
-        /// <summary>
-        /// Create new identity
-        /// </summary>
-        /// <param name="createIdentityCommand"></param>
-        /// <returns></returns>
-        [HttpPost(nameof(CreateIdentity))]
-        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken = default) 
-        {
-            return Created(string.Empty,await _mediator.Send(createIdentityCommand,cancellationToken));
         }
 
         /// <summary>
         /// Confirm identity
         /// </summary>
-        /// <param name="confirmIdentityCommand"></param>
-        /// <returns></returns>
-        [HttpPost(nameof(ConfirmIdentity))]
-        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken = default) 
+        /// <param name="sendCodeCommand"></param>
+        /// <returns>Guido of identity</returns>
+        [HttpPost(nameof(SendCode))]
+        public async Task<IActionResult> SendCode([FromBody]SendCodeCommand sendCodeCommand, CancellationToken cancellationToken = default) 
         {
-            return Ok(await _mediator.Send(confirmIdentityCommand, cancellationToken));
-        }     
+            return Ok(await _mediator.Send(sendCodeCommand, cancellationToken));
+        }
+        
+        /// <summary>
+        /// Confirm identity
+        /// </summary>
+        /// <param name="verifyCodeCommand"></param>
+        /// <returns>Guido of identity</returns>
+        [HttpPost(nameof(VerifyCode))]
+        public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeCommand verifyCodeCommand, CancellationToken cancellationToken = default) 
+        {
+            return Ok(await _mediator.Send(verifyCodeCommand, cancellationToken));
+        }
+        
     }
 }

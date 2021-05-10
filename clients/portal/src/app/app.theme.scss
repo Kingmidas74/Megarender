@@ -83,7 +83,6 @@ $typography: mat-typography-config(
 @import "src/app/identity/identity-layout.theme";
 @import "src/app/error-pages/page-not-found/page-not-found.theme";
 @import "src/app/identity/components/login/login.theme";
-@import "src/app/identity/components/registration/registration.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -94,7 +93,6 @@ $typography: mat-typography-config(
     @include identity-layout-theme($theme);
     @include page-not-found-theme($theme);
     @include login-theme($theme);
-    @include registration-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

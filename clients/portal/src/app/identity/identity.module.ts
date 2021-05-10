@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
-import { RegistrationComponent } from './components/registration/registration.component';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'environments/environment';
@@ -19,7 +18,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 
 @NgModule({
-  declarations: [IdentityLayoutComponent, LoginComponent, RegistrationComponent],
+  declarations: [IdentityLayoutComponent, LoginComponent],
   imports: [
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

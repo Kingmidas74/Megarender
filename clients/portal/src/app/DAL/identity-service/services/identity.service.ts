@@ -8,8 +8,8 @@ import { JWTToken } from '../models/JWTToken';
 
 import { IdentityHttpService } from '../identity-interceptor';
 import { GetTokenQuery } from '../models/queries/get-token-query';
-import { CreateIdentityCommand } from '../models/commands/create-identity-command';
-import { ConfirmIdentityCommand } from '../models/commands/confirm-identity-command';
+import { VerifyCodeCommand } from '../models/commands/confirm-identity-command';
+import { SendCodeCommand } from '../models/commands/send-code-command';
 
 @Injectable()
 export class IdentityService {
@@ -41,14 +41,13 @@ export class IdentityService {
       .set('refresh_token', token.refresh_token)
     );
   }
-
-  public createIdentity(createIdentityCommand:CreateIdentityCommand):Observable<string>
+  
+  public verifyCode(verifyCodeCommand:VerifyCodeCommand):Observable<string>
   {
-    return this.identityHttpClient.post<string>('/identity/createIdentity',createIdentityCommand);
+    return this.identityHttpClient.post<string>('/identity/verifyCode',verifyCodeCommand);
   }
 
-  public confirmIdentity(confirmIdentityCommand:ConfirmIdentityCommand):Observable<string>
-  {
-    return this.identityHttpClient.post<string>('/identity/confirmIdentity',confirmIdentityCommand);
+  public sendCode(sendCodeCommand: SendCodeCommand) {
+    return this.identityHttpClient.post<string>('/identity/sendCode', sendCodeCommand);
   }
 }

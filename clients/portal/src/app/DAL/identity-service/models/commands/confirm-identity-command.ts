@@ -1,4 +1,4 @@
-export class ConfirmIdentityCommand {
+export class VerifyCodeCommand {
     id:string;
     code:string;
 }

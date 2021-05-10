@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewEncapsulation, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { takeUntil, mergeMap } from 'rxjs/operators';
+import { fromEvent, Subject, Subscription } from 'rxjs';
+import { takeUntil, mergeMap, debounceTime, distinctUntilChanged, tap, filter } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from 'environments/environment';
 import { fuseAnimations } from '@fuse/animations';
@@ -12,20 +12,36 @@ import { JWTToken } from '@DAL/identity-service/models/JWTToken';
 import { StorageMap } from '@ngx-pwa/local-storage';
 import { UserService } from '@DAL/api/services/user.service';
 import { CleanSubscriptions } from '@common/shared-utils/clean-subscriptions';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  animations   : fuseAnimations
+  animations   : [//fuseAnimations,  
+    trigger('codeShow', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 @CleanSubscriptions()
-export class LoginComponent implements OnInit/*, OnDestroy*/ {
+export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  phoneForm: FormGroup;
+  codeForm: FormGroup;
   subscriptions:Array<Subscription> = new Array<Subscription>();
   private unsubscribe$: Subject<any> = new Subject<any>();
+  mobNumberPattern = "^\\d*\\(?\\d{3}\\)?-? *\\d{3}-? *-?\\d{4}$";
+
+  codeIsSend:boolean = false;
+
+
+  @ViewChild('phone', {static:false}) userPhone: ElementRef;
+  @ViewChild('code') userCode: ElementRef;
+  userId: string;
 
   constructor(        
     private athenticationService:AuthenticationService,
@@ -40,50 +56,63 @@ export class LoginComponent implements OnInit/*, OnDestroy*/ {
 
   ngOnInit(): void
   {
-      this.loginForm = this.formBuilder.group({
-        userPhone: ['', [Validators.required]],
-        userPassword: ['', [Validators.required]]
+      this.phoneForm = this.formBuilder.group({
+        userPhone: ['', [Validators.required, Validators.pattern(this.mobNumberPattern)]],
+      });
+
+      this.codeForm = this.formBuilder.group({
+        userCode: ['', [Validators.required]]
       });
   }
 
-  // ngOnDestroy() {    
-  //   this.subscriptions.forEach(element => {
-  //     element.unsubscribe();
-  //   });
-  //   this.unsubscribe$.next();
-  //   this.unsubscribe$.complete();
-  // }
+
+  checkPhone() {
+    this.subscriptions.forEach(element => {
+      element.unsubscribe();
+    });
+    if(!this.phoneForm.controls['userPhone'].valid)
+    {
+      console.log(this.phoneForm.controls['userPhone'].errors);
+      return;
+    }
+    this.subscriptions.push(
+      this.athenticationService.sendCode(this.phoneForm.controls['userPhone'].value)        
+        .subscribe(userId => {
+          this.userId = userId;
+          this.codeIsSend=userId.length>0;
+        })
+    )
+    
+  }
 
   signin() {
     this.subscriptions.forEach(element => {
       element.unsubscribe();
     });
-    if (!this.loginForm.valid) {
-      console.error(this.loginForm.errors);
+    if(!this.codeForm.controls['userCode'].valid)
+    {
+      console.log(this.codeForm.controls['userCode'].errors);
       return;
-    }    
-    this.subscriptions.push(this.athenticationService
-    .login(this.loginForm.value.userPhone,this.loginForm.value.userPassword)
-    .pipe(
-      //takeUntil(this.unsubscribe$),
-      mergeMap(token=>this.athenticationService.getDecodedAccessToken(token as JWTToken)),
-      mergeMap(identityUser => this.apiService.getUserById(identityUser.userId)),
-      mergeMap(user=>this.storage.set(environment.constants.UserStorageKey,user))      
-    )
-    .subscribe(
-      _ => {     
-        this.router.navigate(['/workspace/']);
-      },
-      (error) => {
-        this.snackBar.open(error,'',{
-          duration: environment.constants.snackBarDuration,
-          announcementMessage: error
-        });
-      }
-    ));
-  }
-
-  signup() {
-    this.router.navigate(['/identity/registration']);
+    }
+    this.subscriptions.push(
+      this.athenticationService.verifyCode(this.userId, this.codeForm.controls["userCode"].value)
+      .pipe(
+        mergeMap(oneTimePassword => this.athenticationService.login(this.phoneForm.controls['userPhone'].value, oneTimePassword)),
+        mergeMap(token=>this.athenticationService.getDecodedAccessToken(token as JWTToken)),
+        mergeMap(identityUser => this.apiService.getUserById(identityUser.userId)),
+        mergeMap(user=>this.storage.set(environment.constants.UserStorageKey,user))
+      )
+      .subscribe(
+        _=> {
+          this.router.navigate(['/workspace/']);
+        },
+        (error) => {
+          this.snackBar.open(error,'',{
+            duration: environment.constants.snackBarDuration,
+            announcementMessage: error
+          })
+        }
+      )
+    );
   }
 }

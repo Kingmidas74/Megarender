@@ -39,22 +39,7 @@ app-login {
                 mat-checkbox {
                     margin: 0;
                 }
-
-                .remember-forgot-password {
-                    font-size: 13px;
-                    margin-top: 8px;
-
-                    .remember-me {
-                        margin-bottom: 16px
-                    }
-
-                    .forgot-password {
-                        font-size: 13px;
-                        font-weight: 600;
-                        margin-bottom: 16px
-                    }
-                }
-
+                
                 .submit-button {
                     width: 100%;
                     margin: 16px auto;
@@ -62,41 +47,6 @@ app-login {
 
                     @include media-breakpoint('xs') {
                         width: 80%;
-                    }
-                }
-            }
-
-            .separator {
-                font-size: 15px;
-                font-weight: 600;
-                margin: 24px auto;
-                position: relative;
-                overflow: hidden;
-                width: 100px;
-                text-align: center;
-
-                .text {
-                    display: inline-flex;
-                    position: relative;
-                    padding: 0 8px;
-                    z-index: 9999;
-
-                    &:before,
-                    &:after {
-                        content: '';
-                        display: block;
-                        width: 30px;
-                        position: absolute;
-                        top: 10px;
-                        border-top: 1px solid;
-                    }
-
-                    &:before {
-                        right: 100%;
-                    }
-
-                    &:after {
-                        left: 100%;
                     }
                 }
             }

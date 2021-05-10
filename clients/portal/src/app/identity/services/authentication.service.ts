@@ -11,12 +11,14 @@ import { GetTokenQuery } from '@DAL/identity-service/models/queries/get-token-qu
 
 import * as jwt_decode from "jwt-decode";
 import { IdentityUser } from '../models/identityUser';
+import { SendCodeCommand } from '@DAL/identity-service/models/commands/send-code-command';
+import { VerifyCodeCommand } from '@DAL/identity-service/models/commands/confirm-identity-command';
 
 @Injectable({
   providedIn:'root'
 })
 export class AuthenticationService {
-
+  
   subscriptions:Array<Subscription> = new Array<Subscription>();
   
   constructor(private identityService:IdentityService, 
@@ -54,6 +56,28 @@ export class AuthenticationService {
     })
     .catch(console.error);
   }
+
+  public sendCode(userPhone: string) {
+    this.unsubscribeAll();
+    let command = new SendCodeCommand();
+    command.phone = userPhone;
+    return this.identityService.sendCode(command)
+      .pipe(
+        catchError((error)=>this.handleError(error)),
+      )
+  }
+
+  verifyCode(userId: string, userCode: string) {
+    this.unsubscribeAll();
+    let command = new VerifyCodeCommand();
+    command.id = userId;
+    command.code = userCode;
+    return this.identityService.verifyCode(command)
+      .pipe(
+        catchError((error)=>this.handleError(error)),
+      )
+  }
+
 
   private unsubscribeAll() {
     this.subscriptions.forEach(element => {

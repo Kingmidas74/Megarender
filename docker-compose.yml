@@ -29,7 +29,7 @@ services:
           REDIS_PORT: "6379"
         depends_on:    
           -  identity-service
-          -  redis  
+          # -  redis  
           # -  rabbitmq  
           # -  seq
           
@@ -49,8 +49,8 @@ services:
           DB_PWD_FILE: "~/secrets/IS_DB_PASSWORD"
           ASPNETCORE_ENVIRONMENT: "Development"
           Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
-        depends_on:
-          -  db  
+        # depends_on:
+        #   -  db  
 
 
     storage-service:
@@ -90,38 +90,38 @@ services:
         container_name: db
         restart: unless-stopped
         environment:
-            PGDATA: "/var/lib/postgresql/data/pgdata"
-            POSTGRES_PASSWORD_FILE: "~/secrets/DB_PASSWORD"
-            POSTGRES_USER_FILE: "~/secrets/DB_USER"
+          PGDATA: "/var/lib/postgresql/data/pgdata"
+          POSTGRES_PASSWORD_FILE: "~/secrets/DB_PASSWORD"
+          POSTGRES_USER_FILE: "~/secrets/DB_USER"
 
     
-    # rabbitmq:
-    #     build:
-    #       context: .
-    #       dockerfile: ./third-party-images/RabbitMQ
-    #     container_name: rabbitmq
-    #     restart: unless-stopped
-    #     environment: 
-    #       RABBITMQ_DEFAULT_USER_FILE: "~/secrets/RMQ_USER"
-    #       RABBITMQ_DEFAULT_PASS_FILE: "~/secrets/RMQ_PASSWORD"
-    #     healthcheck:
-    #       test: ["CMD", "curl", "-f", "http://localhost:15672"]
-    #       interval: 30s
-    #       timeout: 10s
-    #       retries: 5
-    #     volumes:
-    #         - rmq_etc:/etc/rabbitmq/
-    #         - rmq_data:/var/lib/rabbitmq/
-    #         - rmq_logs:/var/log/rabbitmq/
-    #     expose:
-    #       - 4369
-    #       - 5671
-    #       - 5672
-    #       - 25672
-    #       - 15671
-    #     ports:            
-    #         - 15672:15672
-    #         - 5672:5672
+    rabbitmq:
+        build:
+          context: .
+          dockerfile: ./third-party-images/RabbitMQ
+        container_name: rabbitmq
+        restart: unless-stopped
+        environment: 
+          RABBITMQ_DEFAULT_USER_FILE: "~/secrets/RMQ_USER"
+          RABBITMQ_DEFAULT_PASS_FILE: "~/secrets/RMQ_PASSWORD"
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:15672"]
+          interval: 30s
+          timeout: 10s
+          retries: 5
+        volumes:
+            - rmq_etc:/etc/rabbitmq/
+            - rmq_data:/var/lib/rabbitmq/
+            - rmq_logs:/var/log/rabbitmq/
+        expose:
+          - 4369
+          - 5671
+          - 5672
+          - 25672
+          - 15671
+        ports:            
+            - 15672:15672
+            - 5672:5672
 
 
     # notification_worker:
@@ -267,9 +267,9 @@ services:
   
 volumes: 
   pg_data:
-  # rmq_etc:
-  # rmq_data:
-  # rmq_logs:
+  rmq_etc:
+  rmq_data:
+  rmq_logs:
   # seq_data:
   # grafana-storage:
 

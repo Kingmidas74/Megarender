@@ -2,6 +2,7 @@
 using System;
 using Megarender.DataBus.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.ObjectPool;
 using RabbitMQ.Client;
 
 namespace Megarender.DataBus
@@ -14,6 +15,10 @@ namespace Megarender.DataBus
             configuration.GetSection(nameof(RMQSettings)).Bind(rmqSettings);
             if (rmqSettings.Enabled && !String.IsNullOrEmpty(rmqSettings.ConntectionString))
             {
+                services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+                services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
+                
+                
                 rmqSettings.ConntectionString = string.Format(rmqSettings.ConntectionString,
                     Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_USER_FILE)),
                     Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_PWD_FILE)),
@@ -21,18 +26,19 @@ namespace Megarender.DataBus
                     Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_PORT)));
 
                 services.AddSingleton(rmqSettings);
-                services.AddTransient (s => {
-                    var factory = new ConnectionFactory {
-                        Uri = new Uri (rmqSettings.ConntectionString)
-                    };
-                    var connection = factory.CreateConnection ();
-                    var channel = connection.CreateModel ();
-                    return new MessageProducerService (channel);
-                });
+                services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
+                // services.AddTransient (s => {
+                //     var factory = new ConnectionFactory {
+                //         Uri = new Uri (rmqSettings.ConntectionString)
+                //     };
+                //     var connection = factory.CreateConnection ();
+                //     var channel = connection.CreateModel ();
+                //     return new MessageProducerService (channel);
+                // });
             }
             else
             {
-                services.AddSingleton<IMessageProducerService, DefaultMessageProducerService>();
+                services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
             }
             return services;
         }

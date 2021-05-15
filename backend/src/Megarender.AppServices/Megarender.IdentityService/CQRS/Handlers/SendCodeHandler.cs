@@ -2,6 +2,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Megarender.DataBus;
+using Megarender.DataBus.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -12,10 +14,12 @@ namespace Megarender.IdentityService.CQRS
         private readonly AppDbContext _identityDbContext;
         private readonly UtilsService _utils;
         private readonly ApplicationOptions _options;
-        public SendCodeHandler(AppDbContext identityDbContext, IOptions<ApplicationOptions> options, UtilsService utils)        
+        private readonly IMessageProducerService _messageProducer;
+        public SendCodeHandler(AppDbContext identityDbContext, IOptions<ApplicationOptions> options, UtilsService utils, IMessageProducerService messageProducer)        
         {
             _identityDbContext = identityDbContext;
             _utils = utils;
+            _messageProducer = messageProducer;
             _options = options?.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
         }
         public async Task<Guid> Handle(SendCodeCommand request, CancellationToken cancellationToken = default)
@@ -38,10 +42,19 @@ namespace Megarender.IdentityService.CQRS
                 };
 
                 await _identityDbContext.Identities.AddAsync(identity, cancellationToken);
-
                 result = identity.Id;
             }
             await _identityDbContext.SaveChangesAsync(cancellationToken);
+            
+            _messageProducer.Enqueue(new Envelope<SendCodeMessage>
+            {
+                Message = new SendCodeMessage
+                {
+                    Code = code,
+                    UserId = result
+                }
+            },nameof(SendCodeMessage));
+            
             return result;
         }
     }

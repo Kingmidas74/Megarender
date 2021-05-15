@@ -12,6 +12,7 @@ using Prometheus;
 using Megarender.IdentityService.Middleware;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Masking.Serilog;
+using Megarender.DataBus;
 
 namespace Megarender.IdentityService {
     public class Startup {
@@ -29,6 +30,7 @@ namespace Megarender.IdentityService {
             services.Configure<ApplicationOptions> (Configuration.GetSection (nameof(ApplicationOptions)));            
             services.AddTransient<UtilsService>();
             services.AddSwagger();
+            services.AddQueueService(Configuration);
             services.AddSingleton<MetricReporter>();
             services.AddSQL(Configuration.GetConnectionString ("DefaultConnection"));
             services.AddMediatR(typeof(Startup));

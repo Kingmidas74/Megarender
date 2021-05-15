@@ -1,12 +1,10 @@
-using System;
+using Megarender.DataBus.Models;
 
 namespace Megarender.DataBus
 {
     public class DefaultMessageProducerService: IMessageProducerService
     {
-        public void Enqueue(string messageString, string routingKey)
-        {
-            throw new NotImplementedException();
-        }
+        public void Enqueue<T>(Envelope<T> envelope, string routingKey) where T : IMessage
+        {}
     }
 }

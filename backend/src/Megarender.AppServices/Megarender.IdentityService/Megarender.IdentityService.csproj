@@ -43,5 +43,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataBus\Megarender.DataBus.csproj" />
+  </ItemGroup>
 
 </Project>

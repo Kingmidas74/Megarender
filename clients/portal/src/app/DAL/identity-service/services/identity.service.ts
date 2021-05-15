@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { IdentityHttpService } from '../identity-interceptor';
 import { GetTokenQuery } from '../models/queries/get-token-query';
 import { VerifyCodeCommand } from '../models/commands/confirm-identity-command';
 import { SendCodeCommand } from '../models/commands/send-code-command';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class IdentityService {
@@ -42,12 +43,14 @@ export class IdentityService {
     );
   }
   
-  public verifyCode(verifyCodeCommand:VerifyCodeCommand):Observable<string>
+  public verifyCode(verifyCodeCommand:VerifyCodeCommand):Observable<any>
   {
-    return this.identityHttpClient.post<string>('/identity/verifyCode',verifyCodeCommand);
+    return this.identityHttpClient.post('/identity/verifyCode',verifyCodeCommand)
+
   }
 
-  public sendCode(sendCodeCommand: SendCodeCommand) {
-    return this.identityHttpClient.post<string>('/identity/sendCode', sendCodeCommand);
+  public sendCode(sendCodeCommand: SendCodeCommand):Observable<any> 
+  {
+    return this.identityHttpClient.post('/identity/sendCode', sendCodeCommand);
   }
 }

@@ -4,6 +4,7 @@ using AutoMapper;
 using MediatR;
 using Megarender.DataAccess;
 using Megarender.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace Megarender.Business.Modules.UserModule
 {
@@ -18,7 +19,9 @@ namespace Megarender.Business.Modules.UserModule
         }
         public async Task<User> Handle(CreateUserCommand request, CancellationToken cancellationToken = default)
         {
-            return (await _dbContext.Users.AddAsync(_mapper.Map<CreateUserCommand, User>(request), cancellationToken)).Entity;
+            var user = _mapper.Map<CreateUserCommand, User>(request); 
+            var userFromDb = await _dbContext.Users.FirstOrDefaultAsync(u=>u.Id == user.Id, cancellationToken);
+            return userFromDb !=null ? userFromDb : (await _dbContext.Users.AddAsync(user, cancellationToken)).Entity;
         }
     }
 }

@@ -13,6 +13,7 @@ import { StorageMap } from '@ngx-pwa/local-storage';
 import { UserService } from '@DAL/api/services/user.service';
 import { CleanSubscriptions } from '@common/shared-utils/clean-subscriptions';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { CreateUserCommand } from '@DAL/api/models/commands/create-user-command';
 
 @Component({
   selector: 'app-login',
@@ -77,9 +78,9 @@ export class LoginComponent implements OnInit {
     }
     this.subscriptions.push(
       this.athenticationService.sendCode(this.phoneForm.controls['userPhone'].value)        
-        .subscribe(userId => {
-          this.userId = userId;
-          this.codeIsSend=userId.length>0;
+        .subscribe(response => {
+          this.userId = response.id;
+          this.codeIsSend=this.userId.length>0;
         })
     )
     
@@ -94,12 +95,19 @@ export class LoginComponent implements OnInit {
       console.log(this.codeForm.controls['userCode'].errors);
       return;
     }
+    
     this.subscriptions.push(
       this.athenticationService.verifyCode(this.userId, this.codeForm.controls["userCode"].value)
       .pipe(
-        mergeMap(oneTimePassword => this.athenticationService.login(this.phoneForm.controls['userPhone'].value, oneTimePassword)),
+        mergeMap(response => {
+          return this.athenticationService.login(this.phoneForm.controls['userPhone'].value, response.password)
+        }),
         mergeMap(token=>this.athenticationService.getDecodedAccessToken(token as JWTToken)),
-        mergeMap(identityUser => this.apiService.getUserById(identityUser.userId)),
+        mergeMap(identityUser=>{
+                const createUserCommand = new CreateUserCommand();
+                createUserCommand.id = identityUser.userId;
+                return this.apiService.createUser(createUserCommand)
+              }),
         mergeMap(user=>this.storage.set(environment.constants.UserStorageKey,user))
       )
       .subscribe(

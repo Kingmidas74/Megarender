@@ -18,7 +18,7 @@ namespace Megarender.WebServiceCore
 {
     public class StartupBase<T> {
         protected readonly string CorsPolicy = nameof (CorsPolicy);
-        private IConfiguration Configuration { get; }
+        protected IConfiguration Configuration { get; }
 
         protected StartupBase (IConfiguration configuration) 
         {
@@ -86,6 +86,7 @@ namespace Megarender.WebServiceCore
                 app.UseHttpMetrics();
             }
             else {
+                app.ApplyMigrations<APIContext>();
                 app.UseDeveloperExceptionPage();
             }
             
@@ -110,7 +111,6 @@ namespace Megarender.WebServiceCore
                 endpoints.MapControllers ();
                 endpoints.MapHealthChecks("/health");
             });
-            //app.ApplyMigrations<APIContext>();
         }
     }
 }

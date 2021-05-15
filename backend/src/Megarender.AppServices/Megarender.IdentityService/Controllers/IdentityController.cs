@@ -22,11 +22,16 @@ namespace Megarender.IdentityService.Controllers
         /// Confirm identity
         /// </summary>
         /// <param name="sendCodeCommand"></param>
-        /// <returns>Guido of identity</returns>
+        /// <returns>Guid of identity</returns>
         [HttpPost(nameof(SendCode))]
         public async Task<IActionResult> SendCode([FromBody]SendCodeCommand sendCodeCommand, CancellationToken cancellationToken = default) 
         {
-            return Ok(await _mediator.Send(sendCodeCommand, cancellationToken));
+            return Ok(
+                new
+                {
+                    id=await _mediator.Send(sendCodeCommand, cancellationToken)
+                }
+            );
         }
         
         /// <summary>
@@ -37,7 +42,12 @@ namespace Megarender.IdentityService.Controllers
         [HttpPost(nameof(VerifyCode))]
         public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeCommand verifyCodeCommand, CancellationToken cancellationToken = default) 
         {
-            return Ok(await _mediator.Send(verifyCodeCommand, cancellationToken));
+            return Ok(
+                new
+                {
+                    password=await _mediator.Send(verifyCodeCommand, cancellationToken)
+                }
+            );
         }
         
     }

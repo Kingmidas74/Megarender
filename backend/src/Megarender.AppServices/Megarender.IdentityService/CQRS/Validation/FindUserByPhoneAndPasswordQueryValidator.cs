@@ -25,7 +25,7 @@ namespace Megarender.IdentityService.CQRS
         private async Task<bool> IsExist(FindUserByPhoneAndPasswordQuery query, CancellationToken cancellationToken = default)
         {
             var user = await _identityDbContext.Users.SingleAsync(u => u.Phone == query.Phone, cancellationToken);
-            return user.Password == _utils.HashedPassword(user.Phone, query.Password, user.Salt, _options.Value.Pepper);
+            return user.Password == _utils.HashedPassword(user.Phone, user.Salt, _options.Value.Pepper);
         }
     }
 }

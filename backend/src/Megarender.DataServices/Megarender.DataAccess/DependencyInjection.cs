@@ -17,7 +17,8 @@ namespace Megarender.DataAccess
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
                                     System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
                                     File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))), 
+                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))
+                    ), 
                     providerOptions => {
                                 providerOptions.MigrationsAssembly ($"{nameof(Megarender)}.{nameof(Megarender.DataAccess)}");
                     });

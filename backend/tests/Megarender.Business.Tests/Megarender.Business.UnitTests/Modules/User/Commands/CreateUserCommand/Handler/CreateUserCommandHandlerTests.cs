@@ -9,7 +9,7 @@ namespace Megarender.Business.UnitTests.Modules.UserModule
 {   
     public class CreateUserCommandHandlerTests:TestBaseFixture
     {
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public CreateUserCommandHandlerTests()
         {
@@ -22,7 +22,6 @@ namespace Megarender.Business.UnitTests.Modules.UserModule
         public async Task CreateUserCommandHandler_ShouldCreateUser()
         {
             var command = Fixture.Build<CreateUserCommand>()
-                .Without(c=>c.FirstName)
                 .Create();
 
             var handler = new CreateUserCommandHandler(Context, _mapper);    

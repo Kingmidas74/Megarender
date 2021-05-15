@@ -22,35 +22,37 @@ namespace Megarender.IdentityService.CQRS
 
         public async Task<string> Handle(VerifyCodeCommand request, CancellationToken cancellationToken = default)
         {
-            var user = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(request.Id), cancellationToken);
             var identity = await _identityDbContext.Identities.FirstOrDefaultAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id), cancellationToken);
 
+            if(identity == null) throw new ConstraintException();
 
-            if (user != null && identity != null)
+            var user = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Phone.Equals(identity.Phone), cancellationToken);
+
+            var salt = _utils.GenerateSalt(identity.Phone.Length);
+            
+            if (isLoginAttempt(user))
             {
-                _identityDbContext.Identities.Remove(identity);
-                var salt = _utils.GenerateSalt(identity.Phone.Length);
-                user.Password = _utils.HashedPassword(user.Phone, request.Code, salt, _options.Pepper);
+                _identityDbContext.Identities.Remove(identity);                
+                user.Password = _utils.HashedPassword(user.Phone, salt, _options.Pepper);
+                user.Salt = salt;
                 await _identityDbContext.SaveChangesAsync(cancellationToken);
                 return user.Password;
             }
-            if (user == null && identity != null)
-            {
-                var salt = _utils.GenerateSalt(identity.Phone.Length);
-                var newUser = new User
-                {
-                    Id = identity.Id,
-                    Password = _utils.HashedPassword(identity.Phone, request.Code, salt, _options.Pepper),
-                    Phone = identity.Phone,
-                    Salt = salt
-                };
-                await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
-                _identityDbContext.Identities.Remove(identity);    
-                await _identityDbContext.SaveChangesAsync(cancellationToken);
-                return newUser.Password;
-            }
 
-            throw new ConstraintException();
+            var newUser = new User
+            {
+                Id = identity.Id,
+                Password = _utils.HashedPassword(identity.Phone, salt, _options.Pepper),
+                Phone = identity.Phone,
+                Salt = salt
+            };
+            await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
+            _identityDbContext.Identities.Remove(identity);    
+            await _identityDbContext.SaveChangesAsync(cancellationToken);
+            return newUser.Password;
         }
+
+        private bool isLoginAttempt(User user) => user != null;
+        
     }
 }

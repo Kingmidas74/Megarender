@@ -29,6 +29,6 @@ namespace Megarender.IdentityService
             return code;
         }
 
-        internal string HashedPassword(string phone,string password,string salt, string pepper) => $"{phone}{password}{salt}{pepper}".Sha256();
+        internal string HashedPassword(string phone,string salt, string pepper) => $"{salt}{phone}{pepper}".Sha256();
     }
 }

@@ -57,7 +57,7 @@ export class AuthenticationService {
     .catch(console.error);
   }
 
-  public sendCode(userPhone: string) {
+  public sendCode(userPhone: string):Observable<any> {
     this.unsubscribeAll();
     let command = new SendCodeCommand();
     command.phone = userPhone;
@@ -67,15 +67,12 @@ export class AuthenticationService {
       )
   }
 
-  verifyCode(userId: string, userCode: string) {
+  verifyCode(userId: string, userCode: string):Observable<any> {
     this.unsubscribeAll();
     let command = new VerifyCodeCommand();
     command.id = userId;
     command.code = userCode;
-    return this.identityService.verifyCode(command)
-      .pipe(
-        catchError((error)=>this.handleError(error)),
-      )
+    return this.identityService.verifyCode(command);
   }
 
 

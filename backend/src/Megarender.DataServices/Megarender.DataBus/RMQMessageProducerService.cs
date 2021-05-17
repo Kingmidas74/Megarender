@@ -1,10 +1,12 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using Megarender.DataBus.Models;
 using Megarender.Domain.Extensions;
 using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 namespace Megarender.DataBus
 {
@@ -26,8 +28,10 @@ namespace Megarender.DataBus
             var channel = _objectPool.Get();
             try
             {
-                var dt = _rmqSettings.Exchange.Type.ToString().ToLowerInvariant();
-                channel.ExchangeDeclare(_rmqSettings.Exchange.Name, _rmqSettings.Exchange.Type.ToString().ToLowerInvariant(), true, false, null);
+                foreach (var exchange in _rmqSettings.Exchanges)
+                {
+                    channel.ExchangeDeclare(exchange.Name, exchange.Type.ToString().ToLowerInvariant(), true, false, null);
+                }
 
                 var sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(envelope.Message));
                 var properties = channel.CreateBasicProperties();
@@ -38,11 +42,34 @@ namespace Megarender.DataBus
                     properties.Headers.Add(header.Key, header.Value);
                 }
 
-                channel.BasicPublish(_rmqSettings.Exchange.Name, routingKey, properties, sendBytes);
+                foreach (var exchange in _rmqSettings.Exchanges)
+                {
+                    channel.BasicPublish(exchange.Name, routingKey, properties, sendBytes);
+                }
             }
             finally
             {
                 _objectPool.Return(channel);
+            }
+        }
+
+        public void Subscribe<T>(Action<T> handler) where T:IMessage
+        {
+            var channel = _objectPool.Get();
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += async (ch, ea) =>
+            {
+                var body = ea.Body.ToArray();
+                var envelope = JsonConvert.DeserializeObject<Envelope<T>>(Encoding.UTF8.GetString(body));
+                handler(envelope.Message);
+                await Task.Yield();
+
+            };
+
+            foreach (var queue in _rmqSettings.Queues)
+            {
+                channel.QueueDeclare(queue.Name);
+                channel.BasicConsume(queue.Name, false, consumer);
             }
         }
     }

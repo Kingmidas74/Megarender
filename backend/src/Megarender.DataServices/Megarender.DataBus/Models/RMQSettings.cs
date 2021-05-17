@@ -10,7 +10,7 @@ namespace Megarender.DataBus.Models
     public class RMQSettings
     {
         public bool Enabled { get; set; }
-        public string ConntectionString { get; set; }
+        public string ConnectionString { get; set; }
         
         public ExchangeSettings Exchange { get; set; }
     }

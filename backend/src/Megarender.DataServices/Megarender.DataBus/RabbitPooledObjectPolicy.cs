@@ -22,7 +22,7 @@ namespace Megarender.DataBus
         private IConnection GetConnection()
         {
             var factory = new ConnectionFactory {
-                Uri = new Uri (_rabbitMqSettings.ConntectionString),
+                Uri = new Uri (_rabbitMqSettings.ConnectionString),
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds (10)
             };

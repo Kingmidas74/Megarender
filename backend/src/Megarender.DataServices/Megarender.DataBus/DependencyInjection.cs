@@ -4,6 +4,7 @@ using Megarender.DataBus.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.ObjectPool;
 using RabbitMQ.Client;
+using System.IO;
 
 namespace Megarender.DataBus
 {
@@ -13,19 +14,19 @@ namespace Megarender.DataBus
         {
             var rmqSettings = new RMQSettings();
             configuration.GetSection(nameof(RMQSettings)).Bind(rmqSettings);
-            if (rmqSettings.Enabled && !String.IsNullOrEmpty(rmqSettings.ConntectionString))
-            {
-                services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-                services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
-                
-                
-                rmqSettings.ConntectionString = string.Format(rmqSettings.ConntectionString,
-                    Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_USER_FILE)),
-                    Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_PWD_FILE)),
+            
+            if (rmqSettings.Enabled && !String.IsNullOrEmpty(rmqSettings.ConnectionString))
+            {    
+                rmqSettings.ConnectionString = string.Format(rmqSettings.ConnectionString,
+                    File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_USER_FILE))),
+                    File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_PWD_FILE))),
                     Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_HOST)),
                     Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.RMQ_PORT)));
 
                 services.AddSingleton(rmqSettings);
+                
+                services.AddSingleton<DefaultObjectPoolProvider>();
+                services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
                 services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
                 // services.AddTransient (s => {
                 //     var factory = new ConnectionFactory {
@@ -38,6 +39,9 @@ namespace Megarender.DataBus
             }
             else
             {
+                services.AddSingleton(rmqSettings);
+                services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+                services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
                 services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
             }
             return services;

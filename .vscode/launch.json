@@ -23,7 +23,11 @@
                 "DB_HOST": "localhost",
                 "DB_PORT": "5432",
                 "DB_USER_FILE": "../../../../../../../secrets/IS_DB_USER",
-                "DB_PWD_FILE": "../../../../../../../secrets/IS_DB_PASSWORD"
+                "DB_PWD_FILE": "../../../../../../../secrets/IS_DB_PASSWORD",
+                "RMQ_USER_FILE": "../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672"
             }
         },
         {

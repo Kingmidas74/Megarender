@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Megarender.DataBus.Models;
+using Megarender.Domain.Extensions;
 using Microsoft.Extensions.ObjectPool;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -12,9 +13,9 @@ namespace Megarender.DataBus
         private readonly DefaultObjectPool<IModel> _objectPool;
         private readonly RMQSettings _rmqSettings;
 
-        public RMQMessageProducerService(DefaultObjectPool<IModel> objectPool, RMQSettings rmqSettings)
+        public RMQMessageProducerService(IPooledObjectPolicy<IModel> objectPolicy, RMQSettings rmqSettings)
         {
-            _objectPool = objectPool;
+            _objectPool = new DefaultObjectPool<IModel>(objectPolicy, Environment.ProcessorCount * 2);  ;
             _rmqSettings = rmqSettings;
         }
 
@@ -25,7 +26,8 @@ namespace Megarender.DataBus
             var channel = _objectPool.Get();
             try
             {
-                channel.ExchangeDeclare(_rmqSettings.Exchange.Name, _rmqSettings.Exchange.Type.ToString(), true, false, null);
+                var dt = _rmqSettings.Exchange.Type.ToString().ToLowerInvariant();
+                channel.ExchangeDeclare(_rmqSettings.Exchange.Name, _rmqSettings.Exchange.Type.ToString().ToLowerInvariant(), true, false, null);
 
                 var sendBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(envelope.Message));
                 var properties = channel.CreateBasicProperties();

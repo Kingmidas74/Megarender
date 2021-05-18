@@ -16,6 +16,7 @@ namespace Megarender.DataBus
         {
             _rabbitMqSettings = rmqSettings ?? throw new NullReferenceException(nameof(RMQSettings));
             _connection = GetConnection();
+            DeclareSchema();
         }
 
 
@@ -25,9 +26,28 @@ namespace Megarender.DataBus
                 Uri = new Uri (_rabbitMqSettings.ConnectionString),
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds (10),
-                DispatchConsumersAsync = true
+              //  DispatchConsumersAsync = true
             };
             return factory.CreateConnection();
+        }
+
+        public void DeclareSchema()
+        {
+            var channel = Create();
+            if(_rabbitMqSettings.Queues is not null)
+            {
+                foreach (var queue in _rabbitMqSettings.Queues)
+                {
+                    channel.QueueDeclare(queue.Name,queue.Durable,queue.Exclusive,queue.AutoDelete);
+                }
+            }
+            if(_rabbitMqSettings.Exchanges is not null)
+            {
+                foreach (var exchange in _rabbitMqSettings.Exchanges)
+                {
+                    channel.ExchangeDeclare(exchange.Name, exchange.Type.ToString().ToLowerInvariant(), exchange.Durable, exchange.AutoDelete, null);
+                }
+            }
         }
 
         public IModel Create()

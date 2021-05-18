@@ -106,6 +106,23 @@
             }
         },
         {
+            "name": "Notification Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/bin/Debug/net5.0/Megarender.NotificationWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672"
+            }
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
@@ -128,6 +145,13 @@
                 "Management Service",
                 "Identity Service",
                 "Storage Service",
+            ]
+        },
+        {
+            "name": "Workers",
+            "configurations": [
+                "Identity Service",
+                "Notification Worker"
             ]
         }
     ]

@@ -47,6 +47,10 @@ services:
           DB_PORT: "5432"
           DB_USER_FILE: "~/secrets/IS_DB_USER"
           DB_PWD_FILE: "~/secrets/IS_DB_PASSWORD"
+          RMQ_USER_FILE: "~/secrets/RMQ_USER"
+          RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
+          RMQ_HOST: "rabbitmq"
+          RMQ_PORT: "5672"
           ASPNETCORE_ENVIRONMENT: "Development"
           Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
         # depends_on:
@@ -124,20 +128,20 @@ services:
             - 5672:5672
 
 
-    # notification_worker:
-    #     build:
-    #       context: .
-    #       dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
-    #     container_name: notification_worker
-    #     restart: unless-stopped
-    #     environment: 
-    #       RMQ_USER_FILE: "~/secrets/RMQ_USER"
-    #       RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
-    #       RMQ_HOST: "rabbitmq"
-    #       RMQ_PORT: "5672"
-    #       DOTNET_ENVIRONMENT: "Production"
-    #     depends_on:    
-    #       -  rabbitmq  
+    notification_worker:
+        build:
+          context: .
+          dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
+        container_name: notification_worker
+        restart: unless-stopped
+        environment: 
+          RMQ_USER_FILE: "~/secrets/RMQ_USER"
+          RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
+          RMQ_HOST: "rabbitmq"
+          RMQ_PORT: "5672"
+          DOTNET_ENVIRONMENT: "Production"
+        # depends_on:    
+        #   -  rabbitmq  
           
 
     # seq:

@@ -28,6 +28,7 @@ namespace Megarender.DataBus
                 services.AddSingleton<DefaultObjectPoolProvider>();
                 services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
                 services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
+                services.AddSingleton<IMessageConsumerService, RMQMessageConsumerService>();
                 // services.AddTransient (s => {
                 //     var factory = new ConnectionFactory {
                 //         Uri = new Uri (rmqSettings.ConntectionString)
@@ -40,9 +41,8 @@ namespace Megarender.DataBus
             else
             {
                 services.AddSingleton(rmqSettings);
-                services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-                services.AddSingleton<IPooledObjectPolicy<IModel>, RabbitPooledObjectPolicy>();
-                services.AddSingleton<IMessageProducerService, RMQMessageProducerService>();
+                services.AddSingleton<IMessageProducerService, DefaultMessageProducerService>();
+                services.AddSingleton<IMessageConsumerService, DefaultMessageConsumerService>();
             }
             return services;
         }

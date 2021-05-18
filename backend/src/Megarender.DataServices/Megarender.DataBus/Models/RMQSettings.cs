@@ -7,10 +7,16 @@ namespace Megarender.DataBus.Models
     {
         public string Name { get; set; }
         public AMQPExchanges Type { get; set; }
+        public bool Durable { get; set; }
+        public bool AutoDelete { get; set; }
     }
     public class QueueSettings
     {
         public string Name { get; set; }
+        public bool Durable { get; set; }
+        public int PrefetchCount { get; set; }
+        public bool Exclusive { get; set; }
+        public bool AutoDelete { get; set; }
     }
     public class RMQSettings
     {

@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using Megarender.DataBus.Models;
+using Megarender.Domain.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.ObjectPool;
 using RabbitMQ.Client;
 
@@ -17,17 +19,23 @@ namespace Megarender.DataBus
             _rmqSettings = rmqSettings;
         }
 
-        public void Enqueue<T>(Envelope<T> envelope, string routingKey) where T : IMessage
+        public void Enqueue<T>(T message) where T : IEvent
         {
-            if (envelope == null)
+            if (message == null)
                 return;
             var channel = _objectPool.Get();
             try
-            {
-                var sendBytes = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(envelope));
+            {                
                 var properties = channel.CreateBasicProperties();
-
                 properties.Persistent = true;
+                var envelope = new Envelope<T> {
+                    Headers = new System.Collections.Generic.Dictionary<string, string> {
+                        {Megarender.DataBus.Enums.DefaultHeaders.EventType.GetDescription(), typeof(T).Name}
+                    },
+                    Message = message
+                };
+                var sendBytes = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(envelope));
+                properties.Headers = new System.Collections.Generic.Dictionary<string, object>();
                 foreach (var header in envelope.Headers)
                 {
                     properties.Headers.Add(header.Key, header.Value);
@@ -37,6 +45,10 @@ namespace Megarender.DataBus
                 {
                     channel.BasicPublish(exchange.Name, string.Empty, properties, sendBytes);
                 }
+            }
+            catch
+            {
+                
             }
             finally
             {

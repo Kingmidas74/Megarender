@@ -3,6 +3,8 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Megarender.DataBus;
+using Megarender.DataBus.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -13,10 +15,12 @@ namespace Megarender.IdentityService.CQRS
         private readonly AppDbContext _identityDbContext;
         private readonly UtilsService _utils;
         private readonly ApplicationOptions _options;
-        public VerifyCodeHandler(AppDbContext identityDbContext, UtilsService utils, IOptions<ApplicationOptions> options)
+        private readonly IMessageProducerService _messageProducer;
+        public VerifyCodeHandler(AppDbContext identityDbContext, UtilsService utils, IOptions<ApplicationOptions> options, IMessageProducerService messageProducer)
         {
             _identityDbContext = identityDbContext;
             _utils = utils;
+            _messageProducer = messageProducer;
             _options = options?.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
         }
 
@@ -49,6 +53,12 @@ namespace Megarender.IdentityService.CQRS
             await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
             _identityDbContext.Identities.Remove(identity);    
             await _identityDbContext.SaveChangesAsync(cancellationToken);
+            
+            
+            _messageProducer.Enqueue(new UserRegistratedEvent
+                {
+                    UserId = newUser.Id
+                });
             return newUser.Password;
         }
 

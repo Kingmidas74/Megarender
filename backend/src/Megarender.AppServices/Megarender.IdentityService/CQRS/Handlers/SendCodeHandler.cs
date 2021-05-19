@@ -46,14 +46,11 @@ namespace Megarender.IdentityService.CQRS
             }
             await _identityDbContext.SaveChangesAsync(cancellationToken);
             
-            _messageProducer.Enqueue(new Envelope<SendCodeMessage>
-            {
-                Message = new SendCodeMessage
+            _messageProducer.Enqueue(new CodeGeneratedEvent
                 {
                     Code = code,
                     UserId = result
-                }
-            },nameof(SendCodeMessage));
+                });
             
             return result;
         }

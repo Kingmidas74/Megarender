@@ -4,7 +4,7 @@ namespace Megarender.DataBus
 {
     public class DefaultMessageProducerService: IMessageProducerService
     {
-        public void Enqueue<T>(Envelope<T> envelope, string routingKey) where T : IMessage
+        public void Enqueue<T>(T message) where T : IEvent
         {}
     }
 }

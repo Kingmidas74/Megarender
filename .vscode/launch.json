@@ -150,7 +150,6 @@
         {
             "name": "Workers",
             "configurations": [
-                "Identity Service",
                 "Notification Worker"
             ]
         }

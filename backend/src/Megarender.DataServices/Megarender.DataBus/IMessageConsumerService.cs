@@ -5,6 +5,6 @@ namespace Megarender.DataBus
 {
     public interface IMessageConsumerService
     {
-        void Subscribe<T>(Func<Envelope<T>,bool> handler) where T : IMessage;
+        void Subscribe(Func<object, bool> handler);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Megarender.DataBus;
@@ -11,6 +12,24 @@ namespace Megarender.NotificationWorkerService
     public class Worker : BackgroundService
     {
         private readonly IMessageConsumerService _consumerService;
+        
+        // private readonly Dictionary<Type, Func<IEvent,bool>> _handlers = new()
+        // {
+        //     { typeof(UserRegistratedEvent), UserRegistratedEventHandler },
+        //     { typeof(CodeGeneratedEvent), CodeGeneratedEventHandler }
+        // };
+
+        private bool UserRegistratedEventHandler(UserRegistratedEvent message)
+        {
+            Log.Logger.Information($"This is message type {message.GetType()}");
+            return true;
+        }
+        
+        private bool CodeGeneratedEventHandler(IEvent message)
+        {
+            Log.Logger.Information($"This is message type {message.GetType()}");
+            return true;
+        }
 
         public Worker(IMessageConsumerService consumerService)
         {
@@ -18,9 +37,16 @@ namespace Megarender.NotificationWorkerService
         }
 
         protected override async Task ExecuteAsync (CancellationToken stoppingToken) {
-            await Task.Run (() => _consumerService.Subscribe<SendCodeMessage>(envelope => {
-                Log.Logger.Information ($"Worker running at: {DateTimeOffset.Now}. Message: {envelope.Message.UserId}, {envelope.Message.Code}");
-                return true;
+            await Task.Run (() => _consumerService.Subscribe(envelope => {
+                if(envelope.GetType() == typeof(Envelope<UserRegistratedEvent>))
+                {
+                    throw new Exception();
+                }
+                if(envelope.GetType() == typeof(Envelope<CodeGeneratedEvent>))
+                {
+                    throw new Exception();
+                }
+                return false;
             }), stoppingToken);
         }
     }

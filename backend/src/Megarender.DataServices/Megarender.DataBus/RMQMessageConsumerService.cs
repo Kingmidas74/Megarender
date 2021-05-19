@@ -1,7 +1,11 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Megarender.DataBus.Enums;
 using Megarender.DataBus.Models;
+using Megarender.Domain.Extensions;
 using Microsoft.Extensions.ObjectPool;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -19,17 +23,19 @@ namespace Megarender.DataBus
             _rmqSettings = rmqSettings;
         }
 
-        public void Subscribe<T>(Func<Envelope<T>,bool> handler) where T:IMessage
+        public void Subscribe(Func<object,bool> handler)
         {
             var channel = _objectPool.Get();
-            var consumer = new AsyncEventingBasicConsumer(channel);
-            consumer.Received += async (ch, ea) =>
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (ch, ea) =>
             {                
                 var bytes = ea.Body.ToArray();
                 var text = Encoding.UTF8.GetString(bytes);
-                var envelope = System.Text.Json.JsonSerializer.Deserialize<Envelope<T>>(text);
+                var eventType = Encoding.UTF8.GetString(ea.BasicProperties.Headers[DefaultHeaders.EventType.GetDescription()] as byte[]);
+                var currentType = typeof(IEvent).Assembly.GetTypes().Single(t => t.Name.Equals(eventType));
+                var currentEnvelope = typeof(Envelope<>).MakeGenericType(currentType);
+                var envelope = System.Text.Json.JsonSerializer.Deserialize(text, currentEnvelope);
                 var status = handler(envelope);
-                await Task.Yield();
             };
 
             foreach (var queue in _rmqSettings.Queues)

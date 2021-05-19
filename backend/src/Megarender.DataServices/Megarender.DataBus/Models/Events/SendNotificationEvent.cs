@@ -2,9 +2,8 @@ using System;
 
 namespace Megarender.DataBus.Models
 {
-    public class SendCodeMessage:Message, IMessage
+    public class SendNotificationEvent:Event
     {
         public Guid UserId { get; set; }
-        public string Code { get; set; }
     }
 }

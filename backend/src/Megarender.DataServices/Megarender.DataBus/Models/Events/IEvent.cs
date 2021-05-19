@@ -1,6 +1,6 @@
 namespace Megarender.DataBus.Models
 {
-    public interface IMessage
+    public interface IEvent
     {
         
     }

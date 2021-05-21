@@ -20,6 +20,7 @@ namespace Megarender.IdentityService
         internal string GenerateCode(int min, int max)
         {
             var rdm = new Random();
+            return rdm.Next(min, max).ToString();
             string code;
 
             do {

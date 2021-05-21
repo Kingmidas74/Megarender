@@ -31,7 +31,7 @@ namespace Megarender.DataBus
             {                
                 var bytes = ea.Body.ToArray();
                 var text = Encoding.UTF8.GetString(bytes);
-                var eventType = Encoding.UTF8.GetString(ea.BasicProperties.Headers[DefaultHeaders.EventType.GetDescription()] as byte[]);
+                var eventType = Encoding.UTF8.GetString(ea.BasicProperties.Headers[DefaultHeaders.EventType.GetDescription()] as byte[] ?? throw new InvalidOperationException());
                 var currentType = typeof(IEvent).Assembly.GetTypes().Single(t => t.Name.Equals(eventType));
                 var currentEnvelope = typeof(Envelope<>).MakeGenericType(currentType);
                 var envelope = System.Text.Json.JsonSerializer.Deserialize(text, currentEnvelope);

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -50,7 +51,7 @@ namespace Megarender.IdentityService.CQRS
                 {
                     Code = code,
                     UserId = result
-                });
+                }, new Dictionary<string, string>());
             
             return result;
         }

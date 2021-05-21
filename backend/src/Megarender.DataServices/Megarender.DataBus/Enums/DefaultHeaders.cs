@@ -5,6 +5,8 @@ namespace Megarender.DataBus.Enums
     public enum DefaultHeaders
     {
         [Description("x-event-type")]
-        EventType=0
+        EventType=0,
+        [Description("x-event-parent")]
+        Parent=1
     }
 }

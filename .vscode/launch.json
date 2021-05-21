@@ -115,11 +115,50 @@
             "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/bin/Debug/net5.0",
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development",
+                "DOTNET_ENVIRONMENT": "Development",
                 "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
                 "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
                 "RMQ_HOST": "localhost",
                 "RMQ_PORT": "5672"
+            }
+        },
+        {
+            "name": "Telegram Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.TelegramWorkerService/bin/Debug/net5.0/Megarender.TelegramWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.TelegramWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672",
+                "TG_TOKEN_FILE": "../../../../../../../../secrets/TELEGRAM_TOKEN",
+                "WEBHOOK_URI":"https://009f8b2d875e.ngrok.io"
+            }
+        },
+        {
+            "name": "SMS Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.SMSWorkerService/bin/Debug/net5.0/Megarender.SMSWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.SMSWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672",
+                "TOKEN": "../../../../../../../../secrets/TWILLIO_TOKEN",
+                "ACCOUNTSID": "../../../../../../../../secrets/TWILLIO_ACCOUNTSID",
+                "SENDER":"201-885-7365"
             }
         },
         {
@@ -150,7 +189,10 @@
         {
             "name": "Workers",
             "configurations": [
-                "Notification Worker"
+                "Telegram Worker",
+                "Notification Worker",
+                "SMS Worker",
+                "Identity Service"
             ]
         }
     ]

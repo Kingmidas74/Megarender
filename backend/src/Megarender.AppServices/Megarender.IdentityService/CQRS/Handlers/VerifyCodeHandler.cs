@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,7 +59,7 @@ namespace Megarender.IdentityService.CQRS
             _messageProducer.Enqueue(new UserRegistratedEvent
                 {
                     UserId = newUser.Id
-                });
+                }, new Dictionary<string, string>());
             return newUser.Password;
         }
 

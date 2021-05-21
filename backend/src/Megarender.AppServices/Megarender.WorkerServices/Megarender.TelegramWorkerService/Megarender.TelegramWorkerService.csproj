@@ -19,6 +19,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\..\Megarender.DataServices\Megarender.DataBus\Megarender.DataBus.csproj" />
-        <ProjectReference Include="..\..\..\Megarender.DataServices\Megarender.TelegramProvider\Megarender.TelegramProvider.csproj" />
+        <ProjectReference Include="..\..\..\Megarender.Providers\Megarender.TelegramProvider\Megarender.TelegramProvider.csproj" />
     </ItemGroup>
 </Project>

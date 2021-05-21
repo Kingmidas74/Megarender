@@ -41,11 +41,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.WebServiceCore",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.TelegramWorkerService", "src\Megarender.AppServices\Megarender.WorkerServices\Megarender.TelegramWorkerService\Megarender.TelegramWorkerService.csproj", "{D38F8255-548D-4B01-81A7-0FC88BE7C020}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.TelegramProvider", "src\Megarender.DataServices\Megarender.TelegramProvider\Megarender.TelegramProvider.csproj", "{0614A856-EAB7-40AF-99F5-1FFF8B89241F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.TelegramProvider", "src\Megarender.Providers\Megarender.TelegramProvider\Megarender.TelegramProvider.csproj", "{0614A856-EAB7-40AF-99F5-1FFF8B89241F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.SMSWorkerService", "src\Megarender.AppServices\Megarender.WorkerServices\Megarender.SMSWorkerService\Megarender.SMSWorkerService.csproj", "{33E99BCD-013B-4F12-A662-AD082F853B66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.SMSProvider", "src\Megarender.DataServices\Megarender.SMSProvider\Megarender.SMSProvider.csproj", "{784ADF0F-23E5-4DE1-BA0A-A5DE80FA28D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.SMSProvider", "src\Megarender.Providers\Megarender.SMSProvider\Megarender.SMSProvider.csproj", "{784ADF0F-23E5-4DE1-BA0A-A5DE80FA28D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.Providers", "Megarender.Providers", "{CB114B7D-9163-4AFA-954E-47211CE508FD}"
 EndProject

@@ -128,11 +128,11 @@ services:
             - 5672:5672
 
 
-    notification_worker:
+    notification-worker:
         build:
           context: .
           dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/Dockerfile        
-        container_name: notification_worker
+        container_name: notification-worker
         restart: unless-stopped
         environment: 
           RMQ_USER_FILE: "~/secrets/RMQ_USER"
@@ -141,7 +141,44 @@ services:
           RMQ_PORT: "5672"
           DOTNET_ENVIRONMENT: "Production"
         # depends_on:    
-        #   -  rabbitmq  
+        #   -  rabbitmq
+
+
+    sms-worker:
+      build:
+        context: .
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.SMSWorkerService/Dockerfile        
+      container_name: sms-worker
+      restart: unless-stopped
+      environment: 
+        RMQ_USER_FILE: "~/secrets/RMQ_USER"
+        RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
+        RMQ_HOST: "rabbitmq"
+        RMQ_PORT: "5672"
+        DOTNET_ENVIRONMENT: "Production"
+        TOKEN_FILE: "~/secrets/TWILLIO_TOKEN"
+        ACCOUNTSID_FILE: "~/secrets/TWILLIO_ACCOUNTSID"
+        SENDER: "201-885-7365"
+      # depends_on:    
+      #   -  rabbitmq
+
+
+    telegram-worker:
+      build:
+        context: .
+        dockerfile: ./backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.TelegramWorkerService/Dockerfile        
+      container_name: telegram-worker
+      restart: unless-stopped
+      environment: 
+        RMQ_USER_FILE: "~/secrets/RMQ_USER"
+        RMQ_PWD_FILE: "~/secrets/RMQ_PASSWORD"
+        RMQ_HOST: "rabbitmq"
+        RMQ_PORT: "5672"
+        DOTNET_ENVIRONMENT: "Production"
+        TG_TOKEN_FILE: "~/secrets/TELEGRAM_TOKEN"
+        WEBHOOK_URI: "https://009f8b2d875e.ngrok.io"
+      # depends_on:    
+      #   -  rabbitmq      
           
 
     # seq:

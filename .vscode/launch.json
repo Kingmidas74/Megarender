@@ -156,8 +156,8 @@
                 "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
                 "RMQ_HOST": "localhost",
                 "RMQ_PORT": "5672",
-                "TOKEN": "../../../../../../../../secrets/TWILLIO_TOKEN",
-                "ACCOUNTSID": "../../../../../../../../secrets/TWILLIO_ACCOUNTSID",
+                "TOKEN_FILE": "../../../../../../../../secrets/TWILLIO_TOKEN",
+                "ACCOUNTSID_FILE": "../../../../../../../../secrets/TWILLIO_ACCOUNTSID",
                 "SENDER":"201-885-7365"
             }
         },

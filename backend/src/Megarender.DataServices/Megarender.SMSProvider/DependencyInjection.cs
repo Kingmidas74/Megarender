@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Twilio.Clients;
 
 namespace Megarender.SMS
 {
@@ -14,10 +15,13 @@ namespace Megarender.SMS
             
             if (smsSettings.Enabled && !String.IsNullOrEmpty(smsSettings.Token))
             {    
-                smsSettings.Token = string.Format(smsSettings.Token, File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.TOKEN))));
-                smsSettings.AccountSID = string.Format(smsSettings.AccountSID, File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.ACCOUNTSID))));
+                smsSettings.Token = string.Format(smsSettings.Token, File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.TOKEN_FILE))));
+                smsSettings.AccountSID = string.Format(smsSettings.AccountSID, File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.ACCOUNTSID_FILE))));
                 smsSettings.Sender = string.Format(smsSettings.Sender, Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.SENDER)));
                 
+                services.AddHttpClient<ITwilioRestClient, CustomTwilioClient>(httpClient => 
+                    httpClient.DefaultRequestHeaders.Add("X-Custom-Header", "CustomTwilioRestClient-Demo"));
+                    
                 services.AddSingleton(smsSettings);
                 services.AddSingleton<ISMSService, TwillioService>();
             }

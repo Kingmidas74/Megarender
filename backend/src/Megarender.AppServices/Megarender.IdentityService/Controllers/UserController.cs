@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Megarender.IdentityService.CQRS;
 using MediatR;
+using Megarender.IdentityService.CQRS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Megarender.IdentityService.Controllers

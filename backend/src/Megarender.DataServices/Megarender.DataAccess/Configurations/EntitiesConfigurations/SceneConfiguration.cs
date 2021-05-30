@@ -9,7 +9,7 @@ namespace Megarender.DataAccess
         {
             base.Configure(builder);
             builder.Property(e=>e.Title).IsRequired();
-            builder.HasOne<Project>(c => c.Project)
+            builder.HasOne(c => c.Project)
                 .WithMany (c=>c.Scenes)
                 .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}")
                 .IsRequired();

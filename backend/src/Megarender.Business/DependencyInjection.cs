@@ -1,6 +1,6 @@
-using Megarender.Business.PipelineBehaviors;
 using FluentValidation;
 using MediatR;
+using Megarender.Business.PipelineBehaviors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Megarender.Business

@@ -1,6 +1,5 @@
 using System;
 using System.Linq.Expressions;
-using Megarender.Domain;
 
 namespace Megarender.Business.Specifications
 {

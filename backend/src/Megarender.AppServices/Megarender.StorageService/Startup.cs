@@ -1,16 +1,18 @@
+using System;
+using Masking.Serilog;
+using Megarender.StorageService.DAL;
+using Megarender.StorageService.Middleware;
+using Megarender.StorageService.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Converters;
-using Serilog;
-using Megarender.StorageService.Middleware;
-using Megarender.StorageService.Models;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Newtonsoft.Json.Serialization;
 using Prometheus;
-using Masking.Serilog;
-using Megarender.StorageService.DAL;
+using Serilog;
 
 namespace Megarender.StorageService
 {
@@ -24,9 +26,10 @@ namespace Megarender.StorageService
             Configuration = configuration;
         }
         private JsonSerializerSettings ConfigureJSON() {
-            var result = new JsonSerializerSettings () {
+            var result = new JsonSerializerSettings
+            {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver(),
+                ContractResolver = new DefaultContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore                
             };
@@ -39,8 +42,8 @@ namespace Megarender.StorageService
             JsonConvert.DefaultSettings = ConfigureJSON;
             services.Configure<ApplicationOptions> (Configuration.GetSection (nameof (ApplicationOptions)));
             
-            var applicationOptions = new Models.ApplicationOptions ();
-            Configuration.GetSection (nameof (Models.ApplicationOptions)).Bind (applicationOptions);            
+            var applicationOptions = new ApplicationOptions ();
+            Configuration.GetSection (nameof (ApplicationOptions)).Bind (applicationOptions);            
             
             services.AddSwagger (applicationOptions.IdentityServiceURI);
             services.AddAuth (applicationOptions.IdentityServiceURI);            
@@ -69,7 +72,7 @@ namespace Megarender.StorageService
         {
             Log.Logger = new LoggerConfiguration ().ReadFrom.Configuration (Configuration)
                                 .Destructure.ByMaskingProperties("Password", "Token")
-                                .WriteTo.Seq(System.Environment.GetEnvironmentVariable(nameof(Models.EnvironmentVariables.SeqURL)))
+                                .WriteTo.Seq(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.SeqURL)))
                                 .CreateLogger();
             
             app.UseMiddleware<RequestResponseLoggingMiddleware> ();

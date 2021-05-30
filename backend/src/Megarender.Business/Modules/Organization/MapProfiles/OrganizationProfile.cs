@@ -1,8 +1,8 @@
 using System.Linq;
-using Megarender.Domain;
 using AutoMapper;
 using Megarender.Business.Specifications;
 using Megarender.DataAccess;
+using Megarender.Domain;
 
 namespace Megarender.Business.Modules.OrganizationModule
 {

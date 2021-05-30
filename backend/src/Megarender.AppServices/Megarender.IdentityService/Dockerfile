@@ -5,9 +5,11 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY ./backend/src/Megarender.AppServices/Megarender.IdentityService .
+COPY . .
+WORKDIR /source/backend
 RUN dotnet restore
 
+WORKDIR /source/backend/src/Megarender.AppServices/Megarender.IdentityService
 RUN dotnet publish -c release -o /app --no-restore
 
 # final stage/image

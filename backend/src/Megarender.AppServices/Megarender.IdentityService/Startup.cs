@@ -1,18 +1,18 @@
 using FluentValidation;
 using IdentityServer4.Models;
+using Masking.Serilog;
 using MediatR;
+using Megarender.DataBus;
+using Megarender.IdentityService.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using Serilog;
 using Prometheus;
-using Megarender.IdentityService.Middleware;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Masking.Serilog;
-using Megarender.DataBus;
+using Serilog;
 
 namespace Megarender.IdentityService {
     public class Startup {

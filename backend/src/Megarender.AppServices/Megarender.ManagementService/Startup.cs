@@ -1,8 +1,8 @@
+using Megarender.WebServiceCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Megarender.WebServiceCore;
 using Microsoft.Extensions.Hosting;
 
 namespace Megarender.ManagementService

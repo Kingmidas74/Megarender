@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Megarender.StorageService.CQRS;
 using MediatR;
+using Megarender.StorageService.CQRS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ namespace Megarender.StorageService.Versions.V01.Controllers
 
         public FileController(ISender mediator)
         {
-            this.Mediator = mediator;
+            Mediator = mediator;
         }   
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Megarender.StorageService.Versions.V01.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> UploadFileByUser([FromBody]UploadFileByUserCommand uploadFileByUserCommand, CancellationToken cancellationToken = default) {
-            return Ok(await this.Mediator.Send(uploadFileByUserCommand));
+            return Ok(await Mediator.Send(uploadFileByUserCommand));
         }
     }
 }

@@ -30,11 +30,11 @@ namespace Megarender.IdentityService.CQRS
             var identityExist = await _identityDbContext.Identities.FirstOrDefaultAsync(u=>u.Phone.Equals(request.Phone), cancellationToken);
 
             if(identityExist!=null)
-            {                
-                identityExist.Code=code;                
+            {
+                identityExist.Code=code;
                 result = identityExist.Id;
             }
-            else 
+            else
             {
                 var identity = new Identity {
                     Id=Guid.NewGuid(),
@@ -46,13 +46,13 @@ namespace Megarender.IdentityService.CQRS
                 result = identity.Id;
             }
             await _identityDbContext.SaveChangesAsync(cancellationToken);
-            
+
             _messageProducer.Enqueue(new CodeGeneratedEvent
                 {
                     Code = code,
                     UserId = result
                 }, new Dictionary<string, string>());
-            
+                
             return result;
         }
     }

@@ -9,7 +9,7 @@ namespace Megarender.DataAccess
         {
             base.Configure(builder);
             builder.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");            
-            builder.HasOne<Organization>(c => c.Organization)
+            builder.HasOne(c => c.Organization)
                 .WithMany ()
                 .HasForeignKey ($"{nameof(Organization)}{nameof(Organization.Id)}")
                 .IsRequired();                      

@@ -21,7 +21,6 @@ namespace Megarender.IdentityService.Middleware
                                                     LabelNames = new [] {"method", "endpoint"}
                                                 }).WithLabels(httpContext.Request.Method, httpContext.Request.Path).Inc();            
             await _next(httpContext);
-            return;
         }
     }
 }

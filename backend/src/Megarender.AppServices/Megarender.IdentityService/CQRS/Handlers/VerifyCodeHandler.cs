@@ -31,14 +31,14 @@ namespace Megarender.IdentityService.CQRS
 
             if(identity == null) throw new ConstraintException();
 
-            var user = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.Phone.Equals(identity.Phone), cancellationToken);
+            var user = await _identityDbContext.Users.FirstOrDefaultAsync(x => x.CommunicationChannelsData.PhoneNumber.Equals(identity.Phone), cancellationToken);
 
             var salt = _utils.GenerateSalt(identity.Phone.Length);
             
             if (isLoginAttempt(user))
             {
                 _identityDbContext.Identities.Remove(identity);                
-                user.Password = _utils.HashedPassword(user.Phone, salt, _options.Pepper);
+                user.Password = _utils.HashedPassword(user.CommunicationChannelsData.PhoneNumber, salt, _options.Pepper);
                 user.Salt = salt;
                 await _identityDbContext.SaveChangesAsync(cancellationToken);
                 return user.Password;
@@ -48,7 +48,11 @@ namespace Megarender.IdentityService.CQRS
             {
                 Id = identity.Id,
                 Password = _utils.HashedPassword(identity.Phone, salt, _options.Pepper),
-                Phone = identity.Phone,
+                PreferredCommunicationChannel = CommunicationChannelId.Phone,
+                CommunicationChannelsData = new CommunicationChannelsData
+                {
+                    PhoneNumber = identity.Phone
+                },
                 Salt = salt
             };
             await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
@@ -56,10 +60,13 @@ namespace Megarender.IdentityService.CQRS
             await _identityDbContext.SaveChangesAsync(cancellationToken);
             
             
-            _messageProducer.Enqueue(new UserRegistratedEvent
-                {
-                    UserId = newUser.Id
-                }, new Dictionary<string, string>());
+            _messageProducer.Enqueue(
+            new UserRegistratedEvent
+                        {
+                            UserId = newUser.Id
+                        }, 
+            new Dictionary<string, string>()
+            );
             return newUser.Password;
         }
 

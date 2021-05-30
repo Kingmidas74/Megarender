@@ -1,12 +1,11 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Business.Modules.UserModule;
 using Megarender.Business.Specifications;
-using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

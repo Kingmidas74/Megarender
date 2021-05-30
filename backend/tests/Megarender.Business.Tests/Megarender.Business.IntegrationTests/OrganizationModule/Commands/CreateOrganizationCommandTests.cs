@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -45,7 +44,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Organization>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"Id is null")
+                        .ThrowAsync<BusinessValidationException>("Id is null")
                         .Result.And.Properties.Should().HaveCount(1).And
                         .ContainKey(nameof(CreateOrganizationCommand.Id));
                 }));
@@ -54,7 +53,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Organization>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"UniqueIdentifier is null")
+                        .ThrowAsync<BusinessValidationException>("UniqueIdentifier is null")
                         .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateOrganizationCommand.UniqueIdentifier));
                 }));
             yield return new TestCaseData(
@@ -62,7 +61,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Organization>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"CommandId name is null")
+                        .ThrowAsync<BusinessValidationException>("CommandId name is null")
                         .Result.And.Properties.Should().HaveCount(1).And
                         .ContainKey(nameof(CreateOrganizationCommand.CommandId));
                 }));
@@ -71,7 +70,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Organization>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"UniqueIdentifier and command id is null")
+                        .ThrowAsync<BusinessValidationException>("UniqueIdentifier and command id is null")
                         .Result.And.Properties.Should().HaveCount(2).And.ContainKey(nameof(CreateOrganizationCommand.UniqueIdentifier))
                         .And.ContainKey(nameof(CreateOrganizationCommand.CommandId));
                 }));

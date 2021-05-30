@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+
 namespace Megarender.WebServiceCore.Exceptions
 {
     public class ClientException:Exception

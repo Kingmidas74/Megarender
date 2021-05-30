@@ -25,7 +25,7 @@ namespace Megarender.WebServiceCore.Middleware
         {
             var cacheSettings = context.HttpContext.RequestServices.GetRequiredService<RedisSettings>();
             var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheDataStorage>();
-            var cacheKey = this.GenerateChacheKeyFromRequest(context.HttpContext.Request);
+            var cacheKey = GenerateChacheKeyFromRequest(context.HttpContext.Request);
 
             if(cacheSettings.Enabled) 
             {   

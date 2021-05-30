@@ -1,12 +1,12 @@
 using System;
-using System.Threading.Tasks;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore;
 using Serilog;
 
 namespace Megarender.StorageService

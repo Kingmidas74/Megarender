@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
-using System;
-using System.Collections.Generic;
-using System.Threading;
 using Megarender.WebServiceCore.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Megarender.ManagementService.Versions.V01.Controllers {
 
@@ -21,7 +21,7 @@ namespace Megarender.ManagementService.Versions.V01.Controllers {
         private readonly ISender _mediator;
             
         public OrganizationsController (ISender mediator) {            
-            this._mediator = mediator;
+            _mediator = mediator;
         }
         
         /// <summary>

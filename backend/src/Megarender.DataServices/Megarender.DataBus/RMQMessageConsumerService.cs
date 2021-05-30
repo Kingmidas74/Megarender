@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 using Megarender.DataBus.Enums;
 using Megarender.DataBus.Models;
 using Megarender.Domain.Extensions;
@@ -34,7 +33,7 @@ namespace Megarender.DataBus
                 var eventType = Encoding.UTF8.GetString(ea.BasicProperties.Headers[DefaultHeaders.EventType.GetDescription()] as byte[] ?? throw new InvalidOperationException());
                 var currentType = typeof(IEvent).Assembly.GetTypes().Single(t => t.Name.Equals(eventType));
                 var currentEnvelope = typeof(Envelope<>).MakeGenericType(currentType);
-                var envelope = System.Text.Json.JsonSerializer.Deserialize(text, currentEnvelope);
+                var envelope = JsonSerializer.Deserialize(text, currentEnvelope);
                 var status = handler(envelope);
             };
 

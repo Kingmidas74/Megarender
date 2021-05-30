@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
@@ -17,28 +20,32 @@ namespace Megarender.IdentityService
         }
         public string GrantType => "custom";
 
-        public async Task ValidateAsync (ExtensionGrantValidationContext context) {
-            var userPhone = context.Request.Raw.Get ("phone");
-            var userPassword = context.Request.Raw.Get ("password");
-
-            if (string.IsNullOrEmpty (userPhone) || string.IsNullOrEmpty (userPassword)) {
-                context.Result = new GrantValidationResult (TokenRequestErrors.InvalidGrant);
-                return;
-            }
+        public async Task ValidateAsync (ExtensionGrantValidationContext context) 
+        {
 
             var result = await _mediator.Send(new FindUserByPhoneAndPasswordQuery{
-                Password = userPassword,
-                Phone = userPhone
+                Password = context.Request.Raw.Get (nameof(FindUserByPhoneAndPasswordQuery.Password).ToLower(CultureInfo.InvariantCulture)),
+                Phone = context.Request.Raw.Get (nameof(FindUserByPhoneAndPasswordQuery.Phone).ToLower(CultureInfo.InvariantCulture))
             });
-            if (result == null) {
+            if (result == null) 
+            {
                 context.Result = new GrantValidationResult (TokenRequestErrors.InvalidGrant);
                 return;
             }
 
-            context.Result = new GrantValidationResult (userPhone, GrantType, new List<Claim> {
-                new Claim ("userId", result.Id.ToString ()),
-                new Claim ("userPhone", result.Phone),
-                new Claim ("aud","megarender_api")
+            var communicationData = result.PreferredCommunicationChannel switch
+            {
+                CommunicationChannelId.Email => result.CommunicationChannelsData.Email,
+                CommunicationChannelId.Telegram => result.CommunicationChannelsData.TelegramId,
+                CommunicationChannelId.Phone => result.CommunicationChannelsData.PhoneNumber,
+                _ => throw new ArgumentOutOfRangeException(nameof(User.PreferredCommunicationChannel))
+            };
+
+            context.Result = new GrantValidationResult (communicationData, GrantType, new List<Claim> {
+                new(nameof(User.Id), result.Id.ToString ()),
+                new(type:nameof(User.PreferredCommunicationChannel),result.PreferredCommunicationChannel.ToString()),
+                new(nameof(CommunicationChannelsData), communicationData),
+               // new(JwtRegisteredClaimNames.Aud, "megarender_api")
             });
         }
     }

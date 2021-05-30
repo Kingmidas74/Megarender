@@ -5,9 +5,9 @@ using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
 using FluentValidation.TestHelper;
+using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Business.Modules.UserModule;
 using Megarender.Business.Specifications;
-using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Domain;
 using Xunit;
 

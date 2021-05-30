@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -8,7 +7,6 @@ using MediatR;
 using Megarender.Business.Exceptions;
 using Megarender.Business.Modules.OrganizationModule;
 using Megarender.Business.Modules.UserModule;
-using Megarender.Domain;
 using NUnit.Framework;
 
 namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
@@ -58,7 +56,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Unit>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"ModifyBy name is null")
+                        .ThrowAsync<BusinessValidationException>("ModifyBy name is null")
                         .Result.And.Properties.Should().HaveCountGreaterOrEqualTo(1).And
                         .ContainKey(nameof(DisableOrganizationCommand.ModifyBy));
                 }));
@@ -67,7 +65,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Unit>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"CommandId name is null")
+                        .ThrowAsync<BusinessValidationException>("CommandId name is null")
                         .Result.And.Properties.Should().HaveCountGreaterOrEqualTo(1).And
                         .ContainKey(nameof(DisableOrganizationCommand.CommandId));
                 }));
@@ -76,7 +74,7 @@ namespace Megarender.Business.IntegrationTests.OrganizationModule.Commands
                 new Action<Func<Task<Unit>>>(result =>
                 {
                     FluentActions.Awaiting(result).Should()
-                        .ThrowAsync<BusinessValidationException>($"ModifyBy and command id is null")
+                        .ThrowAsync<BusinessValidationException>("ModifyBy and command id is null")
                         .Result.And.Properties.Should().HaveCountGreaterOrEqualTo(2).And.ContainKey(nameof(DisableOrganizationCommand.ModifyBy))
                         .And.ContainKey(nameof(DisableOrganizationCommand.CommandId));
                 }));

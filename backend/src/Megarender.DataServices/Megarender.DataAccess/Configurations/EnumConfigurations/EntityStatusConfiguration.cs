@@ -13,7 +13,8 @@ namespace Megarender.DataAccess
             builder.HasData (
                 Enum.GetValues (typeof (EntityStatusId))
                 .Cast<EntityStatusId> ()
-                .Select (e => new EntityStatus () {
+                .Select (e => new EntityStatus
+                {
                         EntityStatusId = e,
                         Value = e.ToString ()
                 })

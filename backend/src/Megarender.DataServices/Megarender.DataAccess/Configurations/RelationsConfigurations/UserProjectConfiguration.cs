@@ -12,10 +12,10 @@ namespace Megarender.DataAccess
             builder.Property ($"{nameof(User)}{nameof(User.Id)}");
             builder.HasKey($"{nameof(Project)}{nameof(Project.Id)}", $"{nameof(User)}{nameof(User.Id)}");
             
-            builder.HasOne<Project>(c=>c.Project)
+            builder.HasOne(c=>c.Project)
                 .WithMany(c=>c.ProjectUsers)
                 .HasForeignKey ($"{nameof(Project)}{nameof(Project.Id)}");
-            builder.HasOne<User>(c=>c.User)
+            builder.HasOne(c=>c.User)
                 .WithMany(c=>c.UserProjects)
                 .HasForeignKey ($"{nameof(User)}{nameof(User.Id)}");     
         }

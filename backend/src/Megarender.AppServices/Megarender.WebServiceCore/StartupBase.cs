@@ -1,18 +1,21 @@
+using System;
+using Masking.Serilog;
 using Megarender.Business;
 using Megarender.DataAccess;
+using Megarender.DataBus;
+using Megarender.DataStorage;
+using Megarender.WebServiceCore.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Serilog;
-using Megarender.WebServiceCore.Models;
-using Megarender.DataBus;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Newtonsoft.Json.Serialization;
 using Prometheus;
-using Masking.Serilog;
-using Megarender.DataStorage;
-using Microsoft.Extensions.Hosting;
+using Serilog;
+using EnvironmentVariables = Megarender.WebServiceCore.Models.EnvironmentVariables;
 
 namespace Megarender.WebServiceCore
 {
@@ -27,9 +30,10 @@ namespace Megarender.WebServiceCore
 
         private JsonSerializerSettings ConfigureJSON() 
         {
-            var result = new JsonSerializerSettings () {
+            var result = new JsonSerializerSettings
+            {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver(),
+                ContractResolver = new DefaultContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore                
             };
@@ -75,7 +79,7 @@ namespace Megarender.WebServiceCore
         {
             Log.Logger = new LoggerConfiguration ().ReadFrom.Configuration (Configuration)
                                 .Destructure.ByMaskingProperties("Password", "Token")
-                                .WriteTo.Seq(System.Environment.GetEnvironmentVariable(nameof(Models.EnvironmentVariables.SeqURL)))
+                                .WriteTo.Seq(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.SeqURL)))
                                 .CreateLogger();
              
             if (!env.IsDevelopment())

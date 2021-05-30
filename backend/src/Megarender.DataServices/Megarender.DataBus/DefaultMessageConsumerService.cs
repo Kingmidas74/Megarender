@@ -1,5 +1,4 @@
 using System;
-using Megarender.DataBus.Models;
 
 namespace Megarender.DataBus
 {

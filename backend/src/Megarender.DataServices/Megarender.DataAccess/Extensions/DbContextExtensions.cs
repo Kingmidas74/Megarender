@@ -33,7 +33,7 @@ namespace Megarender.DataAccess.Extensions
                 throw new ArgumentOutOfRangeException(nameof(times));
 
 
-            var DelayPerAttemptInSeconds = new int[]
+            var DelayPerAttemptInSeconds = new[]
             {
                 (int) TimeSpan.FromSeconds(2).TotalSeconds,
                 (int) TimeSpan.FromSeconds(30).TotalSeconds,

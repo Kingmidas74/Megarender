@@ -12,10 +12,10 @@ namespace Megarender.DataAccess
             builder.Property ($"{nameof(PrivilegeId)}");
             builder.HasKey($"{nameof(AccessGroup)}{nameof(AccessGroup.Id)}", $"{nameof(PrivilegeId)}");
 
-            builder.HasOne<AccessGroup>(c=>c.AccessGroup)
+            builder.HasOne(c=>c.AccessGroup)
                 .WithMany(c=>c.AccessGroupPrivileges)
                 .HasForeignKey ($"{nameof(AccessGroup)}{nameof(AccessGroup.Id)}");
-            builder.HasOne<Privilege>(c=>c.Privilege)
+            builder.HasOne(c=>c.Privilege)
                 .WithMany()
                 .HasForeignKey ($"{nameof(PrivilegeId)}");
         }

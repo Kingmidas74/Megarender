@@ -6,7 +6,7 @@ namespace Megarender.SMS
     {
         public Task<bool> SendMessageAsync(string number, string text)
         {
-            return Task.FromResult<bool>(false);
+            return Task.FromResult(false);
         }
     }
 }

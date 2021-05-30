@@ -1,5 +1,3 @@
-using System;
-
 namespace Megarender.DataBus.Models
 {
     public interface IReasonable

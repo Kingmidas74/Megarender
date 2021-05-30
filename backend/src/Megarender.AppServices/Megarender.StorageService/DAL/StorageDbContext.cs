@@ -16,7 +16,8 @@ namespace Megarender.StorageService.DAL {
                 .HasData (
                     Enum.GetValues (typeof (StorageSystemId))
                     .Cast<StorageSystemId>()
-                    .Select (e => new StorageSystem () {
+                    .Select (e => new StorageSystem
+                    {
                             StorageSystemId = e,
                             Value = e.ToString ()
                     })
@@ -35,7 +36,8 @@ namespace Megarender.StorageService.DAL {
         public StorageSystemId StorageSystem { get; set; }
     }
 
-    public enum StorageSystemId : int {
+    public enum StorageSystemId
+    {
         FTP = 1,
         AZURE = 2
     }

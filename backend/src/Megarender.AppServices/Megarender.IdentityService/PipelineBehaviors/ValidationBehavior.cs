@@ -1,5 +1,5 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentValidation;
@@ -14,7 +14,7 @@ namespace Megarender.IdentityService
 
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            this._validators = validators;
+            _validators = validators;
         }
 
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

@@ -2,8 +2,8 @@ using System;
 using AutoFixture;
 using FluentAssertions;
 using FluentValidation.TestHelper;
-using Megarender.Business.UnitTests.Models;
 using Megarender.Business.Modules.OrganizationModule;
+using Megarender.Business.UnitTests.Models;
 
 namespace Megarender.Business.UnitTests.Modules.OrganizationModule
 {

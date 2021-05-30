@@ -42,7 +42,7 @@ namespace Megarender.Business.IntegrationTests.UserModule.Commands
                 Fixture.Build<CreateUserCommand>().Without(o=>o.CommandId).Create(),
                 new Action<Func<Task<User>>>(result =>
                 {
-                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>($"Command id is null")
+                    FluentActions.Awaiting(result).Should().ThrowAsync<BusinessValidationException>("Command id is null")
                         .Result.And.Properties.Should().HaveCount(1).And.ContainKey(nameof(CreateUserCommand.CommandId));
                 }));
         }

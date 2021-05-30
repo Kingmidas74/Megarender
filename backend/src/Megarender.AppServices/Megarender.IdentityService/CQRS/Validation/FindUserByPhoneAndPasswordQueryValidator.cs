@@ -13,9 +13,9 @@ namespace Megarender.IdentityService.CQRS
         private readonly IOptions<ApplicationOptions> _options;
         public FindUserByPhoneAndPasswordQueryValidator(AppDbContext identityDbContext, UtilsService utils, IOptions<ApplicationOptions> options)
         {
-            this._options = options;
-            this._utils = utils;
-            this._identityDbContext = identityDbContext;
+            _options = options;
+            _utils = utils;
+            _identityDbContext = identityDbContext;
             
             RuleFor(x => x.Phone).NotEmpty();
             RuleFor(x => x.Password).NotEmpty();
@@ -24,8 +24,8 @@ namespace Megarender.IdentityService.CQRS
 
         private async Task<bool> IsExist(FindUserByPhoneAndPasswordQuery query, CancellationToken cancellationToken = default)
         {
-            var user = await _identityDbContext.Users.SingleAsync(u => u.Phone == query.Phone, cancellationToken);
-            return user.Password == _utils.HashedPassword(user.Phone, user.Salt, _options.Value.Pepper);
+            var user = await _identityDbContext.Users.SingleAsync(u => u.CommunicationChannelsData.PhoneNumber == query.Phone, cancellationToken);
+            return user.Password == _utils.HashedPassword(user.CommunicationChannelsData.PhoneNumber, user.Salt, _options.Value.Pepper);
         }
     }
 }

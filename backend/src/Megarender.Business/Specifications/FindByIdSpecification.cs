@@ -11,12 +11,12 @@ namespace Megarender.Business.Specifications
     
         public FindByIdSpecification(Guid id)
         {
-            this._id=id;
+            _id=id;
         }
 
         public override Expression<Func<T, bool>> ToExpression()
         {
-            return entity => entity.Id.Equals(this._id);
+            return entity => entity.Id.Equals(_id);
         }
     }
 

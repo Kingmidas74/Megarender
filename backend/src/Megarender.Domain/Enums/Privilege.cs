@@ -3,7 +3,8 @@ using System;
 namespace Megarender.Domain
 {
     [Flags]
-    public enum PrivilegeId:int {
+    public enum PrivilegeId
+    {
         CanAuthorize=0,
         CanSeeScenes=1<<0,
         CanSeeRenderTasks=2<<0

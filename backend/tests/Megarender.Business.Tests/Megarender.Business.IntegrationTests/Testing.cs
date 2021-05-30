@@ -1,5 +1,10 @@
-using Megarender.DataAccess;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using DotNetEnv;
 using MediatR;
+using Megarender.DataAccess;
+using Megarender.ManagementService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,10 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using Respawn.Postgres;
-using System.IO;
-using System.Threading.Tasks;
-using Megarender.Business.IntegrationTests;
-using Megarender.ManagementService;
 
 [SetUpFixture]
 public class Testing
@@ -22,7 +23,7 @@ public class Testing
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        DotNetEnv.Env.TraversePath().Load();
+        Env.TraversePath().Load();
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -81,10 +82,10 @@ public class Testing
     public static async Task ResetState()
     {
         var connection = string.Format(_configuration.GetConnectionString("DefaultConnection"),
-            System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_HOST)),
-            System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PORT)),
-            File.ReadAllText(System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_USER_FILE))),
-            File.ReadAllText(System.Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PWD_FILE))));
+            Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_HOST)),
+            Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PORT)),
+            File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_USER_FILE))),
+            File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PWD_FILE))));
         await _checkpoint.Reset(connection);
     }
 

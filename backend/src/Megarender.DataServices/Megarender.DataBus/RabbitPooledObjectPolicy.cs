@@ -1,7 +1,6 @@
 using System;
 using Megarender.DataBus.Models;
 using Microsoft.Extensions.ObjectPool;
-using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace Megarender.DataBus

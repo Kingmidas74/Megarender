@@ -21,7 +21,7 @@ namespace Megarender.Business.Modules.OrganizationModule
         public async Task<Organization> Handle(CreateOrganizationCommand request, CancellationToken cancellationToken = default)
         {            
             var organization = (await _dbContext.Organizations.AddAsync(_mapper.Map<Organization>(request),cancellationToken)).Entity;
-            var user = (await this._dbContext.Users.SingleAsync(new FindByIdSpecification<User>(request.CreatedBy).ToExpression(), cancellationToken));
+            var user = (await _dbContext.Users.SingleAsync(new FindByIdSpecification<User>(request.CreatedBy).ToExpression(), cancellationToken));
             user.UserOrganizations.Add(new UserOrganization {
                 Organization = organization,
                 User = user

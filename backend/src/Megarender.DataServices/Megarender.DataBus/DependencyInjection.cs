@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
+using System.IO;
 using Megarender.DataBus.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
 using RabbitMQ.Client;
-using System.IO;
 
 namespace Megarender.DataBus
 {

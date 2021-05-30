@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Twilio.Clients;
 using Twilio.Http;
+using HttpClient = System.Net.Http.HttpClient;
 
 namespace Megarender.SMS
 {
@@ -9,7 +9,7 @@ namespace Megarender.SMS
     {
         private readonly ITwilioRestClient _innerClient;
 
-        public CustomTwilioClient(SMSSettings smsSettings, System.Net.Http.HttpClient httpClient)
+        public CustomTwilioClient(SMSSettings smsSettings, HttpClient httpClient)
         {
             _innerClient = new TwilioRestClient(
                 smsSettings.AccountSID,

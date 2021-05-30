@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Megarender.Business.Exceptions;
+using Megarender.DataAccess.Extensions;
+using Megarender.WebServiceCore.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Megarender.Business.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Megarender.DataAccess.Extensions;
-using Megarender.WebServiceCore.Middleware;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Megarender.WebServiceCore
 {

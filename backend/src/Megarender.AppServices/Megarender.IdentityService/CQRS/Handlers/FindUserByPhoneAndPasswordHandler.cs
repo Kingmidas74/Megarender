@@ -11,11 +11,11 @@ namespace Megarender.IdentityService.CQRS
 
         public FindUserByPhoneAndPasswordHandler(AppDbContext identityDbContext)
         {
-            this._identityDbContext = identityDbContext;
+            _identityDbContext = identityDbContext;
         }
         public async Task<User> Handle(FindUserByPhoneAndPasswordQuery request, CancellationToken cancellationToken = default)
         {
-            return await this._identityDbContext.Users.SingleAsync(x=>x.Phone.Equals(request.Phone),cancellationToken);
+            return await _identityDbContext.Users.SingleAsync(x=>x.CommunicationChannelsData.PhoneNumber.Equals(request.Phone) && x.Password.Equals(request.Password),cancellationToken);
         }
     }
 }

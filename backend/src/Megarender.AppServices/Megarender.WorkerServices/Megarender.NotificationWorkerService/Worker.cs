@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +6,6 @@ using Megarender.DataBus.Enums;
 using Megarender.DataBus.Models;
 using Megarender.Domain.Extensions;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 
 namespace Megarender.NotificationWorkerService
 {
@@ -31,7 +29,7 @@ namespace Megarender.NotificationWorkerService
         
         private bool CodeGeneratedEventHandler(CodeGeneratedEvent message)
         {
-            _producerService.Enqueue(new SendMessageToTelegramEvent()
+            _producerService.Enqueue(new SendMessageToTelegramEvent
             {
                 TelegramId = string.Empty,
                 Reason = nameof(CodeGeneratedEvent),
@@ -43,7 +41,7 @@ namespace Megarender.NotificationWorkerService
             {
                 {DefaultHeaders.Parent.GetDescription(), nameof(CodeGeneratedEvent)}
             });
-            _producerService.Enqueue(new SendSMSEvent()
+            _producerService.Enqueue(new SendSMSEvent
             {
                 Phone = string.Empty,
                 Reason = nameof(CodeGeneratedEvent),

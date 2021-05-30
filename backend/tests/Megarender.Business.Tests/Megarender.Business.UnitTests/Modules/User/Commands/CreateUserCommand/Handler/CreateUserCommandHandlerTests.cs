@@ -3,6 +3,7 @@ using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
 using Megarender.Business.Modules.UserModule;
+using Megarender.Domain;
 using Xunit;
 
 namespace Megarender.Business.UnitTests.Modules.UserModule
@@ -14,7 +15,7 @@ namespace Megarender.Business.UnitTests.Modules.UserModule
         public CreateUserCommandHandlerTests()
         {
             _mapper = new MapperConfiguration(cfg =>
-                cfg.CreateMap<CreateUserCommand, Domain.User>()
+                cfg.CreateMap<CreateUserCommand, User>()
             ).CreateMapper();
         }
 

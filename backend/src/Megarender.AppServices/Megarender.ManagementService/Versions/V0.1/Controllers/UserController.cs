@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using MediatR;
-using Megarender.Business.Modules.UserModule;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
+using Megarender.Business.Modules.UserModule;
 using Megarender.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Megarender.ManagementService.Versions.V01.Controllers {
 
@@ -20,7 +20,7 @@ namespace Megarender.ManagementService.Versions.V01.Controllers {
         private readonly ISender _mediator;
             
         public UsersController (ISender mediator) {            
-            this._mediator = mediator;
+            _mediator = mediator;
         }
         
         /// <summary>
@@ -41,7 +41,7 @@ namespace Megarender.ManagementService.Versions.V01.Controllers {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

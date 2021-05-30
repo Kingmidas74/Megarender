@@ -7,6 +7,5 @@ namespace Megarender.WebServiceCore.Exceptions
     {
         public Type ExceptionType {get;set;}
         public Dictionary<string,object> Properties = new Dictionary<string,object>();
-        public ServerException() { }
     }
 }

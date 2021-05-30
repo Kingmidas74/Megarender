@@ -1,6 +1,7 @@
 namespace Megarender.Domain
 {
-    public enum MoneyTransactionStatusId : int {
+    public enum MoneyTransactionStatusId
+    {
         Created = 1,
         Approved = 2,
         Deposited = 3, 

@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace Megarender.IdentityService.CQRS
 {
-    public class VerifyCodeHandler : IRequestHandler<VerifyCodeCommand, string>
+    public class VerifyCodeHandler : IRequestHandler<VerifyCodeCommand, User>
     {
         private readonly AppDbContext _identityDbContext;
         private readonly UtilsService _utils;
@@ -25,9 +25,11 @@ namespace Megarender.IdentityService.CQRS
             _options = options?.Value ?? throw new NullReferenceException(nameof(ApplicationOptions));
         }
 
-        public async Task<string> Handle(VerifyCodeCommand request, CancellationToken cancellationToken = default)
+        public async Task<User> Handle(VerifyCodeCommand request, CancellationToken cancellationToken = default)
         {
-            var identity = await _identityDbContext.Identities.FirstOrDefaultAsync(x=>x.Code.Equals(request.Code) && x.Id.Equals(request.Id), cancellationToken);
+            User result = null;
+            
+            var identity = await _identityDbContext.Identities.FirstOrDefaultAsync(x=>x.Code.Equals(request.Code) && x.Phone.Equals(request.Phone), cancellationToken);
 
             if(identity == null) throw new ConstraintException();
 
@@ -41,33 +43,36 @@ namespace Megarender.IdentityService.CQRS
                 user.Password = _utils.HashedPassword(user.CommunicationChannelsData.PhoneNumber, salt, _options.Pepper);
                 user.Salt = salt;
                 await _identityDbContext.SaveChangesAsync(cancellationToken);
-                return user.Password;
+                result = user;
+            }
+            else
+            {
+
+                var newUser = new User
+                {
+                    Id = identity.Id,
+                    Password = _utils.HashedPassword(identity.Phone, salt, _options.Pepper),
+                    PreferredCommunicationChannel = CommunicationChannelId.Phone,
+                    CommunicationChannelsData = new CommunicationChannelsData
+                    {
+                        PhoneNumber = identity.Phone
+                    },
+                    Salt = salt
+                };
+                await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
+                _identityDbContext.Identities.Remove(identity);    
+                await _identityDbContext.SaveChangesAsync(cancellationToken);
+                _messageProducer.Enqueue(
+                    new UserRegistratedEvent
+                    {
+                        UserId = newUser.Id
+                    }, 
+                    new Dictionary<string, string>()
+                );
+                result = newUser;
             }
 
-            var newUser = new User
-            {
-                Id = identity.Id,
-                Password = _utils.HashedPassword(identity.Phone, salt, _options.Pepper),
-                PreferredCommunicationChannel = CommunicationChannelId.Phone,
-                CommunicationChannelsData = new CommunicationChannelsData
-                {
-                    PhoneNumber = identity.Phone
-                },
-                Salt = salt
-            };
-            await _identityDbContext.Users.AddAsync(newUser, cancellationToken);
-            _identityDbContext.Identities.Remove(identity);    
-            await _identityDbContext.SaveChangesAsync(cancellationToken);
-            
-            
-            _messageProducer.Enqueue(
-            new UserRegistratedEvent
-                        {
-                            UserId = newUser.Id
-                        }, 
-            new Dictionary<string, string>()
-            );
-            return newUser.Password;
+            return result;
         }
 
         private bool isLoginAttempt(User user) => user != null;

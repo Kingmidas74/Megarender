@@ -1,11 +1,11 @@
-using System;
 using MediatR;
 
 namespace Megarender.IdentityService.CQRS
 {
-    public class VerifyCodeCommand:IRequest<string>
+    public class VerifyCodeCommand:IRequest<User>
     {
-        public Guid Id { get; init; }
+        public string Phone { get; init; }
         public string Code { get; init; }
+        public string ServiceWebHook { get; init; }
     }
 }

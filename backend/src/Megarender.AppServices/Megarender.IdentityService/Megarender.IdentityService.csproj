@@ -47,5 +47,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataBus\Megarender.DataBus.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CQRS\Queries" />
+  </ItemGroup>
 
 </Project>

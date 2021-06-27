@@ -2,9 +2,9 @@ using MediatR;
 
 namespace Megarender.IdentityService.CQRS
 {
-    public class FindUserByPhoneAndPasswordQuery:IRequest<User>
+    public class SureExistUserByPhoneAndCodeCommand:IRequest<User>
     {
-        public string Password {get;init;}
+        public string Code {get;init;}
         public string Phone { get; init; }
     }
 }

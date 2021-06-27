@@ -37,6 +37,8 @@ namespace Megarender.IdentityService {
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);    
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddHttpClient<IAuthenticationProviderFactory, AuthenticationProviderFactory>();
+            services.AddTransient<IAuthenticationProviderFactory, AuthenticationProviderFactory>();
             services
                 .AddIdentityServer (x => {
                     x.IssuerUri = System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST));
@@ -51,7 +53,7 @@ namespace Megarender.IdentityService {
                 .AddInMemoryClients (Configuration.GetSection ("IdentityService:Clients").Get<Client[]> ())
                 .AddDeveloperSigningCredential ()
                 .AddProfileService<ProfileService> ()
-                .AddExtensionGrantValidator<PasswordValidator> ();
+                .AddExtensionGrantValidator<CodeValidator> ();
             services.AddControllers()
                 .AddNewtonsoftJson (options => {
                     options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;

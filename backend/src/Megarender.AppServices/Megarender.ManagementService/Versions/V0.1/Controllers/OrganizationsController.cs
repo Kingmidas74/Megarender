@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Megarender.Business.Modules.OrganizationModule;
+using Megarender.Features.Modules.OrganizationModule;
 using Megarender.Domain;
 using Megarender.WebServiceCore.Extensions;
 using Microsoft.AspNetCore.Authorization;

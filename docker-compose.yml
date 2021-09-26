@@ -369,6 +369,7 @@ networks:
 
 volumes:
   pg_data:
+  pgadmin_data:
   rmq_etc:
   rmq_data:
   rmq_logs:

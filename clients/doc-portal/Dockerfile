@@ -1,18 +1,8 @@
-FROM node:14.2.0-alpine3.10 AS build
-
-RUN apk add --update \
-  python \
-  python-dev \
-  py-pip \
-  build-base \
-  git \
-  openssh-client \
-&& pip install virtualenv \
-&& rm -rf /var/cache/apk/*
+FROM node:16.10.0-alpine3.11 AS build
 
 WORKDIR /usr/src/app
-COPY ./clients/doc-portal/package.json ./
-RUN npm install
+COPY ./clients/doc-portal/package*.json ./
+RUN npm ci
 COPY ./clients/doc-portal .
 RUN npm run build
 RUN chmod 777 ./build/env.js

@@ -1,15 +1,5 @@
 FROM node:16.10.0-alpine3.11 AS build
 
-# RUN apk add --update \
-#   python \
-#   python-dev \
-#   py-pip \
-#   build-base \
-#   git \
-#   openssh-client \
-# && pip install virtualenv \
-# && rm -rf /var/cache/apk/*
-
 WORKDIR /usr/src/app
 COPY ./clients/portal/package*.json ./
 RUN npm ci

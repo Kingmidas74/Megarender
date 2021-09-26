@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataBus", "src\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataStorage", "src\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj", "{54DDBC66-1494-42DA-9EBF-6CBFA4D5FE0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Business", "src\Megarender.Business\Megarender.Business.csproj", "{A787FF89-4A11-4A2E-85E2-A8408E014B59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Features", "src\Megarender.Features\Megarender.Features.csproj", "{A787FF89-4A11-4A2E-85E2-A8408E014B59}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.AppServices", "Megarender.AppServices", "{5792DD5F-A20F-41D3-B3FB-00F352A87CCD}"
 EndProject
@@ -27,11 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.StorageService",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DA8BF806-59BE-4508-A739-395E9E97BAD5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.Business.Tests", "Megarender.Business.Tests", "{7A1514C0-0DF2-494F-AA11-9CF93E25EF38}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Megarender.Features.Tests", "Megarender.Features.Tests", "{7A1514C0-0DF2-494F-AA11-9CF93E25EF38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Business.IntegrationTests", "tests\Megarender.Business.Tests\Megarender.Business.IntegrationTests\Megarender.Business.IntegrationTests.csproj", "{6A949EFC-D3E2-42C3-8FD0-03B7C979FF3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Features.IntegrationTests", "tests\Megarender.Features.Tests\Megarender.Features.IntegrationTests\Megarender.Features.IntegrationTests.csproj", "{6A949EFC-D3E2-42C3-8FD0-03B7C979FF3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Business.UnitTests", "tests\Megarender.Business.Tests\Megarender.Business.UnitTests\Megarender.Business.UnitTests.csproj", "{E526C5D0-23A4-41B7-8C9D-2E4894DFD860}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.Features.UnitTests", "tests\Megarender.Features.Tests\Megarender.Features.UnitTests\Megarender.Features.UnitTests.csproj", "{E526C5D0-23A4-41B7-8C9D-2E4894DFD860}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Megarender.DataAccess", "src\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj", "{2A072366-A483-4A84-9C32-42242D032417}"
 EndProject

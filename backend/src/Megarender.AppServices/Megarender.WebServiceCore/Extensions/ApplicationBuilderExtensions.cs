@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Megarender.Business.Exceptions;
+using Megarender.Features.Exceptions;
 using Megarender.DataAccess.Extensions;
 using Megarender.WebServiceCore.Middleware;
 using Microsoft.AspNetCore.Builder;

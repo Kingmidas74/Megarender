@@ -49,7 +49,7 @@
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataAccess\Megarender.DataAccess.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataStorage\Megarender.DataStorage.csproj" />
     <ProjectReference Include="..\..\Megarender.DataServices\Megarender.DataBus\Megarender.DataBus.csproj" />
-    <ProjectReference Include="..\..\Megarender.Business\Megarender.Business.csproj" />
+    <ProjectReference Include="..\..\Megarender.Features\Megarender.Features.csproj" />
     <ProjectReference Include="..\Megarender.WebServiceCore\Megarender.WebServiceCore.csproj" />
   </ItemGroup>
 </Project>

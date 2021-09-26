@@ -120,9 +120,9 @@ services:
       environment:
         PGADMIN_DEFAULT_EMAIL: "pg@admin.ru"
         PGADMIN_DEFAULT_PASSWORD: "TestPassw0rd!"
-      depends_on:
-        db:
-          condition: service_healthy
+      # depends_on:
+      #   db:
+      #     condition: service_healthy
       ports:
         - 6433:80
       volumes:

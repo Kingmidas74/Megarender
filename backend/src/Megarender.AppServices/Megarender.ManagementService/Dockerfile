@@ -8,7 +8,7 @@ WORKDIR /source
 COPY . .
 WORKDIR /source/backend
 RUN dotnet restore
-RUN dotnet test ./tests/Megarender.Business.Tests/Megarender.Business.UnitTests/Megarender.Business.UnitTests.csproj 
+RUN dotnet test ./tests/Megarender.Features.Tests/Megarender.Features.UnitTests/Megarender.Features.UnitTests.csproj 
 
 WORKDIR /source/backend/src/Megarender.AppServices/Megarender.ManagementService
 RUN dotnet publish -c release -o /app --no-restore

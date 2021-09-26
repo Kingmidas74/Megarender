@@ -1,95 +1,68 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Megarender.Business.Specifications
 {
+    internal class ParameterReplacer : ExpressionVisitor {
+
+        private readonly ParameterExpression _parameter;
+
+        protected override Expression VisitParameter(ParameterExpression node) 
+            => base.VisitParameter(_parameter);
+
+        internal ParameterReplacer(ParameterExpression parameter) {
+            _parameter = parameter;
+        }
+    }
+
     public interface ISpecification<T>
     {
-        bool IsSatisfiedBy(T candidate);
-        ISpecification<T> And(ISpecification<T> other);
-        ISpecification<T> AndNot(ISpecification<T> other);
-        ISpecification<T> Or(ISpecification<T> other);
-        ISpecification<T> OrNot(ISpecification<T> other);
-        ISpecification<T> Not();
+        Expression<Func<T, bool>> ToExpression();
+        bool IsSatisfiedBy(T entity);
+        Specification<T> And(Specification<T> specification);
+        Specification<T> Or(Specification<T> specification);
     }
 
-    public abstract class LinqSpecification<T> : CompositeSpecification<T>        
+    public abstract class Specification<T> : ISpecification<T>
     {
-        public abstract Expression<Func<T, bool>> AsExpression();  
-        public Expression<Func<T, bool>> IsSatisfiedByExpression => AsExpression();
-        public override bool IsSatisfiedBy(T candidate) => AsExpression().Compile()(candidate);                
+        public abstract Expression<Func<T, bool>> ToExpression();
+        public bool IsSatisfiedBy(T entity) => ToExpression().Compile()(entity);
+        public Specification<T> And(Specification<T> specification) => new AndSpecification<T>(this, specification);
+        public Specification<T> Or(Specification<T> specification) => new OrSpecification<T>(this, specification);
     }
 
-    public abstract class CompositeSpecification<T> : ISpecification<T>
+
+    public class AndSpecification<T> : Specification<T> 
     {
-        public abstract bool IsSatisfiedBy(T candidate);
-        public ISpecification<T> And(ISpecification<T> other) => new AndSpecification<T>(this, other);
-        public ISpecification<T> AndNot(ISpecification<T> other) => new AndNotSpecification<T>(this, other);
-        public ISpecification<T> Or(ISpecification<T> other) => new OrSpecification<T>(this, other);
-        public ISpecification<T> OrNot(ISpecification<T> other) => new OrNotSpecification<T>(this, other);
-        public ISpecification<T> Not() => new NotSpecification<T>(this);    
+        private readonly Specification<T> _left;
+        private readonly Specification<T> _right;
+        
+        public AndSpecification(Specification<T> left, Specification<T> right) {
+            _right = right;
+            _left = left;
+        }
+        public override Expression<Func<T, bool>> ToExpression() {
+            var paramExpr = Expression.Parameter(typeof(T));
+            return Expression.Lambda<Func<T, bool>>((BinaryExpression)new ParameterReplacer(paramExpr).Visit(Expression.AndAlso(_left.ToExpression().Body, _right.ToExpression().Body)), paramExpr);
+        }
     }
 
-    public class AndSpecification<T> : CompositeSpecification<T>
-    {
-        ISpecification<T> left;
-        ISpecification<T> right;
 
-        public AndSpecification(ISpecification<T> left, ISpecification<T> right)
-        {
-            this.left = left;
-            this.right = right;
+    public class OrSpecification<T> : Specification<T> 
+    {
+        private readonly Specification<T> _left;
+        private readonly Specification<T> _right;
+
+
+        public OrSpecification(Specification<T> left, Specification<T> right) {
+            _right = right;
+            _left = left;
         }
 
-        public override bool IsSatisfiedBy(T candidate) => left.IsSatisfiedBy(candidate) && right.IsSatisfiedBy(candidate);
-    }
 
-    public class AndNotSpecification<T> : CompositeSpecification<T>
-    {
-        ISpecification<T> left;
-        ISpecification<T> right;
-
-        public AndNotSpecification(ISpecification<T> left, ISpecification<T> right)
-        {
-            this.left = left;
-            this.right = right;
+        public override Expression<Func<T, bool>> ToExpression() {
+            var paramExpr = Expression.Parameter(typeof(T));
+            return Expression.Lambda<Func<T, bool>>((BinaryExpression)new ParameterReplacer(paramExpr).Visit(Expression.OrElse(_left.ToExpression().Body, _right.ToExpression().Body)), paramExpr);
         }
-
-        public override bool IsSatisfiedBy(T candidate) => left.IsSatisfiedBy(candidate) && !right.IsSatisfiedBy(candidate);
-    }
-
-    public class OrSpecification<T> : CompositeSpecification<T>
-    {
-        ISpecification<T> left;
-        ISpecification<T> right;
-
-        public OrSpecification(ISpecification<T> left, ISpecification<T> right)
-        {
-            this.left = left;
-            this.right = right;
-        }
-
-        public override bool IsSatisfiedBy(T candidate) => left.IsSatisfiedBy(candidate) || right.IsSatisfiedBy(candidate);
-    }
-    public class OrNotSpecification<T> : CompositeSpecification<T>
-    {
-        ISpecification<T> left;
-        ISpecification<T> right;
-
-        public OrNotSpecification(ISpecification<T> left, ISpecification<T> right)
-        {
-            this.left = left;
-            this.right = right;
-        }
-
-        public override bool IsSatisfiedBy(T candidate) => left.IsSatisfiedBy(candidate) || !right.IsSatisfiedBy(candidate);
-    }
-
-    public class NotSpecification<T> : CompositeSpecification<T>
-    {
-        ISpecification<T> other;
-        public NotSpecification(ISpecification<T> other) => this.other = other;
-        public override bool IsSatisfiedBy(T candidate) => !other.IsSatisfiedBy(candidate);
     }
 }

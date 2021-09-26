@@ -13,7 +13,8 @@ namespace Megarender.DataAccess
             builder.HasData (
                 Enum.GetValues (typeof (MoneyTransactionStatusId))
                 .Cast<MoneyTransactionStatusId> ()
-                .Select (e => new MoneyTransactionStatus () {
+                .Select (e => new MoneyTransactionStatus
+                {
                         MoneyTransactionStatusId = e,
                         Value = e.ToString ()
                 })

@@ -4,19 +4,19 @@ using Megarender.Domain;
 
 namespace Megarender.Business.Specifications
 {
-    public class FindByIdSpecification<T>:LinqSpecification<T>
+    public class FindByIdSpecification<T>:Specification<T>
         where T:IEntity
     {
-        private readonly Guid Id;
+        private readonly Guid _id;
     
-        public FindByIdSpecification(Guid Id)
+        public FindByIdSpecification(Guid id)
         {
-            this.Id=Id;
+            _id=id;
         }
 
-        public override Expression<Func<T, bool>> AsExpression()
+        public override Expression<Func<T, bool>> ToExpression()
         {
-            return entity => entity.Id.Equals(this.Id);
+            return entity => entity.Id.Equals(_id);
         }
     }
 

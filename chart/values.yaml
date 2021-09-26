@@ -43,11 +43,11 @@ frontend:
   general:
     labels:
       tier: frontend
-  angular:
+  portal:
     replicas: 2
     ports:
       container: 80
       service: 8888
-    label: angular
-    image: angular
+    label: portal
+    image: portal
     

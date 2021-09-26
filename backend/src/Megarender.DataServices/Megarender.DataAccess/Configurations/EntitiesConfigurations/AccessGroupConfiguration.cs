@@ -1,5 +1,4 @@
 using Megarender.Domain;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Megarender.DataAccess
@@ -10,7 +9,7 @@ namespace Megarender.DataAccess
         {
             base.Configure(builder);
             builder.Property ($"{nameof(Organization)}{nameof(Organization.Id)}");            
-            builder.HasOne<Organization>(c => c.Organization)
+            builder.HasOne(c => c.Organization)
                 .WithMany (c => c.AccessGroups)
                 .HasForeignKey ($"{nameof(Organization)}{nameof(Organization.Id)}")
                 .IsRequired();

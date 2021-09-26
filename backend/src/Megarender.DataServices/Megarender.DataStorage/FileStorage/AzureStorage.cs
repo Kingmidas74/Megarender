@@ -17,7 +17,7 @@ namespace Megarender.DataStorage
 
         public async Task<BlobContainerClient> CreateDirectoryAsync(string directoryName, CancellationToken cancellationToken = default)
         {
-            return await _blobServiceClient.CreateBlobContainerAsync(directoryName, Azure.Storage.Blobs.Models.PublicAccessType.BlobContainer);
+            return await _blobServiceClient.CreateBlobContainerAsync(directoryName, PublicAccessType.BlobContainer);
         }
 
         public async Task<BlobDownloadInfo> GetFileAsync(string directory, string filename, CancellationToken cancellationToken = default)

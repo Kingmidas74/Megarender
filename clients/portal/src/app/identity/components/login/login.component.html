@@ -1,0 +1,45 @@
+<div id="login-form">
+
+  <div class="logo" fxHide.gt-xs>
+    <img src="assets/images/logos/logo_main.png">
+  </div>
+
+  <div class="title">SIGN IN TO YOUR ACCOUNT</div>
+
+  <form name="phoneForm" [formGroup]="phoneForm" novalidate [@codeShow]="!codeIsSend ? 'expanded' : 'collapsed'" (ngSubmit)="checkPhone()">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput formControlName="userPhone" #phone>
+      <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+      <mat-error *ngIf="phoneForm.get('userPhone').hasError('required')">
+        Phone is required
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" class="submit-button" aria-label="SIGN IN" type="submit"
+      [disabled]="phoneForm.invalid">
+      SIGN IN
+    </button>
+
+  </form>
+
+  <form name="codeForm" [formGroup]="codeForm" novalidate [@codeShow]="codeIsSend ? 'expanded' : 'collapsed'" (ngSubmit)="signin()" style="overflow: hidden">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Code</mat-label>
+      <input matInput type="code" formControlName="userCode" #code>
+      <mat-icon matSuffix class="secondary-text">vpn_key</mat-icon>
+      <mat-error *ngIf="codeForm.get('userCode').hasError('required')">
+        Code is required
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" class="submit-button" aria-label="SIGN IN" type="submit"
+      [disabled]="codeForm.invalid">
+      SIGN IN
+    </button>
+
+  </form>
+
+</div>

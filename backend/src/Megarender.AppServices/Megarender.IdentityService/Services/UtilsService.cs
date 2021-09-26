@@ -6,29 +6,30 @@ namespace Megarender.IdentityService
 {
     public sealed class UtilsService
     {
-        private readonly AppDbContext IdentityDBContext;
-        public UtilsService(AppDbContext identityDBContext)
+        private readonly AppDbContext _identityDbContext;
+        public UtilsService(AppDbContext identityDbContext)
         {
-            IdentityDBContext = identityDBContext;
+            _identityDbContext = identityDbContext;
         }
         internal string GenerateSalt(int length) {
-            var _rdm = new Random();
+            var rdm = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
-                                .Select(s => s[_rdm.Next(s.Length)]).ToArray());
+                                .Select(s => s[rdm.Next(s.Length)]).ToArray());
         }
         internal string GenerateCode(int min, int max)
         {
             var rdm = new Random();
-            string code = string.Empty;
+            return rdm.Next(min, max).ToString();
+            string code;
 
             do {
                 code = rdm.Next(min, max).ToString();
             }
-            while(IdentityDBContext.Identities.Select(x=>x.Code).Contains(code));            
+            while(_identityDbContext.Identities.Select(x=>x.Code).Contains(code));            
             return code;
         }
 
-        internal string HashedPassword(string phone,string password,string salt, string pepper) => $"{phone}{password}{salt}{pepper}".Sha256();
+        internal string HashedPassword(string phone,string salt, string pepper) => $"{salt}{phone}{pepper}".Sha256();
     }
 }

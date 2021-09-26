@@ -1,25 +1,24 @@
-using System;
 using FluentValidation;
 using IdentityServer4.Models;
+using Masking.Serilog;
 using MediatR;
+using Megarender.DataBus;
+using Megarender.IdentityService.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Megarender.IdentityService.PipelineBehaviors;
 using Newtonsoft.Json;
-using Serilog;
 using Prometheus;
-using Megarender.IdentityService.Middleware;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Masking.Serilog;
+using Serilog;
 
 namespace Megarender.IdentityService {
     public class Startup {
-        private readonly string CorsPolicy = nameof (CorsPolicy);
-        public IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
+        private readonly string _corsPolicy = nameof (_corsPolicy);
+        private IWebHostEnvironment Environment { get; }
+        private IConfiguration Configuration { get; }
 
         public Startup (IConfiguration configuration, IWebHostEnvironment environment) {
             Configuration = configuration;
@@ -31,12 +30,15 @@ namespace Megarender.IdentityService {
             services.Configure<ApplicationOptions> (Configuration.GetSection (nameof(ApplicationOptions)));            
             services.AddTransient<UtilsService>();
             services.AddSwagger();
+            services.AddQueueService(Configuration);
             services.AddSingleton<MetricReporter>();
             services.AddSQL(Configuration.GetConnectionString ("DefaultConnection"));
             services.AddMediatR(typeof(Startup));
             services.AddValidatorsFromAssembly(typeof(Startup).Assembly);    
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+            services.AddHttpClient<IAuthenticationProviderFactory, AuthenticationProviderFactory>();
+            services.AddTransient<IAuthenticationProviderFactory, AuthenticationProviderFactory>();
             services
                 .AddIdentityServer (x => {
                     x.IssuerUri = System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST));
@@ -51,7 +53,7 @@ namespace Megarender.IdentityService {
                 .AddInMemoryClients (Configuration.GetSection ("IdentityService:Clients").Get<Client[]> ())
                 .AddDeveloperSigningCredential ()
                 .AddProfileService<ProfileService> ()
-                .AddExtensionGrantValidator<PasswordValidator> ();
+                .AddExtensionGrantValidator<CodeValidator> ();
             services.AddControllers()
                 .AddNewtonsoftJson (options => {
                     options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
@@ -59,7 +61,7 @@ namespace Megarender.IdentityService {
                 });
 
             services.AddCors (options => {
-                options.AddPolicy (nameof (CorsPolicy),
+                options.AddPolicy (nameof (_corsPolicy),
                     builder => builder.AllowAnyOrigin ()
                     .AllowAnyMethod ()
                     .AllowAnyHeader ()
@@ -68,12 +70,15 @@ namespace Megarender.IdentityService {
         }
 
         public void Configure (IApplicationBuilder app, IApiVersionDescriptionProvider provider) {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ().CreateScope ()) {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext> ();                    
-                   
-                if(!context.AllMigrationsApplied())
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory> ()?.CreateScope ()) {
+                if (serviceScope != null)
                 {
-                    context.Database.Migrate();
+                    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext> ();                    
+                   
+                    if(!context.AllMigrationsApplied())
+                    {
+                        context.Database.Migrate();
+                    }
                 }
             }
 
@@ -86,7 +91,7 @@ namespace Megarender.IdentityService {
             app.UseMiddleware<ResponseMetricMiddleware>();
             app.UseMiddleware<CountRequestMiddleware>();
 
-            app.UseCors (nameof (CorsPolicy));
+            app.UseCors (nameof (_corsPolicy));
             app.UseMetricServer(); 
             app.UseCustomExceptionHandler();
             app.UseHttpMetrics();

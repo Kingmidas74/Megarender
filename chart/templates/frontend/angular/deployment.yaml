@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-{{ .Values.frontend.angular.label }}-deployment 
+  name: {{ .Release.Name }}-{{ .Values.frontend.portal.label }}-deployment 
   labels:
     app: {{ .Values.appGroup }}
     tier: {{ .Values.frontend.general.labels.tier }}
-    service: {{ .Values.frontend.angular.label }}
+    service: {{ .Values.frontend.portal.label }}
 spec:
-  replicas: {{ .Values.frontend.angular.replicas }}
+  replicas: {{ .Values.frontend.portal.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.appGroup }}
       tier: {{ .Values.frontend.general.labels.tier }}
-      service: {{ .Values.frontend.angular.label }}
+      service: {{ .Values.frontend.portal.label }}
   template:
     metadata:
       labels:
         app: {{ .Values.appGroup }}
         tier: {{ .Values.frontend.general.labels.tier }}
-        service: {{ .Values.frontend.angular.label }}
+        service: {{ .Values.frontend.portal.label }}
     spec:
       containers:
-        - name: {{ .Values.frontend.angular.label }}
-          image: {{ .Values.general.images.repository }}/{{ .Values.frontend.angular.image }}:{{ .Values.general.images.tag }}
+        - name: {{ .Values.frontend.portal.label }}
+          image: {{ .Values.general.images.repository }}/{{ .Values.frontend.portal.image }}:{{ .Values.general.images.tag }}
           imagePullPolicy: {{ .Values.general.images.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.frontend.angular.ports.container }}
+            - containerPort: {{ .Values.frontend.portal.ports.container }}
           env:
             - name: API_URI
               value: "{{ .Release.Name }}-{{ .Values.backend.webapi.label }}-service:{{ .Values.backend.webapi.ports.container }}/api"

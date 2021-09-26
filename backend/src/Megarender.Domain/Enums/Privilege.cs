@@ -3,10 +3,12 @@ using System;
 namespace Megarender.Domain
 {
     [Flags]
-    public enum PrivilegeId:int {
-        CanAuthorize=0,
-        CanSeeScenes=1<<0,
-        CanSeeRenderTasks=2<<0
+    public enum PrivilegeId
+    {
+        None=0,
+        CanAuthorize=1<<0,
+        CanSeeScenes=1<<1,
+        CanSeeRenderTasks=1<<2
     }
     public class Privilege {
         public PrivilegeId PrivilegeId { get; set; }

@@ -1,3 +1,3 @@
-FROM nginx:1.17.10-alpine
+FROM nginxinc/nginx-unprivileged:latest
 
 COPY ./third-party-images/reverse-proxy/default.conf /etc/nginx/conf.d/

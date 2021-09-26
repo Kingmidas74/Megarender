@@ -4,5 +4,6 @@ namespace Megarender.Domain
     {
         public virtual User User {get; init;}
         public virtual AccessGroup AccessGroup {get; init;}
+        public PrivilegeId Privilege => AccessGroup.Privilege;
     }
 }

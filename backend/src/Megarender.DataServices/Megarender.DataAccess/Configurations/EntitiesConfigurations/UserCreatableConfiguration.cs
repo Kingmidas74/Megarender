@@ -1,5 +1,4 @@
 using Megarender.Domain;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Megarender.DataAccess
@@ -10,7 +9,7 @@ namespace Megarender.DataAccess
         public override void Configure(EntityTypeBuilder<TEntity> builder)
         {
             base.Configure(builder);
-            builder.HasOne<User>(c => c.CreatedBy)
+            builder.HasOne(c => c.CreatedBy)
                     .WithMany ()
                     .HasForeignKey ($"{nameof(IUserCreatable.CreatedBy)}{nameof(IEntity.Id)}")
                     .IsRequired();

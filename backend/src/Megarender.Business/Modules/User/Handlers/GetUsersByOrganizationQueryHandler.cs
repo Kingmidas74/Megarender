@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using Megarender.Business.Specifications;
 using Megarender.DataAccess;
 using Megarender.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +12,16 @@ namespace Megarender.Business.Modules.UserModule
 {
     public class GetUsersByOrganizationQueryHandler : IRequestHandler<GetUsersByOrganizationQuery, IEnumerable<User>>
     {
-        private IAPIContext DBContext;
-        private IMapper Mapper;
+        private readonly IAPIContext _dbContext;
+        private readonly IMapper _mapper;
         public GetUsersByOrganizationQueryHandler(IAPIContext dbContext, IMapper mapper)
         {
-            DBContext=dbContext;
-            Mapper = mapper;
+            _dbContext=dbContext;
+            _mapper = mapper;
         }
         public async Task<IEnumerable<User>> Handle(GetUsersByOrganizationQuery request, CancellationToken cancellationToken = default)
         {
-            return await DBContext.Users.Where(s=>s.UserOrganizations
+            return await _dbContext.Users.Where(s=>s.UserOrganizations
                                             .Select(x=>x.Organization)
                                             .Select(x=>x.Id)
                                             .Contains(request.OrganizationId))

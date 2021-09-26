@@ -1,0 +1,199 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Identity Service",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.IdentityService/bin/Debug/net5.0/Megarender.IdentityService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.IdentityService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5000",
+                "DB_HOST": "localhost",
+                "DB_PORT": "5432",
+                "DB_USER_FILE": "../../../../../../../secrets/IS_DB_USER",
+                "DB_PWD_FILE": "../../../../../../../secrets/IS_DB_PASSWORD",
+                "RMQ_USER_FILE": "../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672"
+            }
+        },
+        {
+            "name": "Storage Service",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.StorageService/bin/Debug/net5.0/Megarender.StorageService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.StorageService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5004",
+                "DB_HOST": "localhost",
+                "DB_PORT": "5432",
+                "DB_USER_FILE": "../../../../../../../secrets/STORAGE_DB_USER",
+                "DB_PWD_FILE": "../../../../../../../secrets/STORAGE_DB_PASSWORD",
+                "PIS_HOST": "localhost",
+                "PIS_PORT": "5000",                
+                "PIS_HOST_EXT": "localhost",
+                "PIS_PORT_EXT": "5000",
+                "SeqURL": "http://seq:5341",
+                "AZURE_STORAGE_FILE": "../../../../../../../secrets/AZURE_STORAGE_CONNECTIONSTRING"
+            }
+        },
+        {
+            "name": "Management Service",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.ManagementService/bin/Debug/net5.0/Megarender.ManagementService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.ManagementService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://localhost:5002",
+                "DB_HOST": "localhost",
+                "DB_PORT": "5432",
+                "DB_USER_FILE": "../../../../../../../secrets/API_DB_USER",
+                "DB_PWD_FILE": "../../../../../../../secrets/API_DB_PASSWORD",
+                "PIS_HOST": "localhost",
+                "PIS_PORT": "5000",
+                "RMQ_USER_FILE": "../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672",
+                "SeqURL": "http://seq:5341",
+                "PIS_HOST_EXT": "localhost",
+                "PIS_PORT_EXT": "5000",
+                "REDIS_HOST": "localhost",
+                "REDIS_PORT": "6379"
+            }
+        },
+        {
+            "name": "Portal",
+            "type": "chrome",
+            "request": "launch",    
+            "preLaunchTask": "serve",        
+            "url": "http://localhost:4200",
+            "cwd": "${workspaceFolder}/clients/portal",
+            "webRoot": "${workspaceFolder}/clients/portal",
+            "env": {
+                "API_URI": "localhost:8000/api",
+                "IS_URI":  "localhost:5000",
+                "STORAGE_URI":  "localhost:5004/api"
+            }
+        },
+        {
+            "name": "Notification Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/bin/Debug/net5.0/Megarender.NotificationWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.NotificationWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672"
+            }
+        },
+        {
+            "name": "Telegram Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.TelegramWorkerService/bin/Debug/net5.0/Megarender.TelegramWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.TelegramWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672",
+                "TG_TOKEN_FILE": "../../../../../../../../secrets/TELEGRAM_TOKEN",
+                "WEBHOOK_URI":"https://009f8b2d875e.ngrok.io"
+            }
+        },
+        {
+            "name": "SMS Worker",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.SMSWorkerService/bin/Debug/net5.0/Megarender.SMSWorkerService.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend/src/Megarender.AppServices/Megarender.WorkerServices/Megarender.SMSWorkerService/bin/Debug/net5.0",
+            "stopAtEntry": false,
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development",
+                "RMQ_USER_FILE": "../../../../../../../../secrets/RMQ_USER",
+                "RMQ_PWD_FILE": "../../../../../../../../secrets/RMQ_PASSWORD",
+                "RMQ_HOST": "localhost",
+                "RMQ_PORT": "5672",
+                "TOKEN_FILE": "../../../../../../../../secrets/TWILLIO_TOKEN",
+                "ACCOUNTSID_FILE": "../../../../../../../../secrets/TWILLIO_ACCOUNTSID",
+                "SENDER":"201-885-7365"
+            }
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Server/Client",
+            "configurations": [
+                "Management Service",
+                "Identity Service",
+                "Storage Service",
+                "Portal"
+            ]
+        },
+        {
+            "name": "Server",
+            "configurations": [
+                "Management Service",
+                "Identity Service",
+                "Storage Service",
+            ]
+        },
+        {
+            "name": "Workers",
+            "configurations": [
+                "Telegram Worker",
+                "Notification Worker",
+                "SMS Worker",
+                "Identity Service"
+            ]
+        }
+    ]
+}

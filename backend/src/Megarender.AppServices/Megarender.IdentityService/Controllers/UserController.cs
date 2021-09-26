@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Megarender.IdentityService.CQRS;
 using MediatR;
+using Megarender.IdentityService.CQRS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Megarender.IdentityService.Controllers
@@ -11,11 +11,11 @@ namespace Megarender.IdentityService.Controllers
     [ApiVersionNeutral]
     public class UserController:ControllerBase
     {
-        private readonly ISender Mediator;
+        private readonly ISender _mediator;
 
         public UserController(ISender mediator)
         {
-            this.Mediator = mediator;
+            _mediator = mediator;
         }   
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Megarender.IdentityService.Controllers
         /// <returns></returns>
         [HttpDelete]
         public async Task<IActionResult> Remove([FromBody]RemoveUserCommand removeUserCommand, CancellationToken cancellationToken = default) {
-            await this.Mediator.Send(removeUserCommand, cancellationToken);
+            await _mediator.Send(removeUserCommand, cancellationToken);
             return Ok();
         }     
     }

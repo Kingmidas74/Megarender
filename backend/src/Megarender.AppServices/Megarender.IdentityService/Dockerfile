@@ -5,10 +5,12 @@ RUN mkdir -p /source
 WORKDIR /source
 
 # Copy the main source project files
-COPY ./backend/src/Megarender.AppServices/Megarender.IdentityService .
+COPY . .
+WORKDIR /source/backend
 RUN dotnet restore
 
-RUN dotnet publish -c debug -o /app --no-restore
+WORKDIR /source/backend/src/Megarender.AppServices/Megarender.IdentityService
+RUN dotnet publish -c release -o /app --no-restore
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0-alpine

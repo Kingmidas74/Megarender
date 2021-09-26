@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Megarender.StorageService.DAL;
 using Megarender.StorageService.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +12,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Megarender.StorageService.DAL;
 
 namespace Megarender.StorageService {
 
@@ -19,15 +20,15 @@ namespace Megarender.StorageService {
         public static IServiceCollection AddSQL (this IServiceCollection services, string connectionString) {            
             services.AddDbContextPool<StorageDbContext> ((provider, options) => {          
                 
-                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_USER_FILE));
-                if(!File.Exists(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_PWD_FILE));                
+                if(!File.Exists(Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_USER_FILE));
+                if(!File.Exists(Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))) throw new FileNotFoundException(nameof (EnvironmentVariables.DB_PWD_FILE));                
                 
                 options.UseNpgsql (
                     string.Format (connectionString, 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))), 
+                                    Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
+                                    Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
+                                    File.ReadAllText(Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
+                                    File.ReadAllText(Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))), 
                     providerOptions => {
                                 providerOptions.EnableRetryOnFailure (3);                                
                     });
@@ -48,8 +49,8 @@ namespace Megarender.StorageService {
 
         public static IServiceCollection AddAuth (this IServiceCollection services, string connectionString) {            
             var identityServerURI = string.Format (connectionString, 
-                            System.Environment.GetEnvironmentVariable (nameof (Models.EnvironmentVariables.PIS_HOST)), 
-                            System.Environment.GetEnvironmentVariable (nameof (Models.EnvironmentVariables.PIS_PORT)));
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_HOST)), 
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_PORT)));
             services.AddAuthentication ("Bearer")
                 .AddJwtBearer ("Bearer", options => {
                     options.Authority = identityServerURI;
@@ -61,13 +62,13 @@ namespace Megarender.StorageService {
         public static IServiceCollection AddSwagger (this IServiceCollection services, string connectionString) 
         {
             var identityServerURI = string.Format (connectionString, 
-                            System.Environment.GetEnvironmentVariable (nameof (Models.EnvironmentVariables.PIS_HOST_EXT)), 
-                            System.Environment.GetEnvironmentVariable (nameof (Models.EnvironmentVariables.PIS_PORT_EXT)));
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_HOST_EXT)), 
+                            Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.PIS_PORT_EXT)));
 
             services.AddApiVersioning(options => {
                 options.ReportApiVersions=true;
                 options.AssumeDefaultVersionWhenUnspecified=false;
-                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(0,1);
+                options.DefaultApiVersion = new ApiVersion(0,1);
                 options.ApiVersionReader = new HeaderApiVersionReader("X-Accept-Version");
             });
             services.AddVersionedApiExplorer(options => {  
@@ -79,9 +80,9 @@ namespace Megarender.StorageService {
   
                 foreach (var description in provider.ApiVersionDescriptions)  
                 {  
-                    c.SwaggerDoc(description.GroupName, new OpenApiInfo()  
+                    c.SwaggerDoc(description.GroupName, new OpenApiInfo
                     {  
-                        Title = $"{typeof(Startup).Assembly.GetCustomAttribute<System.Reflection.AssemblyProductAttribute>().Product}",  
+                        Title = $"{typeof(Startup).Assembly.GetCustomAttribute<AssemblyProductAttribute>().Product}",  
                         Version = description.ApiVersion.ToString(),  
                         Description = description.IsDeprecated ? $"{typeof(Startup).GetType().Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description} - DEPRECATED" : typeof(Startup).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description,  
                         TermsOfService = new Uri ("https://example.com/terms"),
@@ -125,7 +126,7 @@ namespace Megarender.StorageService {
                                     Id = "Bearer"
                             }
                         },
-                        new string[] { "megarender_api"}
+                        new[] { "megarender_api"}
                     }
                 });
                 

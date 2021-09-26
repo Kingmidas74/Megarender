@@ -1,8 +1,7 @@
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Megarender.IdentityService.CQRS;
 using MediatR;
+using Megarender.IdentityService.CQRS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Megarender.IdentityService.Controllers
@@ -12,33 +11,44 @@ namespace Megarender.IdentityService.Controllers
     [ApiVersionNeutral]
     public class IdentityController:ControllerBase
     {
-        private readonly ISender Mediator;
+        private readonly ISender _mediator;
 
         public IdentityController(ISender mediator)
         {
-            this.Mediator = mediator;
-        }   
-
-        /// <summary>
-        /// Create new identity
-        /// </summary>
-        /// <param name="createIdentityCommand"></param>
-        /// <returns></returns>
-        [HttpPost(nameof(CreateIdentity))]
-        public async Task<IActionResult> CreateIdentity([FromBody]CreateIdentityCommand createIdentityCommand, CancellationToken cancellationToken = default) 
-        {
-            return Created(string.Empty,await this.Mediator.Send(createIdentityCommand,cancellationToken));
+            _mediator = mediator;
         }
 
         /// <summary>
         /// Confirm identity
         /// </summary>
-        /// <param name="confirmIdentityCommand"></param>
-        /// <returns></returns>
-        [HttpPost(nameof(ConfirmIdentity))]
-        public async Task<IActionResult> ConfirmIdentity([FromBody]ConfirmIdentityCommand confirmIdentityCommand, CancellationToken cancellationToken = default) 
+        /// <param name="sendCodeCommand"></param>
+        /// <returns>Guid of identity</returns>
+        [HttpPost(nameof(SendCode))]
+        public async Task<IActionResult> SendCode([FromBody]SendCodeCommand sendCodeCommand, CancellationToken cancellationToken = default) 
         {
-            return Ok(await this.Mediator.Send(confirmIdentityCommand, cancellationToken));
-        }     
+            return Ok(
+                new
+                {
+                    id=await _mediator.Send(sendCodeCommand, cancellationToken)
+                }
+            );
+        }
+        
+        /// <summary>
+        /// Confirm identity
+        /// </summary>
+        /// <param name="verifyCodeCommand"></param>
+        /// <returns>Guido of identity</returns>
+        [HttpPost(nameof(VerifyCode))]
+        public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeCommand verifyCodeCommand, CancellationToken cancellationToken = default) 
+        {
+            return Ok(
+                new
+                {
+                    password=await _mediator.Send(verifyCodeCommand, cancellationToken)
+                }
+            );
+        }
+        
     }
 }

@@ -1,5 +1,10 @@
-using Megarender.DataAccess;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using DotNetEnv;
 using MediatR;
+using Megarender.DataAccess;
+using Megarender.ManagementService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,9 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using Respawn.Postgres;
-using System.IO;
-using System.Threading.Tasks;
-using Megarender.WebAPIService;
 
 [SetUpFixture]
 public class Testing
@@ -21,11 +23,11 @@ public class Testing
     [OneTimeSetUp]
     public void RunBeforeAnyTests()
     {
-        DotNetEnv.Env.TraversePath().Load();
+        Env.TraversePath().Load();
 
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
+            .AddJsonFile("appsettings.json", true, false)
             .AddEnvironmentVariables();
 
         _configuration = builder.Build();
@@ -36,7 +38,7 @@ public class Testing
 
         services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
             w.EnvironmentName == "Development" &&
-            w.ApplicationName == "WebAPIService"));
+            w.ApplicationName == "Megarender.ManagementService"));
 
         services.AddLogging();
 
@@ -48,7 +50,7 @@ public class Testing
         {
             TablesToIgnore = new [] { "__EFMigrationsHistory" },
             AutoCreateExtensions = true,
-
+            //DbAdapter = DbAdapter.Postgres,
             SchemasToInclude = new[]
             {
                 "public"
@@ -77,12 +79,15 @@ public class Testing
     }
 
 
-    public static async Task ResetState() =>
-        await _checkpoint.Reset(string.Format (_configuration.GetConnectionString("DefaultConnection"), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_HOST)), 
-                                    System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PORT)), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_USER_FILE))), 
-                                    File.ReadAllText(System.Environment.GetEnvironmentVariable (nameof (EnvironmentVariables.DB_PWD_FILE)))));        
+    public static async Task ResetState()
+    {
+        var connection = string.Format(_configuration.GetConnectionString("DefaultConnection"),
+            Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_HOST)),
+            Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PORT)),
+            File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_USER_FILE))),
+            File.ReadAllText(Environment.GetEnvironmentVariable(nameof(EnvironmentVariables.DB_PWD_FILE))));
+        await _checkpoint.Reset(connection);
+    }
 
     public static async Task<TEntity> FindAsync<TEntity>(int id)
         where TEntity : class

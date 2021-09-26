@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Megarender.Domain;
-using Megarender.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -20,6 +19,8 @@ namespace Megarender.DataAccess {
         public DbSet<Render> Renders {get;set;}
         public DbSet<SharedMoneyTransaction> SharedMoneyTransactions {get;set;}
         public DbSet<PrivateMoneyTransaction> PrivateMoneyTransactions {get;set;}
+        
+        public DbSet<UserOrganization> UserOrganizations { get; set; }
         public APIContext (DbContextOptions<APIContext> options) : base (options) { }
 
         protected override void OnModelCreating (ModelBuilder modelBuilder) {
@@ -29,16 +30,16 @@ namespace Megarender.DataAccess {
         }
 
         public override int SaveChanges () {
-            AddAuitInfo ();
+            AddAuditInfo ();
             return base.SaveChanges ();
         }
 
         public override async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
-            AddAuitInfo ();
+            AddAuditInfo ();
             return await base.SaveChangesAsync (cancellationToken);
         }
 
-        private void AddAuitInfo () {
+        private void AddAuditInfo () {
             var entries = ChangeTracker.Entries ().Where (x => x.Entity is IEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
             foreach (var entry in entries) {
                 if (entry.State == EntityState.Added) {
@@ -51,17 +52,29 @@ namespace Megarender.DataAccess {
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default) 
         {
-            return Database.BeginTransactionAsync(cancellationToken);
+            return Database.BeginTransactionAsync(IsolationLevel.ReadCommitted, cancellationToken);
         }
 
-        public Task CommitTransactionAsync(CancellationToken cancellationToken = default) 
+        public async Task CommitTransactionAsync(IDbContextTransaction transaction, CancellationToken cancellationToken = default)
         {
-            return Database.CommitTransactionAsync(cancellationToken);
+            await SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
         }
 
-        public void RollbackTransaction() 
+        public void RollbackTransaction(IDbContextTransaction transaction) 
         {
-            Database.RollbackTransaction();
+            try
+            {
+                transaction?.Rollback();
+            }
+            finally
+            {
+                if (transaction != null)
+                {
+                    transaction.Dispose();
+                    transaction = null;
+                }
+            }
         }
     }
 }

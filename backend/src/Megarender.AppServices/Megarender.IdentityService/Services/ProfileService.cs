@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Megarender.IdentityService {
     public class ProfileService : IProfileService {

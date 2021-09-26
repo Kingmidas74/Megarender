@@ -4,13 +4,9 @@ using Megarender.Domain;
 
 namespace Megarender.Business.Modules.UserModule
 {
-    public class CreateUserCommand:IRequest<User>, ITransactionalRequest, IIdempotentRequest
+    public class CreateUserCommand:IRequest<User>, IIdempotentRequest, ITransactionalRequest
     {
-        public Guid Id {get;set;}
-        public string FirstName {get; set;}
-        public string SecondName {get; set;}
-        public string SurName {get; set;}
-        public DateTime Birthdate { get; set; }     
+        public Guid Id {get; init;}  
         public Guid CommandId { get; set; }
     }
 }

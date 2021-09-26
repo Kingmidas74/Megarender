@@ -13,7 +13,8 @@ namespace Megarender.DataAccess
             builder.HasData (
                 Enum.GetValues (typeof (PrivilegeId))
                 .Cast<PrivilegeId> ()
-                .Select (e => new Privilege () {
+                .Select (e => new Privilege
+                {
                         PrivilegeId = e,
                         Value = e.ToString ()
                 })

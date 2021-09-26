@@ -56,8 +56,8 @@ Services will be available on the next adresses by default.
 
 | Service       |       URI     |
 | ------------- | ------------- |
-| Web API (Angular client)  | http://localhost:5002  |
-| Identity Service  | http://localhost:5000  |
+| Angular client  | http://localhost:8000  |
+| Swagger doc  | http://localhost:8000/api/  |
 | RabbitMQ  | http://localhost:15672  |
 | Seq  | http://localhost:5340  |
 | prometheus  | http://localhost:9090  |

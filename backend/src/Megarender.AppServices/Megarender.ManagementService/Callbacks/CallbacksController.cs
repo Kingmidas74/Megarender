@@ -31,7 +31,7 @@ namespace Megarender.ManagementService.Callbacks
                 Id = request.UserId,
                 CommandId = Guid.NewGuid()
             });
-            var privileges = user.UserAcessGroups
+            var privileges = user.UserAccessGroups
                 .Where(ag => user.UserOrganizations.Select(uo => uo.Organization).Contains(ag.AccessGroup.Organization))
                 .Select(agu => agu.AccessGroup.Privilege);
             

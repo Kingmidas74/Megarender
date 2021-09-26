@@ -16,7 +16,7 @@ namespace Megarender.DataAccess
                 .WithMany(c=>c.AccessGroupUsers)
                 .HasForeignKey ($"{nameof(AccessGroup)}{nameof(AccessGroup.Id)}");
             builder.HasOne(c=>c.User)
-                .WithMany(c=>c.UserAcessGroups)
+                .WithMany(c=>c.UserAccessGroups)
                 .HasForeignKey ($"{nameof(User)}{nameof(User.Id)}"); 
         }
     }

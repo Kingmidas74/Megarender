@@ -31,9 +31,9 @@ services:
         - megarender
       depends_on:
         -  identity-service
-        # -  redis
-        # -  rabbitmq
-        # -  seq
+        -  redis
+        -  rabbitmq
+        -  seq
 
     identity-service:
       image: localhost:5000/identity-service:latest
@@ -57,9 +57,9 @@ services:
         Serilog__WriteTo__2__Args__serverUrl: "http://seq:5341"
       networks:
         - megarender
-      # depends_on:
-      #   db:
-      #     condition: service_healthy
+      depends_on:
+        db:
+          condition: service_healthy
 
 
     storage-service:
@@ -98,7 +98,7 @@ services:
       volumes:
         - pg_data:/var/lib/postgresql/data
       ports:
-        - 5432:5432
+        - 6432:5432
       healthcheck:
         test: [ "CMD-SHELL", "pg_isready -U postgres" ]
         interval: 10s
@@ -120,11 +120,11 @@ services:
       environment:
         PGADMIN_DEFAULT_EMAIL: "pg@admin.ru"
         PGADMIN_DEFAULT_PASSWORD: "TestPassw0rd!"
-      # depends_on:
-      #   db:
-      #     condition: service_healthy
+      depends_on:
+        db:
+          condition: service_healthy
       ports:
-        - 6433:80
+        - 8001:80
       volumes:
         - pgadmin_data:/var/lib/pgadmin
       networks:
@@ -176,9 +176,9 @@ services:
         DOTNET_ENVIRONMENT: "Production"
       networks:
         - megarender
-        # depends_on:
-        #   rabbitmq:
-        #     condition: service_healthy
+      depends_on:
+        rabbitmq:
+          condition: service_healthy
 
 
     sms-worker:
@@ -198,9 +198,9 @@ services:
         SENDER: "201-885-7365"
       networks:
         - megarender
-      # depends_on:
-      #   rabbitmq:
-      #     condition: service_healthy
+      depends_on:
+        rabbitmq:
+          condition: service_healthy
 
 
     telegram-worker:
@@ -219,45 +219,45 @@ services:
         WEBHOOK_URI: "https://009f8b2d875e.ngrok.io"
       networks:
         - megarender
-      # depends_on:
-      #   rabbitmq:
-      #     condition: service_healthy
+      depends_on:
+        rabbitmq:
+          condition: service_healthy
 
 
-    # seq:
-    #  image: datalust/seq
-    #  container_name: seq
-    #  restart: unless-stopped
-    #  expose:
-    #   - 5341
-    #  ports:
-    #   - 5340:80
-    #  environment:
-    #   ACCEPT_EULA: Y
-    #  volumes:
-    #   - seq_data:/data
+    seq:
+     image: datalust/seq
+     container_name: seq
+     restart: unless-stopped
+     expose:
+      - 5341
+     ports:
+      - 5340:80
+     environment:
+      ACCEPT_EULA: Y
+     volumes:
+      - seq_data:/data
 
 
-    # prometheus:
-    #   image: prom/prometheus
-    #   container_name: prometheus
-    #   restart: unless-stopped
-    #   ports:
-    #     - 9090:9090
-    #   volumes:
-    #     - ./third-party-images/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    prometheus:
+      image: prom/prometheus
+      container_name: prometheus
+      restart: unless-stopped
+      ports:
+        - 9090:9090
+      volumes:
+        - ./third-party-images/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
 
-    # grafana:
-    #   image: grafana/grafana
-    #   environment:
-    #     GF_SECURITY_ADMIN_PASSWORD: "~/secrets/GRAFANA_PASSWORD"
-    #   container_name: grafana
-    #   restart: unless-stopped
-    #   ports:
-    #     - 3000:3000
-    #   volumes:
-    #     - grafana-storage:/var/lib/grafana grafana/grafana
+    grafana:
+      image: grafana/grafana
+      environment:
+        GF_SECURITY_ADMIN_PASSWORD: "~/secrets/GRAFANA_PASSWORD"
+      container_name: grafana
+      restart: unless-stopped
+      ports:
+        - 3000:3000
+      volumes:
+        - grafana-storage:/var/lib/grafana grafana/grafana
 
     redis:
       image: redis:6.2.1-alpine
@@ -277,8 +277,6 @@ services:
         dockerfile: ./clients/portal/Dockerfile
       container_name: portal
       restart: unless-stopped
-      ports:
-        - 8888:8080
       environment:
         API_URI: "http://localhost:8000/api"
       depends_on:
@@ -294,8 +292,6 @@ services:
         dockerfile: ./backend/src/Megarender.AppServices/Megarender.ManagementService/nginx/Dockerfile
       container_name: management-nginx
       restart: unless-stopped
-      ports:
-        - 5002:8989
       depends_on:
         - management-service
       networks:
@@ -308,8 +304,6 @@ services:
         dockerfile: ./backend/src/Megarender.AppServices/Megarender.IdentityService/nginx/Dockerfile
       container_name: identity-nginx
       restart: unless-stopped
-      ports:
-        - 5000:8989
       depends_on:
         - identity-service
       networks:
@@ -321,8 +315,6 @@ services:
         dockerfile: ./backend/src/Megarender.AppServices/Megarender.StorageService/nginx/Dockerfile
       container_name: storage-nginx
       restart: unless-stopped
-      ports:
-        - 5004:8989
       depends_on:
         - storage-service
       networks:
@@ -336,8 +328,6 @@ services:
       restart: unless-stopped
       environment:
         API_URI: "http://localhost:8000/api"
-      ports:
-        - 8889:8080
       depends_on:
         - identity-nginx
         - management-nginx
@@ -373,7 +363,7 @@ volumes:
   rmq_etc:
   rmq_data:
   rmq_logs:
-  # seq_data:
-  # grafana-storage:
+  seq_data:
+  grafana-storage:
 
 
